@@ -6,8 +6,9 @@
 import numpy as np
 from torch.nn.utils import clip_grad_norm_
 import torch
+import math
 from torch import nn
-from Utils.Memory import replay_buffer
+from utils.Memory import replay_buffer
 from models.Network import MLP
 import torch.optim as optim
 
@@ -78,41 +79,56 @@ class DQN():
         self.optimizer.step()
 
     def save(self, PATH):
-        torch.save(self.target_net.state_dict(), PATH + 'fed_dqn.pth')
+        torch.save(self.target_net.state_dict(), PATH)
 
     def load(self, PATH):
-        self.policy_net.load_state_dict(torch.load(PATH + 'fed_dqn.pth'))
+        self.policy_net.load_state_dict(torch.load(PATH))
         self.target_net.load_state_dict(self.policy_net.state_dict())
 
 
 
 class fed_DQN():
-    def __init__(self, state_dim, action_dim, epsilon, batch_size, capacity, gamma, lr, device):
+    def __init__(self, state_dim, action_dim, args):
         self.state_dim = state_dim
         self.action_dim = action_dim
         self.name = None
         # self.update_time = 0
-        self.gamma = gamma
-        self.epsilon = epsilon  # could be enhance
-        self.device = device
-        self.memory = replay_buffer(capacity)
-        self.batch_size = batch_size
+        self.gamma = args.gamma
+        self.step = 0
+        self.epsilon_fnc = lambda step: 0.01 + (args.epsilon - 0.01) * math.exp(-step/args.eps_decay)
+        self.epsilon = args.epsilon  # could be enhance
+        self.eps_decay = args.eps_decay
+        self.device = args.device
+        self.memory = replay_buffer(args.capacity)
+        self.batch_size = args.local_bc
         self.policy_net = MLP(state_dim, action_dim).to(self.device)
         self.target_net = MLP(state_dim, action_dim).to(self.device)
         self.target_net.load_state_dict(self.policy_net.state_dict())
-        self.optimizer = optim.Adam(self.policy_net.parameters(), lr=lr)
+        self.optimizer = optim.Adam(self.policy_net.parameters(), lr=args.lr)
         # self.optimizer = optim.SGD(self.policy_net.parameters(), lr=lr)
         self.loss_fn = nn.MSELoss()
 
     def choose_action(self, state):  # state.type: np array
-        if np.random.random() > self.epsilon:
-            with torch.no_grad():
-                # state = torch.from_numpy(state).to(torch.float32)
-                state = torch.tensor(state, device=self.device, dtype=torch.float32)  # or
-                q_val = self.policy_net(state)
-                action = q_val.argmax().item()  # argmax->tensor
+        if self.eps_decay == None:
+            if np.random.random() > self.epsilon:#(self.step):
+                with torch.no_grad():
+                    # state = torch.from_numpy(state).to(torch.float32)
+                    state = torch.tensor(state, device=self.device, dtype=torch.float32)  # or
+                    q_val = self.policy_net(state)
+                    action = q_val.argmax().item()  # argmax->tensor
+            else:
+                action = np.random.randint(self.action_dim)
+            self.step += 1
         else:
-            action = np.random.randint(self.action_dim)
+            if np.random.random() > self.epsilon_fnc(self.step):
+                with torch.no_grad():
+                    # state = torch.from_numpy(state).to(torch.float32)
+                    state = torch.tensor(state, device=self.device, dtype=torch.float32)  # or
+                    q_val = self.policy_net(state)
+                    action = q_val.argmax().item()  # argmax->tensor
+            else:
+                action = np.random.randint(self.action_dim)
+            self.step += 1
         return action
 
     def predict(self, state):  # same as above
