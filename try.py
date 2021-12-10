@@ -5,11 +5,14 @@
 # @Software: PyCharm
 
 import gym
-from Pong import AtariEnv
-# env = AtariEnv()
-env = gym.make('Pendulum-v0')
-print('观测空间 = {}'.format(env.observation_space))
-print('动作空间 = {}'.format(env.action_space))
-print('观测范围 = {} ~ {}'.format(env.observation_space.low,
-        env.observation_space.high))
-print('动作数 = {}'.format(env.action_space.n))
+env = gym.make('BipedalWalker-v3')
+env.reset()
+done = False
+# env.ale.getAvailableDifficulties()
+for i in range(30):
+    action = env.action_space.sample()
+    observation, reward, done, _ = env.step(action)
+    print('obs: {}; reward: {}'.format(observation, reward))
+    env.render()
+#     time.sleep(0.1)
+env.close()

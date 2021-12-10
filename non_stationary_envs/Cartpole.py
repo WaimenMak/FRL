@@ -241,10 +241,6 @@ def cart_env_config(env_seed):
         env = CartPoleEnv(env_params)
     else:
         env = CartPoleEnv()
-    # env = CartPoleEnv()
-    # env.seed(train_seed)
-    # state_dim = env.observation_space.shape[0]  # 4
-    # action_dim = env.action_space.n  # 2
     return env
 
 if __name__ == '__main__':
@@ -253,13 +249,14 @@ if __name__ == '__main__':
     model_path = '../outputs/fed_model/'
     # env = CartPoleEnv()
     env = cart_env_config(4)
+    print(f"length:{env.length:.2f},gravity: {env.gravity:.2f},masspole:{env.masspole:.2f},masscart:{env.masscart:.2f}")
     # env.seed = 1
     # agent = fed_DQN(env.observation_space.shape[0], env.action_space.n, 1, 1,
     #                       1, 1, 1, device)
     agent = DQN(env.observation_space.shape[0], env.action_space.n, 1, 1,
                     1, 1, 1, device)
     agent.name = 'agent_server'
-    agent.load(model_path + 'clients_5_fedavgdqn.pth')
+    agent.load(model_path + 'clients_10_fedavgdqn.pth')
     # agent.load(model_path + 'normal_0_feddqn.pth')
     # agent.load(model_path + 'seed_5_feddqn.pth')
     # agent.load(model_path + 'seed_7_feddqn.pth')

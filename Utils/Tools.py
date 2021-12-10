@@ -6,6 +6,7 @@
 
 import torch
 import random
+import math
 import numpy as np
 import pynvml
 
@@ -16,6 +17,14 @@ class FractionScheduler:
     def __call__(self, num_update):
         return self.lr / (1+num_update)
 
+class ExponentialScheduler:
+    def __init__(self, lr):
+        self.lr_start = lr
+        self.lr_end = 0.001
+        self.lr_decay = 50
+
+    def __call__(self, num_update):
+        return self.lr_end + (self.lr_start - self.lr_end) * math.exp(- num_update/self.lr_decay)
 
 def try_gpu(): #single gpu
     i = 0
@@ -23,6 +32,14 @@ def try_gpu(): #single gpu
         return torch.device(f'cuda:{i}')
     return torch.device('cpu')
 
+def action_trans(action, action_dim, upperbound, lowerbound):
+    """
+    discrete action to continuous action
+    :param action_dim: 
+    :return: 
+    """
+    conti_action = lowerbound + (action / (action_dim - 1)) * (upperbound - lowerbound)
+    return conti_action
 
 def set_seed(seed):
     random.seed(seed)

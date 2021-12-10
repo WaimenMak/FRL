@@ -52,7 +52,7 @@ class DQN():
     def UpdateTarget(self):
         self.target_net.load_state_dict(self.policy_net.state_dict())
 
-    def UpdateQ(self):
+    def UpdateQ(self, ddqn=False):
         if len(self.memory) < self.batch_size:
             return
         '''
@@ -70,7 +70,11 @@ class DQN():
             n_state_batch, device=self.device, dtype=torch.float)
         done_batch = torch.tensor(np.float32(done_batch), device=self.device, dtype=torch.float).view(-1, 1)
         current_q_val = self.policy_net(state_batch).gather(dim=1, index=action_batch)  # Q(s,a)
-        max_target_q_val = self.target_net(n_state_batch).max(1)[0].detach().view(-1, 1)         # detach the gradient
+        if ddqn:
+            idx = self.policy_net(n_state_batch).max(1)[1].view(-1,1)
+            max_target_q_val = self.target_net(n_state_batch).gather(dim=1, index=idx)
+        else:
+            max_target_q_val = self.target_net(n_state_batch).max(1)[0].detach().view(-1, 1)         # detach the gradient
         y_hat = reward_batch + self.gamma * max_target_q_val * (1 - done_batch)
         loss = self.loss_fn(current_q_val, y_hat)
         self.optimizer.zero_grad()
@@ -142,7 +146,7 @@ class fed_DQN():
     def UpdateTarget(self, params):
         self.target_net.load_state_dict(params)
 
-    def UpdateQ(self, Round = 0, scheduler=None):
+    def UpdateQ(self, Round = 0, scheduler=None, ddqn=False):
         if len(self.memory) < self.batch_size:
             return
         '''
@@ -160,7 +164,12 @@ class fed_DQN():
             n_state_batch, device=self.device, dtype=torch.float)
         done_batch = torch.tensor(np.float32(done_batch), device=self.device, dtype=torch.float).view(-1, 1)
         current_q_val = self.policy_net(state_batch).gather(dim=1, index=action_batch)  # Q(s,a)
-        max_target_q_val = self.target_net(n_state_batch).max(1)[0].detach().view(-1, 1)         # detach the gradient
+        if ddqn:
+            with torch.no_grad():
+                idx = self.policy_net(n_state_batch).max(1)[1].view(-1, 1)
+                max_target_q_val = self.target_net(n_state_batch).gather(dim=1, index=idx)
+        else:
+            max_target_q_val = self.target_net(n_state_batch).max(1)[0].detach().view(-1, 1)  # detach the gradient
         y_hat = reward_batch + self.gamma * max_target_q_val * (1 - done_batch)
         loss = self.loss_fn(current_q_val, y_hat)
         self.optimizer.zero_grad()
