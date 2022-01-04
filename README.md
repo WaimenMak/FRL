@@ -64,6 +64,74 @@ where $x_t=\left\{x_t^k\right\}k\in N$ .
 
 consider that in distributed dqn, there are two ways to collect the data, one is Gorila dqn, randomly choose data from local replay buffer which contains the data collected based on old policy, so the data is from vary distribution. The other is asynchrounous one step dqn, compute the gradient based on current policy. In fedavg, when E = 1, and if the environment is identity, the collected data would be from the identity distribution, but however when E > 1, each local data collected from the device are based on different local policy, so the local data within the device would be very relavant, but data between the device would be very different, this could be affect the averaging. So I think we sill need the replay buffer to randomly collect data.
 
+## Summary
+
+### Topic: Federated Reinforcement Learning for non-stationary environment
+
+
+
+### 目前已完成工作：
+
+1. Federated Averaging在CartPole， Pendulum上代码（非并行）
+
+2. 采用TD3算法在BipedalWalker实验
+
+3. fedavg TD3 多进程下通讯的伪代码
+
+4. BipedalWalker可在环境增加障碍物，可以调节障碍物的类型以及出现频率制造non-stationary环境。
+
+   3中的伪代码：
+
+   ```python
+   syncronise local update:
+   sync Q μ from server
+   set n = 0;
+   for t in T:
+   	agent explore base on μ
+   	agent saves collected data to local data base
+   	agent update Q based on target network
+   	if t mod N == 0:
+   		agent send Q, wait for server aggregate
+   		agent receive Qt from server.
+   	if t mod M == 0:
+           n += 1
+   		agent update μ based on local Q
+           if n mod L == 0:
+   			agent send μ to server, wait for server aggregate.
+   			agent receive μ from server
+   		agent update policy target based on current policy net
+           agent update Q target based on current Q net
+   ```
+   
+   T is the total iteration, T is the local update times of Q net, T/M is the delay update of policy net in TD3 algorithm, total communication round = T/N + T/(M*L). It can be proved that when N = 1, L = 1 this is equal to centralize TD3. M * L  better be the integer multiple of N, so that the Q target update could be consistent.
+
+### 计划
+
+1. 12/24 前完成多进程版本TD3，比较multi agent和single agent区别，进行fedavg实验
+2. 解决identical environment下多个agent用fedavg算法的缺陷，（随着本地更新次数增加模型融合后效果理论上会变差）
+3. 解决2中问题后，处理non-stationary环境内训练的agent，模型融合后对server模型污染的问题。
+
+### 2中的一些解决方案
+
+关于fedavg算法用于更新的一些问题：
+
+由于RL中的训练数据是根据agent自身的policy进行收集（即agent网络参数），因此agent在多次本地更新后，不同agent之间的policy会大不同，即使是identical环境，收集到的数据分布也会不一样，因为这里是fedrated的设定，所以不能够通过共享数据来解决这种data distribution shift的问题
+$$
+\tau = <s_1,a_1,r_1,s_2...s_n> \\
+P(\tau) = \prod_{t} P_\omega(a_t|s_t)P_\theta(s_{t+1}|s_t) \\
+$$
+$P(\tau)$ 的分布取决于参数 $\omega$ 和 $\theta$ ，其中$\omega$是agent policy, $\theta$ 是环境状态转移参数，non stationary环境下参数会不一样。The first term would cause system heterogeneity, second term cause object heterogeneity.
+
+目前想到一个比较简单的解决identical环境下的方法，是通过在训练过程中增加一个惩罚项（KL divergence or L2 norm），以减少local parameter与global parameter之间的差距。
+
+### L2 norm
+
+$$
+Q_{loss} = \mathbb{E}_{(s_t,s_{t+1})\sim P(\cdot|\omega;\theta)}[(Q(s_t,a_t) - (R_t + \gamma max_a Q(s_{t+1},a)))^2] + \beta dist(\phi, glob \phi) \\
+
+\mu_{loss} = -Q(s, \mu_w(s)) + \beta dist(\omega, glob \omega)
+$$
+
 
 
 

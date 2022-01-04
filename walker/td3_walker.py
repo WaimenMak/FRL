@@ -4,13 +4,13 @@
 # @FileName: td3_walker.py
 # @Software: PyCharm
 
-
+#clip reward
 import os
 import sys
 
 import numpy as np
 sys.path.append(os.path.dirname(sys.path[0]))
-from non_stationary_envs.walker import BipedalWalker
+from non_stationary_envs.walker import BipedalWalker, BipedalWalkerHardcore
 from non_stationary_envs.Pendulum import PendulumEnv
 from agents.TD3 import TD3
 from utils.Tools import try_gpu, set_seed
@@ -28,13 +28,14 @@ class Arguments():
         # self.episode_length = 1600 # env._max_episode_steps
         self.eval_episode = 2
         self.episode_length = 1600  # env._max_episode_steps
-        self.episode_num = 2000
+        self.episode_num = 10000
         self.device = try_gpu()
         self.capacity = 1e6
         self.env_seed = None
         # self.capacity = 10000
         self.C_iter = 5
-        self.filename = f"eval_{self.env_seed}_"
+        # self.filename = f"eval_{self.env_seed}_"
+        self.filename = f"eval_hardcore_{self.env_seed}_"
 
 model_path = '../outputs/model/walker/'
 if not os.path.exists(model_path):
@@ -60,7 +61,8 @@ def eval(agent, env, args):
 
 if __name__ == '__main__':
     args = Arguments()
-    env = BipedalWalker()
+    # env = BipedalWalker()
+    env = BipedalWalkerHardcore()
     set_seed(1)
     # env = PendulumEnv()
     env.reset()
@@ -68,7 +70,8 @@ if __name__ == '__main__':
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
     agent = TD3(state_dim, action_dim, args)
-    # agent.load(model_path)
+    agent.load(model_path + args.filename)
+    # agent.load(model_path + 'eval_None_')
     eval_reward = []
     for i_ep in range(args.episode_num):
         state = env.reset()
@@ -78,7 +81,11 @@ if __name__ == '__main__':
             # env.render()
             action = agent.choose_action(state)    # action is array
             n_state, reward, done, _ = env.step(action)  # env.step accept array or list
-            agent.memory.add(state, action, reward, n_state, done)
+            if reward == -100:
+                clip_reward = -5
+            else:
+                clip_reward = reward
+            agent.memory.add(state, action, clip_reward, n_state, done)
             agent.UpdateQ()
             ep_reward += reward
             if done == True:
@@ -86,10 +93,10 @@ if __name__ == '__main__':
             state = n_state
 
             # print('obs: {}; reward: {}'.format(observation, reward))
-        print(f"train:{ep_reward:.2f}", end = ' ')
+        print(f"episode:{i_ep},train:{ep_reward:.2f}", end = ' ')
         eval_reward.append(eval(agent, env, args))
-        if i_ep % 50 == 0:
+        if (i_ep+1) % 10 == 0:
             agent.save(model_path + args.filename)
+            np.save(f"{model_path}{args.filename}eval", eval_reward)
 
-    np.save(f"{model_path}{args.filename}_eval", eval_reward)
         # env.close()

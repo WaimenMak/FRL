@@ -44,6 +44,32 @@ from gym.utils import colorize, seeding, EzPickle
 
 FPS    = 50
 # SCALE  = 30.0   # affects how fast-paced the game is, forces should be adjusted as well
+# SCALE  = 30.0
+# MOTORS_TORQUE = 80
+# SPEED_HIP     = 4
+# SPEED_KNEE    = 6
+# LIDAR_RANGE   = 160/SCALE
+#
+# INITIAL_RANDOM = 5
+#
+# HULL_POLY =[
+#     (-30,+9), (+6,+9), (+34,+1),
+#     (+34,-8), (-30,-8)
+#     ]
+# LEG_DOWN = -8/SCALE
+# LEG_W, LEG_H = 8/SCALE, 34/SCALE
+# # LEG_W, LEG_H = 8/SCALE, 10/SCALE
+#
+# VIEWPORT_W = 600
+# VIEWPORT_H = 400
+#
+# TERRAIN_STEP   = 14/SCALE
+# TERRAIN_LENGTH = 200     # in steps
+# TERRAIN_HEIGHT = VIEWPORT_H/SCALE/4
+# TERRAIN_GRASS    = 10    # low long are grass spots, in steps
+# TERRAIN_STARTPAD = 20    # in steps
+# FRICTION = 2.5
+
 SCALE  = 30.0
 MOTORS_TORQUE = 80
 SPEED_HIP     = 4
@@ -107,6 +133,20 @@ class ContactDetector(contactListener):
             if leg in [contact.fixtureA.body, contact.fixtureB.body]:
                 leg.ground_contact = False
 
+import random
+def select(r):
+    state = range(1, 4)
+    # 概率列表
+    # r = [1/4, 1/4, 1/4, 1/4]
+    # print(r)
+    sum = 0
+    ran_num = random.random()
+    for state, r in zip(state, r):
+        sum += r
+        if ran_num < sum:
+            break
+    return state
+
 class BipedalWalker(gym.Env, EzPickle):
     metadata = {
         'render.modes': ['human', 'rgb_array'],
@@ -115,7 +155,7 @@ class BipedalWalker(gym.Env, EzPickle):
 
     hardcore = False
 
-    def __init__(self):
+    def __init__(self, seed=None):
         EzPickle.__init__(self)
         self.seed()
         self.viewer = None
@@ -125,6 +165,16 @@ class BipedalWalker(gym.Env, EzPickle):
         self.hull = None
 
         self.prev_shaping = None
+
+        if not seed:
+            self.stairfreqtop = 5  # 5
+            self.stairfreqlow = 3
+            self.r = [1/3, 1/3, 1/3]
+        else:
+            np.random.seed(seed)
+            self.stairfreqtop = np.random.randint(1, 10)
+            self.stairfreqlow = 1
+            self.r = np.random.dirichlet(np.ones(3)).tolist()  #freq
 
         self.fd_polygon = fixtureDef(
                         shape = polygonShape(vertices=
@@ -228,7 +278,8 @@ class BipedalWalker(gym.Env, EzPickle):
             elif state==STAIRS and oneshot:
                 stair_height = +1 if self.np_random.rand() > 0.5 else -1
                 stair_width = self.np_random.randint(4, 5)
-                stair_steps = self.np_random.randint(3, 5)
+                # self.stairsteps = 5   # 5
+                stair_steps = self.np_random.randint(self.stairfreqlow, self.stairfreqtop)  #freq
                 original_y = y
                 for s in range(stair_steps):
                     poly = [
@@ -255,7 +306,8 @@ class BipedalWalker(gym.Env, EzPickle):
             if counter==0:
                 counter = self.np_random.randint(TERRAIN_GRASS/2, TERRAIN_GRASS)
                 if state==GRASS and hardcore:
-                    state = self.np_random.randint(1, _STATES_)
+                    # state = self.np_random.randint(1, _STATES_)
+                    state = select(self.r)
                     oneshot = True
                 else:
                     state = GRASS
@@ -512,6 +564,7 @@ class BipedalWalkerHardcore(BipedalWalker):
 # if __name__=="__main__":
 #     # Heurisic: suboptimal, have no notion of balance.
 #     env = BipedalWalker()
+#     # env = BipedalWalkerHardcore()
 #     env.reset()
 #     steps = 0
 #     total_reward = 0
@@ -590,13 +643,16 @@ class BipedalWalkerHardcore(BipedalWalker):
 #     print(total_reward)
 
 from agents.TD3 import Actor
+# from agents.fedTD3 import Actor
 from utils.Tools import try_gpu
+from non_stationary_envs.Pendulum import PendulumEnv
+import os
 class Arguments():
     def __init__(self):
         self.local_bc = 256  # local update memory batch size
         self.gamma = 0.98
         self.lr = 0.002
-        self.action_bound = 2
+        self.action_bound = 1
         self.tau = 0.01
         self.policy_noise = 0.01 #std of the noise, when update critics
         self.std_noise = 0.01    #std of the noise, when explore
@@ -610,31 +666,43 @@ class Arguments():
         self.env_seed = None
         # self.capacity = 10000
         self.C_iter = 5
-        self.filename = f"eval_{self.env_seed}_"
+        # self.filename = f"eval_{self.env_seed}_"
+        # self.filename = f"eval_hardcore_{self.env_seed}_"
+        # self.filename = "centerniid_walkerNone_M2_clientnum5actor_"
+        self.filename = "niidevalfed_walker5_N400_M2_L400_beta0.005_mu0_clientnum5actor_"
 
-model_path = '../outputs/model/walker/'
+# model_path = '../outputs/model/walker/'
+# model_path = '../outputs/center_model/walker/'
+model_path = '../outputs/fed_model/walker/'
+if not os.path.exists(model_path):
+    os.makedirs(model_path)
 
 if __name__ == '__main__':
     args = Arguments()
-    env = BipedalWalker()
+    # env = BipedalWalker()
+    env = BipedalWalkerHardcore(seed=3)
+    env.seed(1)
     # env = PendulumEnv()
-    env.reset()
+    # env.reset()
     done = False
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
     agent = Actor(state_dim, action_dim, 1, args)
-    agent.load(model_path)
-    state = env.reset()
-    ep_reward = 0
-    for iter in range(args.episode_length):
+    # agent = Actor(state_dim, action_dim, args)
+    # agent.load(f"{model_path}{args.filename}")
+    agent.load(model_path+args.filename)
+    for i in range(2):
+        state = env.reset()
+        ep_reward = 0
+        for iter in range(args.episode_length):
 
-        env.render()
-        action = agent.predict(state)  # action is array
-        n_state, reward, done, _ = env.step(action)  # env.step accept array or list
-        print(reward)
-        ep_reward += reward
-        if done == True:
-            break
-        state = n_state
-    print(ep_reward)
-    env.close()
+            env.render()
+            action = agent.predict(state)  # action is array
+            n_state, reward, done, _ = env.step(action)  # env.step accept array or list
+            print(reward)
+            ep_reward += reward
+            if done == True:
+                break
+            state = n_state
+        print(ep_reward)
+        env.close()

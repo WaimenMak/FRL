@@ -24,7 +24,7 @@ class Actor():
         self.target_net.load_state_dict(self.policy_net.state_dict())
         self.actor_optimizer = optim.Adam(self.policy_net.parameters(), lr=args.lr)
 
-    def predict(self, state):
+    def predict(self, state):  # for visualize and test
         with torch.no_grad():
             state = torch.tensor(state, dtype=torch.float)
             action = self.policy_net(state).numpy()
@@ -57,12 +57,10 @@ class Actor():
 
     def update_policy(self, state, Q_net):
         actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean()
-        # actor_loss = -Q_net(state, self.policy_net(state))[0].mean()
         # print(f'actor loss{actor_loss:.2f}')
         self.actor_optimizer.zero_grad()
         actor_loss.backward()
         self.actor_optimizer.step()
-        a = 1
 
 
     def update_target(self, tau):
@@ -111,6 +109,9 @@ class TD3():
         self.critic = Critic(state_dim, action_dim, args)
         # self.actor_loss = Critic.Q1_net.forward()
         self.critics_loss = nn.MSELoss()
+
+        self.actor_finetune = optim.Adam([self.actor.policy_net.fc3.weight, self.actor.policy_net.fc3.bias], lr=args.lr)
+        self.critic_finetune = optim.Adam([self.critic.Q_net.q1_fc3.weight, self.critic.Q_net.q1_fc3.bias], lr=args.lr)
 
     def UpdateQ(self):
         if len(self.memory) < self.batch_size:
@@ -162,11 +163,53 @@ class TD3():
         # for param, target_param in zip(self.actor.policy_net.parameters(), self.actor.target_net.parameters()):
         #     target_param.data.copy_(self.tau * param.data + (1 - self.tau) * target_param.data)
 
+    def finetune(self):
+
+        if len(self.memory) < self.batch_size:
+            return
+        self.iter += 1
+        state_batch, action_batch, reward_batch, n_state_batch, done_batch = self.memory.sample(
+            self.batch_size)
+        state_batch = torch.tensor(
+            state_batch, device=self.device, dtype=torch.float) #bc * state_dim
+        action_batch = torch.tensor(
+            action_batch, device=self.device, dtype=torch.float)  # bc * action_dim
+        reward_batch = torch.tensor(
+            reward_batch, device=self.device, dtype=torch.float).view(-1, 1)
+        n_state_batch = torch.tensor(
+            n_state_batch, device=self.device, dtype=torch.float)
+        done_batch = torch.tensor(np.float32(done_batch), device=self.device, dtype=torch.float).view(-1, 1)
+
+        with torch.no_grad():
+            action_tilde = self.actor.choose_action2(state_batch)
+            q1_target, q2_target = self.critic.target(n_state_batch, action_tilde)
+
+            max_target_q_val = torch.cat((q1_target, q2_target), dim=1).min(1)[0].detach().view(-1, 1)
+            y_hat = reward_batch + self.gamma * max_target_q_val * (1 - done_batch)
+
+        current_q_val = self.critic.predict(state_batch, action_batch)
+
+        loss = self.critics_loss(current_q_val[0], y_hat) + self.critics_loss(current_q_val[1], y_hat)
+        # print(f'critic loss{loss:.2f}')
+        self.critic_finetune.zero_grad()
+        loss.backward()
+        self.critic_finetune.step()
+
+        if self.iter % self.C_iter == 0:
+            actor_loss = -self.critic.Q_net.Q1_val(state_batch, self.actor.policy_net(state_batch)).mean()
+            # print(f'actor loss{actor_loss:.2f}')
+            self.actor_finetune.zero_grad()
+            actor_loss.backward()
+            self.actor_finetune.step()
+
+            self.actor.update_target(0.01)
+            self.critic.update_target(0.01)
+
     def choose_action(self, state):
         action = self.actor.choose_action(state)
         return action
 
-    def predict(self, state):
+    def predict(self, state): # for eval
         with torch.no_grad():
             state = torch.tensor(state, dtype=torch.float).cuda()
             action = self.actor.policy_net(state).cpu().numpy()
@@ -174,12 +217,13 @@ class TD3():
         return action
 
     def save(self, PATH):
-        torch.save(self.actor.policy_net.state_dict(), PATH + "td3.pth")
+        torch.save(self.actor.policy_net.state_dict(), PATH + "actor_td3.pth")
         torch.save(self.critic.Q_net.state_dict(), PATH + "critic_td3.pth")
 
 
     def load(self, PATH):
-        self.actor.policy_net.load_state_dict(torch.load(PATH + 'td3.pth'))
-
-
+        self.actor.policy_net.load_state_dict(torch.load(PATH + 'actor_td3.pth'))
+        self.actor.target_net.load_state_dict(self.actor.policy_net.state_dict())
+        self.critic.Q_net.load_state_dict(torch.load(PATH + 'critic_td3.pth'))
+        self.critic.Q_target.load_state_dict(self.critic.Q_net.state_dict())
 

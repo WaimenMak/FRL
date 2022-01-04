@@ -127,6 +127,20 @@ def pendulum_env_config(env_seed):
         env = PendulumEnv()
     return env
 
+def pendulum_env_config2(env_seed):
+    # env = gym.make('Pendulum-v1')
+    if env_seed != None:
+        np.random.seed(env_seed) #0.5, 0.1, 1, 9.8
+        length = 1. + np.random.normal(0, 0.5) #length
+        masspole = 1. + np.random.normal(0, 0.5)  # masspole
+        # torque = np.random.uniform(1, 3, 1)[0]  # masscart
+        gravity = 10. + np.random.normal(0, 0.5)  # gravity
+        env_params = [length, masspole, gravity]
+        env = PendulumEnv(env_params)
+    else:
+        env = PendulumEnv()
+    return env
+
 if __name__ == '__main__':
     device = try_gpu()
     # model_path = '../outputs/model/pendulum/'

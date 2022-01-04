@@ -36,6 +36,12 @@ class mlp_policy(nn.Module):
 
         return action
 
+    def R_t(self, x):
+        l1 = F.relu(self.fc1(x))
+        l2 = F.relu(self.fc2(l1))
+
+        return l2
+
 class mlp_value(nn.Module):
     def __init__(self, state_dim, action_dim):
         super(mlp_value, self).__init__()
@@ -67,5 +73,17 @@ class mlp_value(nn.Module):
         q1_oupt = self.q1_fc3(q1)
 
         return q1_oupt
+    def R_t1(self, s, a):
+        x = torch.cat([s, a], dim=1)
+        q1 = F.relu(self.q1_fc1(x))
+        rep = F.relu(self.q1_fc2(q1))
 
+        return rep
+
+    def R_t2(self, s, a):
+        x = torch.cat([s, a], dim=1)
+        q2 = F.relu(self.q2_fc1(x))
+        rep = F.relu(self.q2_fc2(q2))
+
+        return rep
 
