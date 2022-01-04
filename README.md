@@ -3,6 +3,12 @@ lab for reinforcement learning projects
 
 ## FRL
 
+### Motivation
+
+Our target is to train the agent locally, with the help of the server, we hope the agent could perform well in similar environments but with different dynamics. The straightforward way to achieve this goal is to collect all the data to train the agent centrally, but to protect the privacy of the agents, we intuitively combine the FL methods with the off-policy RL algorithm TD3. And to better address the aforementioned obective heterogeneity problem, we introduce several regular term to the loss function of TD3 and compare the performance of each method.
+
+### Objective Function
+
 The global objective function is as follow:
 
 
