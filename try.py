@@ -4,7 +4,8 @@
 # @FileName: try.py
 # @Software: PyCharm
 
-from multiprocessing import Process, Pipe
+# from multiprocessing import Process, Pipe
+from torch.multiprocessing import Pipe, Process, set_start_method
 from threading import Thread
 import os, time
 # import psutil
@@ -77,26 +78,26 @@ def server(pipe_dict, client_num, serving):
 
                 print(f"server send b:{b}")
         local_model.clear()
-class ser:
-    def __init__(self):
-        self.a = 0
 
-def aa(pipe):
+
+def aa(pipe, i):
     # print(ser.a)
-    for i in range(500):
-        pipe.send([1,5646,767,0.555,6777])
+    # for i in range(500):
+    #     pipe.send([1,5646,767,0.555,6777])
+    print(i.a)
     # time.sleep(2)
     #     pipe.send(2)
     # print(ser.a)
 
 def ss(pipe, ser):
     a = 0
-    time.sleep(3)
-    for i in range(1000):
-        if pipe.poll():
-            a = pipe.recv()
-            print(a)
-            ser.a += a[0]
+    time.sleep(1)
+    print('here')
+    # for i in range(1000):
+    #     if pipe.poll():
+    #         a = pipe.recv()
+    #         print(a)
+    #         ser.a += a[0]
 
 from models.Network import MLP
 from utils.Tools import try_gpu
@@ -105,10 +106,18 @@ def gg(pipe,mlp):
     n = v.to("cpu")
     pipe.send(n)
 
+class ser():
+    def __init__(self, k = None):
+        self.a = 0
+        if k:
+            self.a = 4
+class serr(ser):
+    f = 0
 if __name__ == '__main__':
     # 创建并启动子进程
     pipe1, pipe2 = Pipe()
     process_num = 2
+    # env = gym.make('MountainCarContinuous-v0')
     # serving = agent()
     # serving.name = "server"
     # agent1 = agent()
@@ -116,11 +125,13 @@ if __name__ == '__main__':
     # agent2 = agent()
     # agent2.name = 2
     # pipe_dict = dict((i, (pipe1, pipe2)) for i in range(process_num) for pipe1, pipe2 in (Pipe(),))
-    ser = ser()
+    aaa = serr(k = 1)
     # p = Thread(target=server, args=(pipe_dict, process_num, serving))
-    p = Thread(target=ss, args=(pipe1, ser))
+    # p = Thread(target=ss, args=(pipe1, aaa))
     # p2 = Process(target=client, args=(ss,pipe_dict[0][0]))
-    p3 = Process(target=aa, args=(pipe2,))
+    # p3 = Process(target=aa, args=(pipe2, aaa))
+    p = Thread(target=ss, args=(pipe1, aaa))
+    p3 = Process(target=aa, args=(pipe2, aaa))
     # mlp = MLP(2,1)
     # pipe1, pipe2 = Pipe()
     # p = Thread(target=gg, args=(pipe2, mlp))
@@ -130,7 +141,7 @@ if __name__ == '__main__':
     p.start()
     p3.start()
     [oo.join() for oo in [p,p3]]
-    print(ser.a)
+    print(aaa.a)
     # print(ser.b)
     # pid = p.pid  # 获取子进程的pid
 

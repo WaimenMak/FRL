@@ -1,4 +1,5 @@
-from models.Network import mlp_policy, mlp_value
+# from models.Network import mlp_policy, mlp_value
+from models.Network import mlp_policy, distill_qnet as mlp_value
 from utils.Memory import replay_buffer
 import torch.optim as optim
 from torch import nn
@@ -107,8 +108,8 @@ class TD3():
         # self.actor_loss = Critic.Q1_net.forward()
         self.critics_loss = nn.MSELoss()
 
-        self.actor_finetune = optim.Adam([self.actor.policy_net.fc3.weight, self.actor.policy_net.fc3.bias], lr=args.lr)
-        self.critic_finetune = optim.Adam([self.critic.Q_net.q1_fc3.weight, self.critic.Q_net.q1_fc3.bias], lr=args.lr)
+        # self.actor_finetune = optim.Adam([self.actor.policy_net.fc3.weight, self.actor.policy_net.fc3.bias], lr=args.lr)
+        # self.critic_finetune = optim.Adam([self.critic.Q_net.q1_fc3.weight, self.critic.Q_net.q1_fc3.bias], lr=args.lr)
 
     def UpdateQ(self):
         if len(self.memory) < self.batch_size:
@@ -127,7 +128,8 @@ class TD3():
         done_batch = torch.tensor(np.float32(done_batch), device=self.device, dtype=torch.float).view(-1, 1)
 
         with torch.no_grad():
-            action_tilde = self.actor.choose_action2(state_batch)
+            # action_tilde = self.actor.choose_action2(state_batch)
+            action_tilde = self.actor.choose_action2(n_state_batch)
             q1_target, q2_target = self.critic.target(n_state_batch, action_tilde)
 
             max_target_q_val = torch.cat((q1_target, q2_target), dim=1).min(1)[0].detach().view(-1, 1)

@@ -31,8 +31,8 @@ class PendulumEnv(gym.Env):
         # self.l = 2.
         self.viewer = None
         if env_params:
-            self.l, self.m, self.g = env_params
-
+            self.l, self.m, self.g, self.mean = env_params
+            self.env_param = env_params
         high = np.array([1., 1., self.max_speed], dtype=np.float32)
         self.action_space = spaces.Box(
             low=-self.max_torque,
@@ -113,29 +113,32 @@ class PendulumEnv(gym.Env):
 def angle_normalize(x):
     return (((x+np.pi) % (2*np.pi)) - np.pi)
 
-def pendulum_env_config(env_seed):
-    # env = gym.make('Pendulum-v1')
-    if env_seed != None:
-        np.random.seed(env_seed) #0.5, 0.1, 1, 9.8
-        length = np.random.uniform(0.1, 3, 1)[0]  # length
-        masspole = np.random.uniform(0.1, 2.5, 1)[0]  # masspole
-        # torque = np.random.uniform(1, 3, 1)[0]  # masscart
-        gravity = np.random.uniform(7, 13, 1)[0]  # gravity
-        env_params = [length, masspole, gravity]
-        env = PendulumEnv(env_params)
-    else:
-        env = PendulumEnv()
-    return env
+# def pendulum_env_config(env_seed):
+#     # env = gym.make('Pendulum-v1')
+#     if env_seed != None:
+#         np.random.seed(env_seed) #0.5, 0.1, 1, 9.8
+#         length = np.random.uniform(0.1, 3, 1)[0]  # length
+#         masspole = np.random.uniform(0.1, 2.5, 1)[0]  # masspole
+#         # torque = np.random.uniform(1, 3, 1)[0]  # masscart
+#         gravity = np.random.uniform(7, 13, 1)[0]  # gravity
+#         env_params = [length, masspole, gravity]
+#         env = PendulumEnv(env_params)
+#     else:
+#         env = PendulumEnv()
+#     return env
 
-def pendulum_env_config2(env_seed):
+def pendulum_env_config2(env_seed=None, std=0):
     # env = gym.make('Pendulum-v1')
     if env_seed != None:
         np.random.seed(env_seed) #0.5, 0.1, 1, 9.8
-        length = 1. + np.random.normal(0, 0.5) #length
-        masspole = 1. + np.random.normal(0, 0.5)  # masspole
-        # torque = np.random.uniform(1, 3, 1)[0]  # masscart
-        gravity = 10. + np.random.normal(0, 0.5)  # gravity
-        env_params = [length, masspole, gravity]
+        length = 1. + np.random.normal(0, std)  # length
+        length = np.clip(length, 0.5, 1.5)
+        masspole = 1. + np.random.normal(0, std)  # masspole
+        masspole = np.clip(masspole, 0.5, 1.5)
+        gravity = 10. + np.random.normal(0, std)  # gravity
+        gravity = np.clip(gravity, 8, 12)
+        mean = np.random.uniform(-1, 1)
+        env_params = [length, masspole, gravity, mean]
         env = PendulumEnv(env_params)
     else:
         env = PendulumEnv()
@@ -146,7 +149,7 @@ if __name__ == '__main__':
     # model_path = '../outputs/model/pendulum/'
     model_path = '../outputs/fed_model/'
     # env = CartPoleEnv()
-    env = pendulum_env_config(7)
+    env = pendulum_env_config2(7)
     print(f"l:{env.l:.2f},g: {env.g:.2f},m:{env.m:.2f}")
     upperbound = env.action_space.low[0]
     lowerbound = env.action_space.high[0]

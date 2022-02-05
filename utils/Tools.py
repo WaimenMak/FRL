@@ -18,9 +18,9 @@ class FractionScheduler:
         return self.lr / (1+num_update)
 
 class ExponentialScheduler:
-    def __init__(self, lr):
-        self.lr_start = lr
-        self.lr_end = 0.001
+    def __init__(self, lr_start, lr_end):
+        self.lr_start = lr_start
+        self.lr_end = lr_end
         self.lr_decay = 50
 
     def __call__(self, num_update):
@@ -28,8 +28,10 @@ class ExponentialScheduler:
 
 def try_gpu(): #single gpu
     i = 0
-    if torch.cuda.device_count() >= i + 1:
+    if torch.cuda.device_count() == i + 1:
         return torch.device(f'cuda:{i}')
+    elif torch.cuda.device_count() == i + 2:
+        return torch.device(f'cuda:{i+1}')
     return torch.device('cpu')
 
 def action_trans(action, action_dim, upperbound, lowerbound):

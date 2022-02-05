@@ -7,6 +7,7 @@
 from models.Network import mlp_policy, mlp_value
 from copy import deepcopy
 from utils.Memory import replay_buffer
+from utils.Tools import try_gpu
 import torch.optim as optim
 from torch import nn
 import torch
@@ -14,9 +15,10 @@ import numpy as np
 
 
 def l2_norm(local, glob):
+    device = try_gpu()
     l2_loss = 0.
     for param1, param2 in zip(local.parameters(), glob.parameters()):
-        l2_loss += torch.sum((param1 - param2.cuda()) ** 2)
+        l2_loss += torch.sum((param1 - param2.to(device)) ** 2)
 
     return l2_loss
 
@@ -53,6 +55,8 @@ class Actor():
         self.actor_optimizer = optim.Adam(self.policy_net.parameters(), lr=args.lr)
         self.beta = args.beta
         self.mu = args.mu
+        # self.alpha = args.alpha
+        self.l_mse = nn.MSELoss()
         # self.glob_mu = None
         self.glob_mu = deepcopy(self.policy_net)
         self.prev_mu = deepcopy(self.policy_net)
@@ -82,7 +86,7 @@ class Actor():
         with torch.no_grad():
             # state = torch.tensor(state, device=self.device, dtype=torch.float32)
             noise = torch.tensor(np.random.normal(0, self.std_policy_noise, size=[state.size(0), self.action_dim]).clip(
-                    -self.noise_clip,self.noise_clip), dtype=torch.float).cuda()
+                    -self.noise_clip,self.noise_clip), dtype=torch.float).to(self.device)
             action = (
                 self.target_net(state) + noise            # noise is tensor on gpu
             ).clip(-self.action_bound, self.action_bound)  # constraint action bound
@@ -91,7 +95,14 @@ class Actor():
 
     def update_policy(self, state, Q_net):
         self.temp_mu.load_state_dict(self.policy_net.state_dict())
-        actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean() + self.beta * l2_norm(self.policy_net, self.glob_mu) + self.mu * l_con_mu(state, self.policy_net, self.glob_mu, self.prev_mu)
+        # if self.alpha != 0:
+        #     actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean() + self.alpha * self.l_mse(self.policy_net(state), self.glob_mu(state))
+        if self.beta !=0:
+            actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean() + self.beta * l2_norm(self.policy_net, self.glob_mu)
+        elif self.mu !=0:
+            actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean() + self.mu * l_con_mu(state, self.policy_net, self.glob_mu, self.prev_mu)
+        else:
+            actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean()
         # print(f'actor loss{actor_loss:.2f}')
         self.actor_optimizer.zero_grad()
         actor_loss.backward()
@@ -154,6 +165,8 @@ class fedTD3():
 
         self.beta = args.beta
         self.mu = args.mu
+        # self.alpha = args.alpha
+        self.l_mse = nn.MSELoss()
         self.critics_loss = nn.MSELoss()
 
     def UpdateQ(self):
@@ -174,15 +187,21 @@ class fedTD3():
 
         self.temp_q.load_state_dict(self.critic.Q_net.state_dict())
         with torch.no_grad():
-            action_tilde = self.actor.choose_action2(state_batch)
+            # action_tilde = self.actor.choose_action2(state_batch)
+            action_tilde = self.actor.choose_action2(n_state_batch)  #next_action
             q1_target, q2_target = self.critic.target(n_state_batch, action_tilde)
 
             max_target_q_val = torch.cat((q1_target, q2_target), dim=1).min(1)[0].detach().view(-1, 1)
             y_hat = reward_batch + self.gamma * max_target_q_val * (1 - done_batch)
 
         current_q_val = self.critic.predict(state_batch, action_batch)
-
-        loss = self.critics_loss(current_q_val[0], y_hat) + self.critics_loss(current_q_val[1], y_hat) + self.beta * l2_norm(self.critic.Q_net, self.glob_q) + self.mu * l_con_q(state_batch, action_batch, self.critic.Q_net, self.glob_q, self.prev_q)
+        if self.beta != 0:
+            # loss = self.critics_loss(current_q_val[0], y_hat) + self.critics_loss(current_q_val[1],y_hat) + self.alpha * self.l_mse(torch.cat(self.critic.Q_net(state_batch, action_batch)), torch.cat(self.glob_q(state_batch, action_batch)))
+            loss = self.critics_loss(current_q_val[0], y_hat) + self.critics_loss(current_q_val[1],y_hat) + self.beta * l2_norm(self.critic.Q_net, self.glob_q)
+        elif self.mu != 0:
+            loss = self.critics_loss(current_q_val[0], y_hat) + self.critics_loss(current_q_val[1], y_hat) + self.mu * l_con_q(state_batch, action_batch, self.critic.Q_net, self.glob_q, self.prev_q)
+        else:
+            loss = self.critics_loss(current_q_val[0], y_hat) + self.critics_loss(current_q_val[1], y_hat)
         # print(f'critic loss{loss:.2f}')
         self.critic.critic_optimizer.zero_grad()
         loss.backward()
@@ -271,7 +290,8 @@ class fedTD3():
 
     def predict(self, state): # for eval
         with torch.no_grad():
-            state = torch.tensor(state, dtype=torch.float).cuda()
+            # state = torch.tensor(state, dtype=torch.float).cuda()
+            state = torch.tensor(state, dtype=torch.float).to(self.device)
             action = self.actor.policy_net(state).cpu().numpy()
 
         return action

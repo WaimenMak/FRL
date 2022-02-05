@@ -77,6 +77,7 @@ class CartPoleEnv(gym.Env):
         self.length = 0.5  # actually half the pole's length
         if env_params:
             self.length, self.masspole, self.masscart, self.gravity = env_params
+            self.env_param = env_params
 
         self.total_mass = (self.masspole + self.masscart)
 

@@ -130,7 +130,8 @@ class TD3():
         done_batch = torch.tensor(np.float32(done_batch), device=self.device, dtype=torch.float).view(-1, 1)
 
         with torch.no_grad():
-            action_tilde = self.actor.choose_action2(state_batch)
+            # action_tilde = self.actor.choose_action2(state_batch)
+            action_tilde = self.actor.choose_action2(n_state_batch)
             q1_target, q2_target = self.critic.target(n_state_batch, action_tilde)
 
             max_target_q_val = torch.cat((q1_target, q2_target), dim=1).min(1)[0].detach().view(-1, 1)

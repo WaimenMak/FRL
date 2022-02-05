@@ -166,15 +166,19 @@ class BipedalWalker(gym.Env, EzPickle):
 
         self.prev_shaping = None
 
-        if not seed:
-            self.stairfreqtop = 5  # 5
-            self.stairfreqlow = 3
-            self.r = [1/3, 1/3, 1/3]
-        else:
+        # if not seed:
+        self.stairfreqtop = 5  # 5
+        self.stairfreqlow = 3
+        self.r = [1/3, 1/3, 1/3]
+        self.env_param = self.r
+        if seed:
             np.random.seed(seed)
-            self.stairfreqtop = np.random.randint(1, 10)
+            top = [2, 5, 10]
+            # self.stairfreqtop = np.random.randint(1, 10)
+            self.stairfreqtop = np.random.choice(top)
             self.stairfreqlow = 1
             self.r = np.random.dirichlet(np.ones(3)).tolist()  #freq
+            self.env_param = self.r
 
         self.fd_polygon = fixtureDef(
                         shape = polygonShape(vertices=
@@ -192,11 +196,21 @@ class BipedalWalker(gym.Env, EzPickle):
                     categoryBits=0x0001,
                 )
 
-        self.reset()
+        # self.reset()
 
         high = np.array([np.inf] * 24)
         self.action_space = spaces.Box(np.array([-1, -1, -1, -1]), np.array([1, 1, 1, 1]), dtype=np.float32)
         self.observation_space = spaces.Box(-high, high, dtype=np.float32)
+
+    def modify(self, seed):
+        if seed:
+            np.random.seed(seed)
+            top = [2, 5, 10]
+            # self.stairfreqtop = np.random.randint(1, 10)
+            self.stairfreqtop = np.random.choice(top)
+            self.stairfreqlow = 1
+            self.r = np.random.dirichlet(np.ones(3)).tolist()  # freq
+            self.env_param = self.r
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -561,6 +575,14 @@ class BipedalWalker(gym.Env, EzPickle):
 class BipedalWalkerHardcore(BipedalWalker):
     hardcore = True
 
+def walker_config(env_seed=None):
+    if env_seed != None:
+        env = BipedalWalkerHardcore(env_seed)
+    else:
+        env = BipedalWalkerHardcore()
+
+    return env
+
 # if __name__=="__main__":
 #     # Heurisic: suboptimal, have no notion of balance.
 #     env = BipedalWalker()
@@ -668,21 +690,24 @@ class Arguments():
         self.C_iter = 5
         # self.filename = f"eval_{self.env_seed}_"
         # self.filename = f"eval_hardcore_{self.env_seed}_"
-        # self.filename = "centerniid_walkerNone_M2_clientnum5actor_"
-        self.filename = "niidevalfed_walker5_N400_M2_L400_beta0.005_mu0_clientnum5actor_"
+        # self.filename = "centerniid__1200000_walkerNone_M2_clientnum5actor_"
+        # self.filename = "niidevalfed_walker5_N400_M2_L400_beta0.005_mu0_clientnum5actor_"
+        # self.filename = "niidevalfed_walker5_N400_M2_L400_beta0_mu0.01_clientnum5actor_"
+        self.filename = "centerniidstd_noisyFalse_1200000_walker5_M2_clientnum5actor_"
+        # self.filename = "niidevalfeddistil_walker5_N400_M2_L400_alpha0.001_clientnum5actor_"
 
 # model_path = '../outputs/model/walker/'
-# model_path = '../outputs/center_model/walker/'
-model_path = '../outputs/fed_model/walker/'
+model_path = '../outputs/center_model/walker/'
+# model_path = '../outputs/fed_model/walker/'
 if not os.path.exists(model_path):
     os.makedirs(model_path)
 
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = BipedalWalkerHardcore(seed=3)
+    env = BipedalWalkerHardcore(seed=1)
+    print(f"r:{env.r},top:{env.stairfreqtop}")
     env.seed(1)
-    # env = PendulumEnv()
     # env.reset()
     done = False
     state_dim = env.observation_space.shape[0]
@@ -699,7 +724,7 @@ if __name__ == '__main__':
             env.render()
             action = agent.predict(state)  # action is array
             n_state, reward, done, _ = env.step(action)  # env.step accept array or list
-            print(reward)
+            # print(reward)
             ep_reward += reward
             if done == True:
                 break

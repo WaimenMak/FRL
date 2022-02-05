@@ -5,6 +5,8 @@
 # @Software: PyCharm
 import random
 from collections import deque
+from torch.utils.data import Dataset
+import torch
 
 class replay_buffer():
     def __init__(self, capacity):
@@ -34,3 +36,28 @@ class replay_buffer():
     def __len__(self):
         # return len(self.buffer)
         return self.count
+
+class DistilDataset(Dataset):
+    def __init__(self):
+        self.tensors = [torch.tensor([]) for _ in range(4)]
+
+    def __getitem__(self, item):
+        rep1 = self.tensors[0][item]
+        rep2 = self.tensors[1][item]
+        label1 = self.tensors[2][item]
+        label2 = self.tensors[3][item]
+
+        return rep1, rep2, label1, label2
+
+    def __len__(self):
+        return self.tensors[0].size(0)
+
+    def clear(self):
+        del self.tensors
+        self.tensors = [torch.tensor([]) for _ in range(4)]
+
+    def add(self, tensors):
+        for i in range(len(tensors)):
+            self.tensors[i] = torch.cat((self.tensors[i], tensors[i]))
+
+        assert all(tensors[0].size(0) == tensor.size(0) for tensor in tensors)
