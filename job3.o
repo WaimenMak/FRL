@@ -1,0 +1,932 @@
+central cart std=1
+niid:True
+args lr:9e-05,bc:256, capacitu:10000
+../outputs/center_model/cartpole/centerniidstd_noisyFalse_20000_cart5_M2clients:5
+net3
+net3
+mean:-0.20646505153866013,length:2.1243453636632417,gravity:8.72703137784383
+net3
+net3
+mean:-0.15926439582502194,length:0.1,gravity:11.440270808404989
+net3
+net3
+mean:0.7858939086953094,length:2.2886284734303186,gravity:7.93650729663551
+net3
+net3
+mean:0.9525489095524835,length:0.5505617071429395,gravity:10.493598508291312
+net3
+net3
+mean:0.5318157129606311,length:0.9412274868850414,gravity:9.547907870396923
+net3
+net3
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+net3
+net3
+agent in [2.2886284734303186, 0.5365098505119894, 1.0964974680720085, 7.93650729663551, 0.7858939086953094]
+net3
+net3
+agent in [0.1, 0.04373317277367053, 0.2, 11.440270808404989, -0.15926439582502194]
+net3
+net3
+agent in [2.1243453636632417, 0.01, 0.4718282477365443, 8.72703137784383, -0.20646505153866013]
+net3
+net3
+agent in [0.9412274868850414, 0.01, 3.43077118700778, 9.547907870396923, 0.5318157129606311]
+net3
+net3
+agent in [0.5505617071429395, 0.599951333237829, 0.2, 10.493598508291312, 0.9525489095524835]
+env1:8.20 env2:2.00 env3:13.40 env4:4.00 env5:14.20 eval_episode1_server:8.36
+env1:8.00 env2:2.00 env3:11.40 env4:4.00 env5:12.40 eval_episode2_server:7.56
+env1:7.80 env2:2.00 env3:13.40 env4:4.00 env5:13.00 eval_episode3_server:8.04
+env1:9.60 env2:3.00 env3:16.00 env4:5.00 env5:18.40 eval_episode4_server:10.40
+env1:15.00 env2:4.20 env3:27.00 env4:9.80 env5:44.60 eval_episode5_server:20.12
+env1:14.40 env2:4.60 env3:27.60 env4:8.60 env5:44.00 eval_episode6_server:19.84
+env1:17.00 env2:5.80 env3:32.40 env4:29.80 env5:50.80 eval_episode7_server:27.16
+env1:18.20 env2:24.60 env3:37.80 env4:24.20 env5:66.40 eval_episode8_server:34.24
+env1:23.00 env2:21.80 env3:36.40 env4:20.60 env5:44.40 eval_episode9_server:29.24
+env1:34.80 env2:13.20 env3:44.00 env4:20.00 env5:49.40 eval_episode10_server:32.28
+env1:32.40 env2:21.00 env3:42.60 env4:32.40 env5:58.40 eval_episode11_server:37.36
+env1:27.40 env2:8.80 env3:47.80 env4:30.40 env5:61.00 eval_episode12_server:35.08
+env1:32.60 env2:11.60 env3:38.00 env4:28.20 env5:43.00 eval_episode13_server:30.68
+env1:35.00 env2:22.40 env3:37.60 env4:33.80 env5:40.00 eval_episode14_server:33.76
+env1:35.20 env2:14.20 env3:37.00 env4:36.00 env5:44.40 eval_episode15_server:33.36
+env1:32.00 env2:12.20 env3:38.80 env4:25.40 env5:39.00 eval_episode16_server:29.48
+env1:31.20 env2:13.80 env3:37.00 env4:27.60 env5:35.00 eval_episode17_server:28.92
+env1:34.60 env2:10.40 env3:39.40 env4:88.20 env5:36.60 eval_episode18_server:41.84
+env1:37.80 env2:27.20 env3:40.00 env4:80.60 env5:35.40 eval_episode19_server:44.20
+env1:98.20 env2:69.00 env3:64.00 env4:114.60 env5:40.40 eval_episode20_server:77.24
+env1:111.20 env2:19.60 env3:130.80 env4:154.00 env5:42.80 eval_episode21_server:91.68
+env1:96.20 env2:96.00 env3:98.60 env4:123.80 env5:38.20 eval_episode22_server:90.56
+env1:164.40 env2:40.40 env3:138.40 env4:190.60 env5:46.40 eval_episode23_server:116.04
+env1:131.60 env2:176.80 env3:174.80 env4:199.20 env5:76.60 eval_episode24_server:151.80
+env1:165.80 env2:71.40 env3:140.80 env4:200.00 env5:69.40 eval_episode25_server:129.48
+env1:191.40 env2:78.20 env3:131.40 env4:180.40 env5:62.40 eval_episode26_server:128.76
+env1:166.80 env2:160.20 env3:138.60 env4:200.00 env5:73.40 eval_episode27_server:147.80
+env1:171.00 env2:138.40 env3:157.20 env4:152.40 env5:93.00 eval_episode28_server:142.40
+env1:151.60 env2:107.00 env3:134.40 env4:170.60 env5:109.60 eval_episode29_server:134.64
+env1:156.00 env2:94.80 env3:146.40 env4:200.00 env5:151.60 eval_episode30_server:149.76
+env1:147.20 env2:135.00 env3:158.20 env4:178.20 env5:137.80 eval_episode31_server:151.28
+env1:131.60 env2:120.80 env3:132.80 env4:189.40 env5:65.80 eval_episode32_server:128.08
+env1:174.20 env2:192.20 env3:123.40 env4:200.00 env5:65.80 eval_episode33_server:151.12
+env1:155.80 env2:180.60 env3:82.60 env4:200.00 env5:72.00 eval_episode34_server:138.20
+env1:129.00 env2:168.20 env3:62.20 env4:198.40 env5:64.80 eval_episode35_server:124.52
+env1:84.60 env2:129.00 env3:53.60 env4:187.80 env5:42.40 eval_episode36_server:99.48
+env1:126.00 env2:172.00 env3:53.40 env4:195.40 env5:64.80 eval_episode37_server:122.32
+env1:118.40 env2:200.00 env3:66.60 env4:197.20 env5:65.60 eval_episode38_server:129.56
+env1:144.60 env2:172.40 env3:91.40 env4:200.00 env5:78.20 eval_episode39_server:137.32
+env1:146.60 env2:96.20 env3:108.00 env4:178.60 env5:75.60 eval_episode40_server:121.00
+env1:151.40 env2:108.20 env3:127.60 env4:194.60 env5:86.40 eval_episode41_server:133.64
+env1:160.00 env2:200.00 env3:168.20 env4:196.20 env5:110.20 eval_episode42_server:166.92
+env1:167.40 env2:200.00 env3:129.80 env4:200.00 env5:122.00 eval_episode43_server:163.84
+env1:171.40 env2:196.40 env3:155.60 env4:200.00 env5:155.20 eval_episode44_server:175.72
+env1:173.80 env2:199.40 env3:109.60 env4:200.00 env5:169.20 eval_episode45_server:170.40
+env1:167.80 env2:200.00 env3:142.00 env4:197.40 env5:148.20 eval_episode46_server:171.08
+env1:161.40 env2:189.20 env3:145.40 env4:198.80 env5:166.00 eval_episode47_server:172.16
+env1:135.80 env2:200.00 env3:142.40 env4:194.60 env5:177.40 eval_episode48_server:170.04
+env1:133.60 env2:199.60 env3:158.40 env4:195.20 env5:188.80 eval_episode49_server:175.12
+env1:156.60 env2:200.00 env3:164.00 env4:190.60 env5:188.20 eval_episode50_server:179.88
+env1:147.80 env2:200.00 env3:128.60 env4:200.00 env5:191.60 eval_episode51_server:173.60
+env1:170.20 env2:194.20 env3:154.40 env4:191.20 env5:186.40 eval_episode52_server:179.28
+env1:179.60 env2:190.60 env3:177.00 env4:182.20 env5:194.60 eval_episode53_server:184.80
+env1:166.60 env2:200.00 env3:149.20 env4:193.20 env5:189.60 eval_episode54_server:179.72
+env1:188.80 env2:198.60 env3:198.60 env4:199.60 env5:198.00 eval_episode55_server:196.72
+env1:185.20 env2:192.20 env3:193.40 env4:199.00 env5:192.40 eval_episode56_server:192.44
+env1:195.20 env2:200.00 env3:194.00 env4:186.00 env5:194.00 eval_episode57_server:193.84
+env1:190.40 env2:200.00 env3:181.60 env4:187.60 env5:188.40 eval_episode58_server:189.60
+env1:197.20 env2:172.20 env3:197.00 env4:184.60 env5:200.00 eval_episode59_server:190.20
+env1:197.80 env2:163.60 env3:200.00 env4:199.20 env5:188.60 eval_episode60_server:189.84
+env1:193.80 env2:128.40 env3:186.80 env4:186.00 env5:175.00 eval_episode61_server:174.00
+env1:197.40 env2:186.60 env3:196.00 env4:196.80 env5:196.00 eval_episode62_server:194.56
+env1:200.00 env2:158.00 env3:194.80 env4:190.00 env5:200.00 eval_episode63_server:188.56
+env1:191.60 env2:120.00 env3:200.00 env4:163.20 env5:172.60 eval_episode64_server:169.48
+env1:191.20 env2:190.00 env3:200.00 env4:184.40 env5:151.80 eval_episode65_server:183.48
+env1:192.80 env2:200.00 env3:196.80 env4:167.60 env5:148.80 eval_episode66_server:181.20
+env1:199.80 env2:162.00 env3:199.60 env4:182.40 env5:198.80 eval_episode67_server:188.52
+env1:179.80 env2:190.00 env3:196.20 env4:178.00 env5:176.40 eval_episode68_server:184.08
+env1:200.00 env2:183.40 env3:194.20 env4:185.80 env5:174.00 eval_episode69_server:187.48
+env1:185.60 env2:200.00 env3:194.80 env4:195.40 env5:177.40 eval_episode70_server:190.64
+env1:189.60 env2:198.40 env3:197.80 env4:200.00 env5:188.60 eval_episode71_server:194.88
+env1:200.00 env2:200.00 env3:194.00 env4:183.40 env5:192.00 eval_episode72_server:193.88
+env1:194.80 env2:200.00 env3:196.20 env4:188.00 env5:169.40 eval_episode73_server:189.68
+env1:200.00 env2:200.00 env3:199.20 env4:200.00 env5:191.60 eval_episode74_server:198.16
+env1:193.00 env2:200.00 env3:197.40 env4:200.00 env5:188.00 eval_episode75_server:195.68
+env1:200.00 env2:200.00 env3:200.00 env4:195.80 env5:155.40 eval_episode76_server:190.24
+env1:187.20 env2:200.00 env3:195.40 env4:190.80 env5:187.00 eval_episode77_server:192.08
+env1:200.00 env2:194.40 env3:190.00 env4:194.20 env5:182.40 eval_episode78_server:192.20
+env1:196.60 env2:200.00 env3:194.40 env4:189.60 env5:173.60 eval_episode79_server:190.84
+env1:200.00 env2:20.80 env3:200.00 env4:200.00 env5:199.00 eval_episode80_server:163.96
+env1:186.80 env2:200.00 env3:189.20 env4:187.80 env5:162.40 eval_episode81_server:185.24
+env1:197.40 env2:200.00 env3:190.60 env4:182.60 env5:189.00 eval_episode82_server:191.92
+env1:200.00 env2:200.00 env3:197.60 env4:200.00 env5:185.60 eval_episode83_server:196.64
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:199.80 eval_episode84_server:199.96
+env1:199.40 env2:200.00 env3:200.00 env4:196.20 env5:187.40 eval_episode85_server:196.60
+env1:200.00 env2:200.00 env3:197.80 env4:200.00 env5:196.00 eval_episode86_server:198.76
+env1:200.00 env2:200.00 env3:199.00 env4:200.00 env5:195.20 eval_episode87_server:198.84
+env1:198.60 env2:200.00 env3:197.00 env4:200.00 env5:189.40 eval_episode88_server:197.00
+env1:199.80 env2:200.00 env3:200.00 env4:200.00 env5:188.00 eval_episode89_server:197.56
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode90_server:200.00
+env1:200.00 env2:200.00 env3:198.20 env4:200.00 env5:199.00 eval_episode91_server:199.44
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode92_server:200.00
+env1:200.00 env2:200.00 env3:199.20 env4:200.00 env5:200.00 eval_episode93_server:199.84
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode94_server:200.00
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode95_server:200.00
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode96_server:200.00
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode97_server:200.00
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode98_server:200.00
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode99_server:200.00
+env1:200.00 env2:200.00 env3:200.00 env4:200.00 env5:200.00 eval_episode100_server:200.00
+done!
+Fedavg walker version2
+niid:True
+noise:False
+../outputs/fed_model/walker/niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual:Falseclients:5
+net3
+version2
+r:[0.3333333333333333, 0.3333333333333333, 0.3333333333333333] net3
+net3
+version2
+r:[1, 0, 0] net3
+net3
+version2
+r:[0, 1, 0] net3
+net3
+version2
+r:[0, 0, 1] net3
+net3
+version2
+r:[0, 0.3, 0.7] net3
+net3
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+version2
+agent2 in [0, 1, 0]
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+version2
+agent1 in [1, 0, 0]
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+version2
+agent0 in [0.3333333333333333, 0.3333333333333333, 0.3333333333333333]
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+version2
+agent4 in [0.5, 0, 0.5]
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+version2
+agent3 in [0, 0, 1]
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+env1:-114.52 env2:-116.78 env3:-114.21 env4:-113.84 env5:-114.64 mu_round:1/1500 eval_server:-114.80
+env1:-94.33 env2:-94.72 env3:-94.28 env4:-94.43 env5:-94.29 mu_round:3/1500 eval_server:-94.41
+env1:-70.41 env2:-96.77 env3:-96.55 env4:-84.96 env5:-71.57 mu_round:5/1500 eval_server:-84.05
+env1:-117.68 env2:-103.32 env3:-101.84 env4:-120.04 env5:-102.29 mu_round:7/1500 eval_server:-109.03
+env1:-95.55 env2:-98.26 env3:-80.11 env4:-81.54 env5:-99.96 mu_round:9/1500 eval_server:-91.08
+env1:-95.20 env2:-95.24 env3:-95.34 env4:-93.47 env5:-95.35 mu_round:11/1500 eval_server:-94.92
+env1:-95.28 env2:-95.54 env3:-93.89 env4:-93.94 env5:-94.17 mu_round:13/1500 eval_server:-94.56
+env1:-95.53 env2:-94.95 env3:-93.80 env4:-95.53 env5:-94.57 mu_round:15/1500 eval_server:-94.88
+env1:-70.95 env2:-85.20 env3:-75.19 env4:-71.91 env5:-70.25 mu_round:17/1500 eval_server:-74.70
+env1:-79.11 env2:-83.49 env3:-75.57 env4:-76.29 env5:-75.25 mu_round:19/1500 eval_server:-77.94
+env1:-68.97 env2:-80.53 env3:-68.19 env4:-72.41 env5:-71.09 mu_round:21/1500 eval_server:-72.24
+env1:-71.08 env2:-79.44 env3:-69.28 env4:-70.81 env5:-70.76 mu_round:23/1500 eval_server:-72.27
+env1:-39.75 env2:-73.78 env3:-49.90 env4:-66.58 env5:-58.45 mu_round:25/1500 eval_server:-57.69
+env1:-57.42 env2:-75.33 env3:-63.71 env4:-46.86 env5:-52.39 mu_round:27/1500 eval_server:-59.14
+env1:-56.90 env2:-73.55 env3:-59.85 env4:-67.82 env5:-71.60 mu_round:29/1500 eval_server:-65.94
+env1:-66.10 env2:-72.61 env3:-63.59 env4:-70.06 env5:-63.34 mu_round:31/1500 eval_server:-67.14
+env1:-59.56 env2:-70.13 env3:-62.41 env4:-65.83 env5:-63.01 mu_round:33/1500 eval_server:-64.19
+env1:-42.53 env2:-62.44 env3:-52.73 env4:-57.82 env5:-51.26 mu_round:35/1500 eval_server:-53.36
+env1:70.65 env2:-66.51 env3:-24.75 env4:-58.60 env5:-30.47 mu_round:37/1500 eval_server:-21.94
+env1:162.81 env2:-71.15 env3:10.11 env4:-46.35 env5:-12.18 mu_round:39/1500 eval_server:8.65
+env1:93.19 env2:-70.53 env3:-40.34 env4:-44.45 env5:-16.92 mu_round:41/1500 eval_server:-15.81
+env1:12.13 env2:-58.59 env3:-36.17 env4:-30.72 env5:-42.97 mu_round:43/1500 eval_server:-31.27
+env1:226.77 env2:-67.21 env3:-32.24 env4:-55.45 env5:-35.16 mu_round:45/1500 eval_server:7.34
+env1:73.86 env2:-65.05 env3:-31.67 env4:-4.97 env5:-16.67 mu_round:47/1500 eval_server:-8.90
+env1:311.37 env2:-64.63 env3:36.35 env4:-38.92 env5:-15.53 mu_round:49/1500 eval_server:45.73
+env1:186.69 env2:-68.63 env3:-47.29 env4:-53.41 env5:-32.70 mu_round:51/1500 eval_server:-3.07
+env1:258.82 env2:-62.96 env3:106.30 env4:-35.38 env5:-43.11 mu_round:53/1500 eval_server:44.73
+env1:250.39 env2:-84.27 env3:-9.86 env4:-19.05 env5:6.50 mu_round:55/1500 eval_server:28.74
+env1:299.82 env2:-73.31 env3:24.39 env4:10.21 env5:60.78 mu_round:57/1500 eval_server:64.38
+env1:32.06 env2:-71.89 env3:15.05 env4:-33.99 env5:-7.76 mu_round:59/1500 eval_server:-13.31
+env1:-10.85 env2:-63.18 env3:-25.23 env4:-61.48 env5:-27.32 mu_round:61/1500 eval_server:-37.61
+env1:-1.88 env2:-54.74 env3:-35.58 env4:-16.15 env5:2.78 mu_round:63/1500 eval_server:-21.11
+env1:229.43 env2:-64.27 env3:11.25 env4:-43.95 env5:-29.57 mu_round:65/1500 eval_server:20.58
+env1:207.09 env2:-61.02 env3:-19.95 env4:-53.06 env5:-10.60 mu_round:67/1500 eval_server:12.49
+env1:191.91 env2:-54.71 env3:-8.87 env4:1.60 env5:72.16 mu_round:69/1500 eval_server:40.42
+env1:303.52 env2:-64.47 env3:12.94 env4:13.39 env5:-48.31 mu_round:71/1500 eval_server:43.41
+env1:281.14 env2:-68.88 env3:73.82 env4:51.74 env5:-30.04 mu_round:73/1500 eval_server:61.56
+env1:301.57 env2:-74.89 env3:30.14 env4:67.52 env5:37.88 mu_round:75/1500 eval_server:72.44
+env1:248.74 env2:-74.26 env3:-38.00 env4:-2.00 env5:38.50 mu_round:77/1500 eval_server:34.60
+env1:302.17 env2:-56.36 env3:13.90 env4:74.54 env5:22.43 mu_round:79/1500 eval_server:71.34
+env1:257.17 env2:-72.13 env3:17.41 env4:35.30 env5:31.27 mu_round:81/1500 eval_server:53.80
+env1:305.72 env2:-66.24 env3:-9.75 env4:52.65 env5:85.19 mu_round:83/1500 eval_server:73.51
+env1:304.03 env2:-63.60 env3:137.22 env4:44.93 env5:77.93 mu_round:85/1500 eval_server:100.10
+env1:305.90 env2:-66.47 env3:77.37 env4:57.74 env5:98.53 mu_round:87/1500 eval_server:94.61
+env1:279.17 env2:-68.75 env3:134.77 env4:106.11 env5:5.33 mu_round:89/1500 eval_server:91.32
+env1:305.44 env2:-52.76 env3:14.30 env4:90.17 env5:-15.33 mu_round:91/1500 eval_server:68.37
+env1:305.67 env2:-63.30 env3:-10.14 env4:164.36 env5:74.33 mu_round:93/1500 eval_server:94.18
+env1:305.44 env2:-59.87 env3:132.27 env4:-38.20 env5:140.75 mu_round:95/1500 eval_server:96.08
+env1:304.77 env2:-54.51 env3:-17.82 env4:78.10 env5:-12.17 mu_round:97/1500 eval_server:59.67
+env1:304.06 env2:-49.71 env3:125.35 env4:33.76 env5:25.75 mu_round:99/1500 eval_server:87.84
+env1:304.80 env2:-56.24 env3:63.03 env4:132.45 env5:65.60 mu_round:101/1500 eval_server:101.93
+env1:304.75 env2:-73.33 env3:5.77 env4:186.59 env5:150.00 mu_round:103/1500 eval_server:114.76
+env1:248.52 env2:-60.55 env3:58.01 env4:107.46 env5:75.03 mu_round:105/1500 eval_server:85.69
+env1:307.10 env2:-58.21 env3:15.77 env4:80.35 env5:28.61 mu_round:107/1500 eval_server:74.72
+env1:307.74 env2:-69.13 env3:21.17 env4:126.24 env5:-7.74 mu_round:109/1500 eval_server:75.66
+env1:304.76 env2:-67.59 env3:-28.78 env4:141.27 env5:81.83 mu_round:111/1500 eval_server:86.30
+env1:307.12 env2:-61.91 env3:155.66 env4:54.50 env5:108.34 mu_round:113/1500 eval_server:112.74
+env1:308.97 env2:-47.91 env3:185.98 env4:4.11 env5:-30.56 mu_round:115/1500 eval_server:84.12
+env1:305.39 env2:-39.17 env3:16.66 env4:222.35 env5:150.21 mu_round:117/1500 eval_server:131.09
+env1:299.98 env2:-57.91 env3:45.89 env4:171.36 env5:62.06 mu_round:119/1500 eval_server:104.28
+env1:305.53 env2:-49.99 env3:-3.17 env4:64.05 env5:139.35 mu_round:121/1500 eval_server:91.15
+env1:307.51 env2:-67.45 env3:-8.56 env4:54.21 env5:34.48 mu_round:123/1500 eval_server:64.04
+env1:242.78 env2:-64.44 env3:60.94 env4:197.63 env5:68.01 mu_round:125/1500 eval_server:100.98
+env1:307.06 env2:-54.95 env3:26.78 env4:68.91 env5:102.00 mu_round:127/1500 eval_server:89.96
+env1:304.31 env2:-35.92 env3:71.05 env4:178.06 env5:130.47 mu_round:129/1500 eval_server:129.59
+env1:305.04 env2:-55.81 env3:-1.75 env4:-35.88 env5:-30.42 mu_round:131/1500 eval_server:36.24
+env1:308.37 env2:-64.90 env3:88.11 env4:57.52 env5:112.53 mu_round:133/1500 eval_server:100.33
+env1:239.95 env2:-65.33 env3:141.14 env4:229.97 env5:7.16 mu_round:135/1500 eval_server:110.58
+env1:159.17 env2:-60.35 env3:111.27 env4:8.34 env5:-14.52 mu_round:137/1500 eval_server:40.78
+env1:305.71 env2:-68.12 env3:154.32 env4:119.24 env5:172.97 mu_round:139/1500 eval_server:136.82
+env1:305.26 env2:-75.35 env3:35.93 env4:84.41 env5:63.19 mu_round:141/1500 eval_server:82.69
+env1:310.39 env2:-53.28 env3:121.12 env4:27.27 env5:105.06 mu_round:143/1500 eval_server:102.11
+env1:257.68 env2:-67.29 env3:86.41 env4:135.89 env5:115.57 mu_round:145/1500 eval_server:105.65
+env1:309.14 env2:-32.19 env3:144.20 env4:49.73 env5:105.26 mu_round:147/1500 eval_server:115.23
+env1:308.39 env2:-38.51 env3:64.34 env4:121.62 env5:24.13 mu_round:149/1500 eval_server:95.99
+env1:308.35 env2:-40.22 env3:34.65 env4:10.83 env5:20.42 mu_round:151/1500 eval_server:66.80
+env1:309.78 env2:-46.98 env3:154.92 env4:50.34 env5:21.04 mu_round:153/1500 eval_server:97.82
+env1:309.89 env2:-45.91 env3:114.80 env4:-52.71 env5:155.32 mu_round:155/1500 eval_server:96.28
+env1:305.25 env2:-38.87 env3:142.24 env4:-35.31 env5:176.49 mu_round:157/1500 eval_server:109.96
+env1:302.72 env2:-50.12 env3:130.70 env4:37.48 env5:114.86 mu_round:159/1500 eval_server:107.13
+env1:232.99 env2:-41.43 env3:18.31 env4:-20.56 env5:104.71 mu_round:161/1500 eval_server:58.80
+env1:303.63 env2:-71.52 env3:90.13 env4:-19.91 env5:136.96 mu_round:163/1500 eval_server:87.86
+env1:282.35 env2:-61.59 env3:46.78 env4:6.55 env5:31.66 mu_round:165/1500 eval_server:61.15
+env1:233.96 env2:-53.93 env3:52.17 env4:-20.47 env5:-12.47 mu_round:167/1500 eval_server:39.85
+env1:282.69 env2:-54.96 env3:35.15 env4:-9.38 env5:-0.96 mu_round:169/1500 eval_server:50.51
+env1:275.64 env2:-61.09 env3:17.23 env4:102.42 env5:31.78 mu_round:171/1500 eval_server:73.19
+env1:306.98 env2:-56.94 env3:83.91 env4:39.62 env5:58.31 mu_round:173/1500 eval_server:86.38
+env1:308.44 env2:-40.89 env3:63.96 env4:47.26 env5:102.23 mu_round:175/1500 eval_server:96.20
+env1:303.86 env2:-66.91 env3:30.70 env4:125.71 env5:22.56 mu_round:177/1500 eval_server:83.18
+env1:308.23 env2:-67.58 env3:99.74 env4:82.92 env5:81.87 mu_round:179/1500 eval_server:101.04
+env1:305.62 env2:-42.07 env3:75.61 env4:87.37 env5:57.36 mu_round:181/1500 eval_server:96.78
+env1:274.04 env2:-56.79 env3:25.02 env4:33.67 env5:48.07 mu_round:183/1500 eval_server:64.80
+env1:311.73 env2:-59.34 env3:-7.10 env4:48.17 env5:11.21 mu_round:185/1500 eval_server:60.93
+env1:265.84 env2:-51.11 env3:65.69 env4:4.22 env5:102.46 mu_round:187/1500 eval_server:77.42
+env1:310.50 env2:-64.13 env3:34.19 env4:5.06 env5:-16.30 mu_round:189/1500 eval_server:53.86
+env1:308.57 env2:-59.08 env3:28.35 env4:12.07 env5:9.10 mu_round:191/1500 eval_server:59.80
+env1:307.01 env2:-62.28 env3:147.33 env4:49.82 env5:153.85 mu_round:193/1500 eval_server:119.15
+env1:306.70 env2:-53.92 env3:88.64 env4:-9.75 env5:48.27 mu_round:195/1500 eval_server:75.99
+env1:311.35 env2:-62.49 env3:80.50 env4:32.08 env5:44.95 mu_round:197/1500 eval_server:81.28
+env1:246.14 env2:-61.23 env3:141.39 env4:78.67 env5:92.23 mu_round:199/1500 eval_server:99.44
+env1:311.48 env2:-62.42 env3:58.14 env4:71.65 env5:26.71 mu_round:201/1500 eval_server:81.12
+env1:278.81 env2:-46.77 env3:144.75 env4:58.96 env5:121.74 mu_round:203/1500 eval_server:111.50
+env1:305.03 env2:-38.70 env3:133.79 env4:16.14 env5:-4.44 mu_round:205/1500 eval_server:82.37
+env1:304.42 env2:-39.04 env3:105.61 env4:127.90 env5:37.22 mu_round:207/1500 eval_server:107.22
+env1:306.48 env2:-78.23 env3:154.68 env4:52.38 env5:62.79 mu_round:209/1500 eval_server:99.62
+env1:307.74 env2:-64.39 env3:180.55 env4:32.50 env5:95.20 mu_round:211/1500 eval_server:110.32
+env1:308.58 env2:-60.27 env3:237.43 env4:82.12 env5:-5.14 mu_round:213/1500 eval_server:112.54
+env1:309.74 env2:-67.77 env3:104.00 env4:42.33 env5:33.79 mu_round:215/1500 eval_server:84.42
+env1:255.59 env2:-40.07 env3:167.08 env4:87.73 env5:-29.84 mu_round:217/1500 eval_server:88.10
+env1:309.38 env2:-47.37 env3:186.56 env4:97.66 env5:126.48 mu_round:219/1500 eval_server:134.54
+env1:276.67 env2:-60.25 env3:88.61 env4:32.85 env5:-44.74 mu_round:221/1500 eval_server:58.63
+env1:242.49 env2:-62.80 env3:41.52 env4:88.08 env5:57.45 mu_round:223/1500 eval_server:73.35
+env1:310.17 env2:-50.84 env3:257.78 env4:139.07 env5:100.33 mu_round:225/1500 eval_server:151.30
+env1:312.03 env2:-60.06 env3:208.71 env4:9.96 env5:146.14 mu_round:227/1500 eval_server:123.36
+env1:309.66 env2:-42.16 env3:116.04 env4:15.91 env5:152.03 mu_round:229/1500 eval_server:110.30
+env1:311.98 env2:-34.42 env3:133.43 env4:55.28 env5:38.00 mu_round:231/1500 eval_server:100.85
+env1:232.04 env2:-63.55 env3:79.94 env4:-0.16 env5:165.66 mu_round:233/1500 eval_server:82.79
+env1:310.47 env2:-62.21 env3:141.25 env4:17.52 env5:89.99 mu_round:235/1500 eval_server:99.40
+env1:307.49 env2:-59.37 env3:61.22 env4:-58.99 env5:62.21 mu_round:237/1500 eval_server:62.51
+env1:310.82 env2:-51.18 env3:133.24 env4:157.26 env5:83.52 mu_round:239/1500 eval_server:126.73
+env1:273.57 env2:-48.79 env3:107.08 env4:175.47 env5:158.90 mu_round:241/1500 eval_server:133.25
+env1:307.05 env2:-58.27 env3:42.12 env4:41.82 env5:70.08 mu_round:243/1500 eval_server:80.56
+env1:307.70 env2:-70.75 env3:92.76 env4:63.27 env5:34.47 mu_round:245/1500 eval_server:85.49
+env1:281.63 env2:-47.36 env3:79.14 env4:9.41 env5:142.23 mu_round:247/1500 eval_server:93.01
+env1:309.96 env2:-38.89 env3:50.74 env4:151.33 env5:54.26 mu_round:249/1500 eval_server:105.48
+env1:312.17 env2:-59.47 env3:276.87 env4:172.22 env5:59.28 mu_round:251/1500 eval_server:152.21
+env1:312.45 env2:-63.47 env3:153.73 env4:23.23 env5:107.59 mu_round:253/1500 eval_server:106.71
+env1:283.99 env2:-43.64 env3:86.64 env4:-8.56 env5:142.16 mu_round:255/1500 eval_server:92.12
+env1:309.69 env2:-65.69 env3:213.10 env4:201.18 env5:90.97 mu_round:257/1500 eval_server:149.85
+env1:278.51 env2:-54.35 env3:213.81 env4:269.85 env5:145.32 mu_round:259/1500 eval_server:170.63
+env1:249.09 env2:-44.21 env3:183.88 env4:178.67 env5:91.42 mu_round:261/1500 eval_server:131.77
+env1:313.01 env2:-53.69 env3:177.23 env4:236.72 env5:149.33 mu_round:263/1500 eval_server:164.52
+env1:217.37 env2:-45.84 env3:209.75 env4:224.15 env5:55.38 mu_round:265/1500 eval_server:132.16
+env1:312.10 env2:-26.43 env3:115.57 env4:169.65 env5:175.37 mu_round:267/1500 eval_server:149.25
+env1:312.44 env2:-53.76 env3:102.02 env4:88.03 env5:104.58 mu_round:269/1500 eval_server:110.66
+env1:309.87 env2:-52.92 env3:25.17 env4:127.72 env5:120.34 mu_round:271/1500 eval_server:106.04
+env1:223.79 env2:-50.98 env3:8.83 env4:135.27 env5:110.56 mu_round:273/1500 eval_server:85.49
+env1:312.10 env2:-56.71 env3:35.65 env4:4.71 env5:135.66 mu_round:275/1500 eval_server:86.29
+env1:313.48 env2:-61.03 env3:126.49 env4:71.80 env5:37.43 mu_round:277/1500 eval_server:97.63
+env1:282.75 env2:-47.03 env3:-0.08 env4:141.32 env5:198.25 mu_round:279/1500 eval_server:115.04
+env1:311.12 env2:-43.94 env3:166.86 env4:194.71 env5:110.75 mu_round:281/1500 eval_server:147.90
+env1:312.04 env2:-22.23 env3:147.62 env4:124.84 env5:74.69 mu_round:283/1500 eval_server:127.39
+env1:310.83 env2:-19.21 env3:25.51 env4:220.78 env5:25.59 mu_round:285/1500 eval_server:112.70
+env1:308.55 env2:-41.01 env3:29.66 env4:87.19 env5:187.99 mu_round:287/1500 eval_server:114.48
+env1:312.02 env2:-61.07 env3:14.65 env4:251.81 env5:175.79 mu_round:289/1500 eval_server:138.64
+env1:311.27 env2:-44.14 env3:110.62 env4:257.91 env5:190.05 mu_round:291/1500 eval_server:165.14
+env1:313.80 env2:-42.94 env3:137.16 env4:51.51 env5:37.86 mu_round:293/1500 eval_server:99.48
+env1:311.27 env2:-29.71 env3:117.79 env4:14.00 env5:149.93 mu_round:295/1500 eval_server:112.66
+env1:310.90 env2:-68.39 env3:86.54 env4:254.16 env5:142.98 mu_round:297/1500 eval_server:145.24
+env1:312.62 env2:-62.85 env3:0.13 env4:219.02 env5:72.76 mu_round:299/1500 eval_server:108.34
+env1:311.92 env2:-28.23 env3:203.12 env4:257.00 env5:210.56 mu_round:301/1500 eval_server:190.87
+env1:311.95 env2:-56.80 env3:94.50 env4:118.61 env5:212.10 mu_round:303/1500 eval_server:136.07
+env1:311.34 env2:-43.30 env3:141.70 env4:204.92 env5:141.53 mu_round:305/1500 eval_server:151.24
+env1:311.93 env2:-53.89 env3:78.13 env4:227.81 env5:161.18 mu_round:307/1500 eval_server:145.03
+env1:312.66 env2:-56.49 env3:187.33 env4:189.39 env5:133.59 mu_round:309/1500 eval_server:153.30
+env1:313.93 env2:-26.00 env3:123.65 env4:235.97 env5:89.31 mu_round:311/1500 eval_server:147.37
+env1:311.66 env2:-29.41 env3:207.77 env4:261.98 env5:86.92 mu_round:313/1500 eval_server:167.78
+env1:316.30 env2:-24.43 env3:79.01 env4:310.30 env5:81.92 mu_round:315/1500 eval_server:152.62
+env1:252.66 env2:-38.78 env3:77.60 env4:307.20 env5:210.50 mu_round:317/1500 eval_server:161.83
+env1:309.66 env2:-48.04 env3:90.92 env4:223.56 env5:306.76 mu_round:319/1500 eval_server:176.57
+env1:313.16 env2:-57.40 env3:90.89 env4:189.92 env5:63.85 mu_round:321/1500 eval_server:120.09
+env1:312.92 env2:-61.15 env3:157.74 env4:242.26 env5:111.79 mu_round:323/1500 eval_server:152.71
+env1:314.54 env2:-12.19 env3:29.63 env4:102.49 env5:56.64 mu_round:325/1500 eval_server:98.22
+env1:313.74 env2:-48.08 env3:5.78 env4:237.34 env5:149.66 mu_round:327/1500 eval_server:131.69
+env1:311.07 env2:-48.37 env3:218.02 env4:156.92 env5:195.24 mu_round:329/1500 eval_server:166.58
+env1:311.42 env2:-49.49 env3:216.11 env4:170.18 env5:102.09 mu_round:331/1500 eval_server:150.06
+env1:312.57 env2:-20.24 env3:257.40 env4:108.82 env5:165.95 mu_round:333/1500 eval_server:164.90
+env1:314.59 env2:-50.77 env3:89.04 env4:120.77 env5:91.76 mu_round:335/1500 eval_server:113.08
+env1:309.22 env2:-51.97 env3:83.06 env4:146.39 env5:212.94 mu_round:337/1500 eval_server:139.93
+env1:310.26 env2:-17.58 env3:92.32 env4:205.03 env5:198.87 mu_round:339/1500 eval_server:157.78
+env1:311.17 env2:-18.06 env3:79.71 env4:146.31 env5:137.21 mu_round:341/1500 eval_server:131.27
+env1:312.82 env2:-16.59 env3:120.92 env4:175.28 env5:47.33 mu_round:343/1500 eval_server:127.95
+env1:313.27 env2:-41.75 env3:82.56 env4:307.47 env5:222.19 mu_round:345/1500 eval_server:176.75
+env1:313.56 env2:-56.58 env3:98.12 env4:149.63 env5:119.56 mu_round:347/1500 eval_server:124.86
+env1:310.22 env2:-50.03 env3:212.83 env4:282.18 env5:269.37 mu_round:349/1500 eval_server:204.91
+env1:314.33 env2:-24.47 env3:119.88 env4:66.03 env5:143.31 mu_round:351/1500 eval_server:123.82
+env1:312.77 env2:-22.17 env3:127.18 env4:307.46 env5:214.14 mu_round:353/1500 eval_server:187.88
+env1:312.59 env2:-2.09 env3:117.22 env4:128.72 env5:126.18 mu_round:355/1500 eval_server:136.52
+env1:314.88 env2:-40.03 env3:168.10 env4:184.30 env5:237.20 mu_round:357/1500 eval_server:172.89
+env1:312.93 env2:-46.94 env3:242.77 env4:214.93 env5:140.31 mu_round:359/1500 eval_server:172.80
+env1:312.99 env2:-60.76 env3:33.40 env4:226.91 env5:189.18 mu_round:361/1500 eval_server:140.34
+env1:310.88 env2:2.82 env3:62.38 env4:50.41 env5:164.04 mu_round:363/1500 eval_server:118.11
+env1:314.64 env2:-55.16 env3:172.07 env4:101.87 env5:84.71 mu_round:365/1500 eval_server:123.63
+env1:313.91 env2:-46.39 env3:137.02 env4:287.51 env5:165.51 mu_round:367/1500 eval_server:171.51
+env1:202.05 env2:-37.37 env3:53.87 env4:220.15 env5:136.12 mu_round:369/1500 eval_server:114.97
+env1:313.21 env2:-52.03 env3:98.55 env4:271.62 env5:310.53 mu_round:371/1500 eval_server:188.38
+env1:314.80 env2:-28.72 env3:93.14 env4:309.91 env5:143.13 mu_round:373/1500 eval_server:166.45
+env1:313.89 env2:-46.75 env3:27.21 env4:273.13 env5:76.82 mu_round:375/1500 eval_server:128.86
+env1:311.90 env2:-54.77 env3:92.01 env4:130.97 env5:245.30 mu_round:377/1500 eval_server:145.08
+env1:270.73 env2:-41.83 env3:222.45 env4:129.14 env5:98.38 mu_round:379/1500 eval_server:135.77
+env1:314.29 env2:-55.82 env3:38.99 env4:211.54 env5:125.51 mu_round:381/1500 eval_server:126.90
+env1:313.92 env2:-29.56 env3:77.16 env4:231.52 env5:23.43 mu_round:383/1500 eval_server:123.30
+env1:313.12 env2:-38.15 env3:110.11 env4:184.40 env5:182.28 mu_round:385/1500 eval_server:150.35
+env1:313.76 env2:-49.93 env3:86.74 env4:142.85 env5:197.48 mu_round:387/1500 eval_server:138.18
+env1:311.55 env2:-6.75 env3:71.43 env4:162.94 env5:61.64 mu_round:389/1500 eval_server:120.16
+env1:269.34 env2:-37.67 env3:6.41 env4:215.32 env5:138.67 mu_round:391/1500 eval_server:118.41
+env1:311.24 env2:-44.64 env3:149.78 env4:177.84 env5:308.91 mu_round:393/1500 eval_server:180.63
+env1:311.61 env2:-52.34 env3:195.62 env4:191.61 env5:145.83 mu_round:395/1500 eval_server:158.47
+env1:260.38 env2:4.97 env3:169.65 env4:191.10 env5:127.00 mu_round:397/1500 eval_server:150.62
+env1:310.55 env2:-35.02 env3:259.38 env4:90.86 env5:252.65 mu_round:399/1500 eval_server:175.68
+env1:312.19 env2:-53.44 env3:106.88 env4:109.60 env5:92.28 mu_round:401/1500 eval_server:113.50
+env1:314.17 env2:-56.22 env3:163.60 env4:185.29 env5:311.14 mu_round:403/1500 eval_server:183.60
+env1:313.88 env2:-43.54 env3:56.03 env4:186.85 env5:195.69 mu_round:405/1500 eval_server:141.78
+env1:312.16 env2:-41.81 env3:214.82 env4:187.08 env5:310.56 mu_round:407/1500 eval_server:196.56
+env1:312.16 env2:-54.29 env3:177.63 env4:250.15 env5:30.57 mu_round:409/1500 eval_server:143.24
+env1:310.61 env2:-26.82 env3:255.72 env4:308.24 env5:198.50 mu_round:411/1500 eval_server:209.25
+env1:312.53 env2:-46.08 env3:104.55 env4:310.97 env5:197.41 mu_round:413/1500 eval_server:175.87
+env1:312.37 env2:-49.48 env3:221.62 env4:212.90 env5:254.09 mu_round:415/1500 eval_server:190.30
+env1:314.86 env2:-31.56 env3:49.88 env4:311.08 env5:168.79 mu_round:417/1500 eval_server:162.61
+env1:311.92 env2:-50.56 env3:177.23 env4:259.26 env5:117.60 mu_round:419/1500 eval_server:163.09
+env1:312.52 env2:-47.36 env3:130.26 env4:198.62 env5:282.67 mu_round:421/1500 eval_server:175.34
+env1:314.29 env2:-21.71 env3:209.63 env4:259.00 env5:251.68 mu_round:423/1500 eval_server:202.58
+env1:315.32 env2:-32.68 env3:7.00 env4:285.18 env5:179.04 mu_round:425/1500 eval_server:150.77
+env1:315.14 env2:-39.86 env3:88.31 env4:285.87 env5:312.08 mu_round:427/1500 eval_server:192.31
+env1:313.88 env2:-25.72 env3:221.66 env4:226.32 env5:177.93 mu_round:429/1500 eval_server:182.81
+env1:244.07 env2:-27.69 env3:226.47 env4:142.89 env5:223.68 mu_round:431/1500 eval_server:161.88
+env1:313.89 env2:-55.99 env3:58.74 env4:312.24 env5:68.40 mu_round:433/1500 eval_server:139.46
+env1:314.25 env2:-26.46 env3:278.78 env4:231.59 env5:126.17 mu_round:435/1500 eval_server:184.86
+env1:314.16 env2:1.00 env3:84.64 env4:207.30 env5:151.76 mu_round:437/1500 eval_server:151.77
+env1:315.68 env2:-23.49 env3:37.43 env4:163.56 env5:128.21 mu_round:439/1500 eval_server:124.28
+env1:311.79 env2:-29.47 env3:179.62 env4:179.54 env5:169.26 mu_round:441/1500 eval_server:162.15
+env1:311.28 env2:-50.15 env3:242.96 env4:310.21 env5:183.43 mu_round:443/1500 eval_server:199.55
+env1:312.73 env2:-44.16 env3:209.61 env4:110.76 env5:161.67 mu_round:445/1500 eval_server:150.12
+env1:314.31 env2:-46.33 env3:251.60 env4:235.61 env5:150.86 mu_round:447/1500 eval_server:181.21
+env1:314.92 env2:-31.29 env3:187.99 env4:252.03 env5:245.28 mu_round:449/1500 eval_server:193.78
+env1:314.92 env2:-29.61 env3:282.90 env4:234.95 env5:143.60 mu_round:451/1500 eval_server:189.35
+env1:314.49 env2:-25.89 env3:256.55 env4:158.41 env5:160.90 mu_round:453/1500 eval_server:172.89
+env1:315.68 env2:-54.30 env3:193.84 env4:237.80 env5:286.36 mu_round:455/1500 eval_server:195.88
+env1:313.59 env2:-24.67 env3:155.78 env4:169.41 env5:163.13 mu_round:457/1500 eval_server:155.45
+env1:313.81 env2:-59.23 env3:311.40 env4:209.03 env5:128.08 mu_round:459/1500 eval_server:180.62
+env1:314.37 env2:-51.12 env3:203.70 env4:165.54 env5:269.38 mu_round:461/1500 eval_server:180.37
+env1:311.37 env2:-21.03 env3:229.12 env4:225.04 env5:177.70 mu_round:463/1500 eval_server:184.44
+env1:312.29 env2:-57.70 env3:125.28 env4:186.49 env5:221.73 mu_round:465/1500 eval_server:157.62
+env1:312.45 env2:-41.44 env3:196.29 env4:310.36 env5:257.99 mu_round:467/1500 eval_server:207.13
+env1:312.65 env2:-11.25 env3:240.60 env4:144.31 env5:130.03 mu_round:469/1500 eval_server:163.27
+env1:313.45 env2:-55.68 env3:206.59 env4:135.19 env5:149.51 mu_round:471/1500 eval_server:149.81
+env1:313.95 env2:-42.18 env3:266.02 env4:243.88 env5:237.89 mu_round:473/1500 eval_server:203.91
+env1:314.47 env2:-3.92 env3:69.21 env4:207.72 env5:131.77 mu_round:475/1500 eval_server:143.85
+env1:312.57 env2:-3.07 env3:229.29 env4:255.26 env5:130.93 mu_round:477/1500 eval_server:184.99
+env1:312.35 env2:-30.97 env3:35.39 env4:166.23 env5:127.08 mu_round:479/1500 eval_server:122.02
+env1:312.92 env2:-25.63 env3:180.54 env4:274.10 env5:241.90 mu_round:481/1500 eval_server:196.77
+env1:315.01 env2:-32.25 env3:312.16 env4:184.11 env5:283.00 mu_round:483/1500 eval_server:212.41
+env1:312.71 env2:-49.46 env3:217.53 env4:260.63 env5:120.82 mu_round:485/1500 eval_server:172.45
+env1:313.10 env2:-21.36 env3:171.53 env4:278.47 env5:212.44 mu_round:487/1500 eval_server:190.83
+env1:313.74 env2:-19.23 env3:236.26 env4:101.54 env5:111.37 mu_round:489/1500 eval_server:148.73
+env1:312.09 env2:-49.19 env3:266.59 env4:100.13 env5:216.57 mu_round:491/1500 eval_server:169.24
+env1:313.41 env2:88.64 env3:175.59 env4:266.19 env5:220.17 mu_round:493/1500 eval_server:212.80
+env1:312.86 env2:-54.60 env3:230.83 env4:105.96 env5:211.04 mu_round:495/1500 eval_server:161.22
+env1:309.54 env2:-38.60 env3:196.79 env4:230.02 env5:189.51 mu_round:497/1500 eval_server:177.45
+env1:313.60 env2:-2.45 env3:183.64 env4:222.34 env5:261.27 mu_round:499/1500 eval_server:195.68
+env1:311.48 env2:-22.29 env3:245.02 env4:286.33 env5:186.02 mu_round:501/1500 eval_server:201.31
+env1:311.44 env2:-7.74 env3:257.35 env4:252.42 env5:242.93 mu_round:503/1500 eval_server:211.28
+env1:310.86 env2:-5.77 env3:186.89 env4:250.80 env5:175.80 mu_round:505/1500 eval_server:183.72
+env1:311.58 env2:-47.79 env3:205.94 env4:115.88 env5:135.21 mu_round:507/1500 eval_server:144.16
+env1:309.89 env2:-47.08 env3:172.86 env4:308.30 env5:246.14 mu_round:509/1500 eval_server:198.02
+env1:313.21 env2:-1.96 env3:310.65 env4:204.39 env5:270.92 mu_round:511/1500 eval_server:219.44
+env1:311.90 env2:-36.38 env3:150.02 env4:189.16 env5:246.62 mu_round:513/1500 eval_server:172.27
+env1:311.15 env2:-16.85 env3:176.15 env4:203.91 env5:12.77 mu_round:515/1500 eval_server:137.43
+env1:310.63 env2:-26.69 env3:203.31 env4:152.80 env5:201.32 mu_round:517/1500 eval_server:168.27
+env1:308.49 env2:-14.20 env3:252.43 env4:307.37 env5:252.74 mu_round:519/1500 eval_server:221.37
+env1:310.08 env2:-52.66 env3:57.96 env4:149.54 env5:167.90 mu_round:521/1500 eval_server:126.57
+env1:311.66 env2:-52.67 env3:201.25 env4:251.11 env5:225.63 mu_round:523/1500 eval_server:187.40
+env1:313.09 env2:-44.89 env3:184.96 env4:230.10 env5:218.15 mu_round:525/1500 eval_server:180.28
+env1:312.32 env2:-4.51 env3:202.63 env4:173.65 env5:213.29 mu_round:527/1500 eval_server:179.48
+env1:312.91 env2:-37.60 env3:155.87 env4:129.77 env5:217.91 mu_round:529/1500 eval_server:155.77
+env1:311.47 env2:7.85 env3:217.14 env4:196.49 env5:259.95 mu_round:531/1500 eval_server:198.58
+env1:311.16 env2:2.06 env3:247.39 env4:184.39 env5:275.77 mu_round:533/1500 eval_server:204.15
+env1:311.55 env2:-37.60 env3:206.03 env4:251.24 env5:309.02 mu_round:535/1500 eval_server:208.05
+env1:310.95 env2:-32.81 env3:272.43 env4:99.88 env5:249.54 mu_round:537/1500 eval_server:180.00
+env1:310.67 env2:-39.92 env3:69.65 env4:186.31 env5:182.76 mu_round:539/1500 eval_server:141.89
+env1:310.47 env2:-41.73 env3:194.06 env4:253.08 env5:184.51 mu_round:541/1500 eval_server:180.08
+env1:312.28 env2:-5.69 env3:290.94 env4:126.25 env5:229.25 mu_round:543/1500 eval_server:190.61
+env1:310.97 env2:-43.90 env3:169.51 env4:112.84 env5:122.15 mu_round:545/1500 eval_server:134.31
+env1:309.53 env2:-52.08 env3:241.30 env4:126.17 env5:205.09 mu_round:547/1500 eval_server:166.00
+env1:310.65 env2:1.02 env3:238.23 env4:94.62 env5:148.68 mu_round:549/1500 eval_server:158.64
+env1:308.98 env2:-42.95 env3:251.00 env4:110.12 env5:94.01 mu_round:551/1500 eval_server:144.23
+env1:310.49 env2:-29.67 env3:183.00 env4:190.85 env5:227.59 mu_round:553/1500 eval_server:176.45
+env1:311.00 env2:7.98 env3:289.28 env4:275.66 env5:172.37 mu_round:555/1500 eval_server:211.26
+env1:309.32 env2:-8.64 env3:247.60 env4:127.92 env5:137.54 mu_round:557/1500 eval_server:162.75
+env1:309.35 env2:-11.32 env3:227.96 env4:86.69 env5:209.25 mu_round:559/1500 eval_server:164.39
+env1:311.93 env2:21.28 env3:161.45 env4:167.77 env5:286.55 mu_round:561/1500 eval_server:189.79
+env1:310.69 env2:8.30 env3:308.86 env4:88.03 env5:144.49 mu_round:563/1500 eval_server:172.07
+env1:310.37 env2:41.12 env3:258.60 env4:202.04 env5:165.17 mu_round:565/1500 eval_server:195.46
+env1:311.07 env2:-14.49 env3:99.83 env4:117.96 env5:172.89 mu_round:567/1500 eval_server:137.45
+env1:310.35 env2:6.36 env3:243.06 env4:134.59 env5:230.66 mu_round:569/1500 eval_server:185.00
+env1:310.59 env2:-47.41 env3:284.95 env4:109.32 env5:31.49 mu_round:571/1500 eval_server:137.79
+env1:311.54 env2:-34.48 env3:243.41 env4:52.76 env5:109.19 mu_round:573/1500 eval_server:136.48
+env1:312.15 env2:-31.71 env3:267.37 env4:177.14 env5:159.95 mu_round:575/1500 eval_server:176.98
+env1:312.52 env2:-24.52 env3:250.45 env4:107.82 env5:209.94 mu_round:577/1500 eval_server:171.24
+env1:310.08 env2:44.48 env3:204.23 env4:281.47 env5:142.05 mu_round:579/1500 eval_server:196.46
+env1:311.33 env2:43.43 env3:229.93 env4:236.04 env5:150.43 mu_round:581/1500 eval_server:194.23
+env1:310.47 env2:-23.73 env3:84.23 env4:141.24 env5:67.68 mu_round:583/1500 eval_server:115.98
+env1:308.24 env2:-41.01 env3:106.87 env4:221.33 env5:197.46 mu_round:585/1500 eval_server:158.58
+env1:310.67 env2:-42.46 env3:190.48 env4:146.34 env5:244.98 mu_round:587/1500 eval_server:170.00
+env1:309.95 env2:-43.76 env3:185.89 env4:195.75 env5:187.56 mu_round:589/1500 eval_server:167.08
+env1:309.08 env2:-38.15 env3:272.42 env4:229.59 env5:191.62 mu_round:591/1500 eval_server:192.91
+env1:310.24 env2:-10.21 env3:309.62 env4:22.39 env5:72.41 mu_round:593/1500 eval_server:140.89
+env1:307.95 env2:-14.92 env3:279.06 env4:81.87 env5:251.33 mu_round:595/1500 eval_server:181.06
+env1:310.01 env2:-0.01 env3:166.76 env4:242.93 env5:110.27 mu_round:597/1500 eval_server:165.99
+env1:309.07 env2:-14.19 env3:222.87 env4:134.80 env5:241.86 mu_round:599/1500 eval_server:178.88
+env1:310.70 env2:-7.15 env3:192.00 env4:95.17 env5:236.92 mu_round:601/1500 eval_server:165.53
+env1:309.04 env2:-40.46 env3:154.74 env4:39.69 env5:109.77 mu_round:603/1500 eval_server:114.56
+env1:307.62 env2:-32.46 env3:212.18 env4:70.14 env5:162.77 mu_round:605/1500 eval_server:144.05
+env1:309.17 env2:15.96 env3:221.82 env4:72.23 env5:148.30 mu_round:607/1500 eval_server:153.49
+env1:310.34 env2:-15.59 env3:242.77 env4:111.08 env5:164.92 mu_round:609/1500 eval_server:162.70
+env1:308.72 env2:-26.08 env3:180.40 env4:168.99 env5:69.46 mu_round:611/1500 eval_server:140.30
+env1:308.81 env2:-52.99 env3:183.46 env4:86.06 env5:207.61 mu_round:613/1500 eval_server:146.59
+env1:308.38 env2:-5.29 env3:209.27 env4:116.14 env5:97.69 mu_round:615/1500 eval_server:145.24
+env1:309.75 env2:-36.19 env3:249.91 env4:206.26 env5:236.73 mu_round:617/1500 eval_server:193.29
+env1:308.31 env2:-28.09 env3:190.06 env4:112.57 env5:159.98 mu_round:619/1500 eval_server:148.57
+env1:310.56 env2:-11.27 env3:245.79 env4:123.55 env5:199.02 mu_round:621/1500 eval_server:173.53
+env1:265.69 env2:22.44 env3:310.81 env4:84.24 env5:270.96 mu_round:623/1500 eval_server:190.83
+env1:308.56 env2:-17.18 env3:141.35 env4:59.12 env5:192.63 mu_round:625/1500 eval_server:136.90
+env1:311.33 env2:-13.32 env3:286.46 env4:153.88 env5:258.82 mu_round:627/1500 eval_server:199.43
+env1:310.30 env2:5.81 env3:253.11 env4:150.06 env5:163.32 mu_round:629/1500 eval_server:176.52
+env1:309.81 env2:-19.39 env3:191.50 env4:190.51 env5:158.23 mu_round:631/1500 eval_server:166.13
+env1:311.25 env2:-17.48 env3:163.38 env4:107.33 env5:112.43 mu_round:633/1500 eval_server:135.38
+env1:310.85 env2:-58.35 env3:173.97 env4:202.92 env5:200.40 mu_round:635/1500 eval_server:165.96
+env1:310.96 env2:-38.16 env3:208.87 env4:248.30 env5:76.80 mu_round:637/1500 eval_server:161.35
+env1:312.01 env2:33.10 env3:310.46 env4:130.56 env5:247.42 mu_round:639/1500 eval_server:206.71
+env1:311.29 env2:6.83 env3:251.72 env4:179.09 env5:133.83 mu_round:641/1500 eval_server:176.55
+env1:310.48 env2:53.82 env3:245.58 env4:219.41 env5:215.97 mu_round:643/1500 eval_server:209.05
+env1:310.90 env2:17.37 env3:244.35 env4:90.45 env5:156.87 mu_round:645/1500 eval_server:163.99
+env1:311.45 env2:-24.35 env3:166.74 env4:125.51 env5:144.26 mu_round:647/1500 eval_server:144.72
+env1:309.75 env2:-14.64 env3:218.04 env4:307.66 env5:270.78 mu_round:649/1500 eval_server:218.32
+env1:309.84 env2:-13.02 env3:220.92 env4:125.46 env5:164.07 mu_round:651/1500 eval_server:161.45
+env1:309.82 env2:-24.47 env3:247.64 env4:120.10 env5:175.27 mu_round:653/1500 eval_server:165.67
+env1:310.55 env2:-40.28 env3:247.09 env4:178.22 env5:195.07 mu_round:655/1500 eval_server:178.13
+env1:311.43 env2:39.43 env3:280.81 env4:162.62 env5:196.36 mu_round:657/1500 eval_server:198.13
+env1:310.79 env2:-13.28 env3:309.85 env4:307.18 env5:286.01 mu_round:659/1500 eval_server:240.11
+env1:310.24 env2:82.89 env3:212.79 env4:111.42 env5:191.12 mu_round:661/1500 eval_server:181.69
+env1:311.34 env2:54.68 env3:234.54 env4:240.83 env5:246.11 mu_round:663/1500 eval_server:217.50
+env1:309.97 env2:-1.93 env3:233.33 env4:169.52 env5:193.91 mu_round:665/1500 eval_server:180.96
+env1:312.77 env2:-15.28 env3:232.49 env4:221.76 env5:38.94 mu_round:667/1500 eval_server:158.14
+env1:275.31 env2:19.74 env3:168.56 env4:100.48 env5:136.88 mu_round:669/1500 eval_server:140.19
+env1:252.35 env2:-8.89 env3:188.19 env4:213.16 env5:154.86 mu_round:671/1500 eval_server:159.93
+env1:309.83 env2:8.98 env3:172.57 env4:123.63 env5:183.99 mu_round:673/1500 eval_server:159.80
+env1:311.89 env2:36.01 env3:168.32 env4:237.72 env5:258.09 mu_round:675/1500 eval_server:202.41
+env1:312.22 env2:87.14 env3:268.84 env4:207.12 env5:308.60 mu_round:677/1500 eval_server:236.78
+env1:282.71 env2:64.73 env3:197.87 env4:165.46 env5:158.03 mu_round:679/1500 eval_server:173.76
+env1:309.46 env2:30.50 env3:309.01 env4:221.98 env5:255.58 mu_round:681/1500 eval_server:225.31
+env1:310.86 env2:-7.47 env3:279.05 env4:106.91 env5:247.10 mu_round:683/1500 eval_server:187.29
+env1:309.07 env2:-19.50 env3:222.00 env4:186.07 env5:164.24 mu_round:685/1500 eval_server:172.37
+env1:310.21 env2:-30.49 env3:284.99 env4:50.61 env5:116.20 mu_round:687/1500 eval_server:146.30
+env1:311.31 env2:37.15 env3:167.06 env4:269.97 env5:179.24 mu_round:689/1500 eval_server:192.95
+env1:311.92 env2:-0.04 env3:278.88 env4:116.89 env5:310.15 mu_round:691/1500 eval_server:203.56
+env1:311.48 env2:-16.83 env3:220.14 env4:83.64 env5:199.63 mu_round:693/1500 eval_server:159.61
+env1:312.05 env2:-2.11 env3:281.40 env4:197.23 env5:180.48 mu_round:695/1500 eval_server:193.81
+env1:291.34 env2:-32.28 env3:311.36 env4:173.10 env5:281.51 mu_round:697/1500 eval_server:205.01
+env1:313.44 env2:-23.57 env3:312.29 env4:311.06 env5:237.60 mu_round:699/1500 eval_server:230.16
+env1:312.98 env2:17.25 env3:284.70 env4:264.14 env5:232.80 mu_round:701/1500 eval_server:222.37
+env1:311.71 env2:66.66 env3:216.49 env4:309.86 env5:193.57 mu_round:703/1500 eval_server:219.66
+env1:310.60 env2:18.14 env3:188.21 env4:247.17 env5:309.36 mu_round:705/1500 eval_server:214.69
+env1:311.68 env2:-36.01 env3:276.47 env4:269.56 env5:215.82 mu_round:707/1500 eval_server:207.51
+env1:312.19 env2:-33.92 env3:180.63 env4:123.24 env5:210.88 mu_round:709/1500 eval_server:158.60
+env1:313.28 env2:-1.20 env3:247.24 env4:108.23 env5:188.25 mu_round:711/1500 eval_server:171.16
+env1:312.86 env2:-39.69 env3:222.15 env4:131.43 env5:185.52 mu_round:713/1500 eval_server:162.45
+env1:311.80 env2:38.96 env3:311.13 env4:128.59 env5:180.87 mu_round:715/1500 eval_server:194.27
+env1:310.46 env2:-33.17 env3:222.67 env4:178.79 env5:221.17 mu_round:717/1500 eval_server:179.98
+env1:311.60 env2:-35.65 env3:310.43 env4:154.15 env5:208.73 mu_round:719/1500 eval_server:189.85
+env1:313.83 env2:-13.39 env3:259.54 env4:80.81 env5:143.12 mu_round:721/1500 eval_server:156.78
+env1:311.30 env2:-40.98 env3:310.33 env4:139.73 env5:223.43 mu_round:723/1500 eval_server:188.76
+env1:312.87 env2:16.07 env3:194.03 env4:123.56 env5:245.04 mu_round:725/1500 eval_server:178.31
+env1:311.63 env2:7.61 env3:207.34 env4:218.77 env5:218.48 mu_round:727/1500 eval_server:192.77
+env1:314.27 env2:-43.60 env3:290.66 env4:222.27 env5:243.18 mu_round:729/1500 eval_server:205.36
+env1:313.63 env2:16.33 env3:256.58 env4:169.52 env5:310.37 mu_round:731/1500 eval_server:213.29
+env1:312.71 env2:10.93 env3:310.83 env4:251.48 env5:217.61 mu_round:733/1500 eval_server:220.71
+env1:313.55 env2:22.28 env3:310.31 env4:241.46 env5:242.10 mu_round:735/1500 eval_server:225.94
+env1:313.95 env2:-6.09 env3:273.74 env4:108.40 env5:177.65 mu_round:737/1500 eval_server:173.53
+env1:313.18 env2:-6.92 env3:259.86 env4:173.30 env5:274.19 mu_round:739/1500 eval_server:202.72
+env1:312.07 env2:-5.90 env3:196.44 env4:180.32 env5:153.53 mu_round:741/1500 eval_server:167.29
+env1:312.81 env2:52.92 env3:207.34 env4:229.55 env5:230.11 mu_round:743/1500 eval_server:206.55
+env1:312.87 env2:0.65 env3:249.20 env4:55.68 env5:198.65 mu_round:745/1500 eval_server:163.41
+env1:313.56 env2:-17.53 env3:236.48 env4:191.20 env5:191.75 mu_round:747/1500 eval_server:183.09
+env1:292.10 env2:-6.06 env3:272.67 env4:253.41 env5:250.66 mu_round:749/1500 eval_server:212.56
+env1:314.85 env2:5.60 env3:257.92 env4:173.01 env5:207.55 mu_round:751/1500 eval_server:191.78
+env1:285.22 env2:3.24 env3:311.31 env4:105.85 env5:139.91 mu_round:753/1500 eval_server:169.11
+env1:249.38 env2:-33.19 env3:288.62 env4:57.98 env5:173.25 mu_round:755/1500 eval_server:147.21
+env1:313.34 env2:-41.48 env3:209.01 env4:72.60 env5:102.96 mu_round:757/1500 eval_server:131.28
+env1:313.47 env2:16.02 env3:226.78 env4:64.75 env5:79.17 mu_round:759/1500 eval_server:140.04
+env1:312.84 env2:0.76 env3:151.37 env4:222.56 env5:92.02 mu_round:761/1500 eval_server:155.91
+env1:314.22 env2:9.56 env3:276.83 env4:171.48 env5:192.15 mu_round:763/1500 eval_server:192.85
+env1:313.02 env2:-19.56 env3:223.73 env4:75.32 env5:286.21 mu_round:765/1500 eval_server:175.74
+env1:313.26 env2:-18.76 env3:267.48 env4:149.66 env5:232.86 mu_round:767/1500 eval_server:188.90
+env1:190.41 env2:86.98 env3:310.54 env4:246.10 env5:144.70 mu_round:769/1500 eval_server:195.74
+env1:314.18 env2:-6.21 env3:312.70 env4:152.99 env5:248.28 mu_round:771/1500 eval_server:204.39
+env1:312.60 env2:74.85 env3:238.49 env4:233.37 env5:194.31 mu_round:773/1500 eval_server:210.72
+env1:313.66 env2:40.05 env3:240.88 env4:310.42 env5:182.69 mu_round:775/1500 eval_server:217.54
+env1:313.27 env2:19.87 env3:312.57 env4:188.43 env5:310.64 mu_round:777/1500 eval_server:228.95
+env1:312.21 env2:34.83 env3:202.27 env4:105.63 env5:179.33 mu_round:779/1500 eval_server:166.86
+env1:312.71 env2:31.16 env3:198.67 env4:187.40 env5:253.45 mu_round:781/1500 eval_server:196.68
+env1:313.20 env2:24.97 env3:190.66 env4:216.44 env5:220.71 mu_round:783/1500 eval_server:193.20
+env1:312.63 env2:97.62 env3:282.36 env4:161.29 env5:142.45 mu_round:785/1500 eval_server:199.27
+env1:313.92 env2:-6.41 env3:235.55 env4:233.01 env5:127.66 mu_round:787/1500 eval_server:180.75
+env1:312.78 env2:110.61 env3:269.56 env4:311.89 env5:168.71 mu_round:789/1500 eval_server:234.71
+env1:313.53 env2:-38.76 env3:312.28 env4:283.08 env5:220.40 mu_round:791/1500 eval_server:218.11
+env1:313.31 env2:-13.07 env3:312.58 env4:202.45 env5:225.19 mu_round:793/1500 eval_server:208.09
+env1:313.36 env2:62.03 env3:287.70 env4:184.80 env5:144.76 mu_round:795/1500 eval_server:198.53
+env1:311.71 env2:36.17 env3:247.16 env4:221.11 env5:134.58 mu_round:797/1500 eval_server:190.15
+env1:311.67 env2:57.41 env3:243.47 env4:171.22 env5:118.42 mu_round:799/1500 eval_server:180.44
+env1:257.61 env2:27.29 env3:283.96 env4:161.83 env5:208.61 mu_round:801/1500 eval_server:187.86
+env1:310.68 env2:-20.17 env3:220.69 env4:249.73 env5:132.70 mu_round:803/1500 eval_server:178.72
+env1:312.54 env2:55.93 env3:273.58 env4:311.18 env5:220.48 mu_round:805/1500 eval_server:234.74
+env1:311.65 env2:35.60 env3:282.54 env4:129.69 env5:288.13 mu_round:807/1500 eval_server:209.52
+env1:309.99 env2:-12.30 env3:252.79 env4:287.83 env5:246.24 mu_round:809/1500 eval_server:216.91
+env1:312.56 env2:35.31 env3:176.56 env4:277.43 env5:196.70 mu_round:811/1500 eval_server:199.71
+env1:311.85 env2:-9.25 env3:240.40 env4:279.93 env5:263.13 mu_round:813/1500 eval_server:217.21
+env1:311.39 env2:-0.27 env3:243.65 env4:234.00 env5:260.59 mu_round:815/1500 eval_server:209.87
+env1:313.72 env2:-25.88 env3:266.81 env4:216.58 env5:173.69 mu_round:817/1500 eval_server:188.98
+env1:282.64 env2:33.93 env3:242.92 env4:186.93 env5:256.12 mu_round:819/1500 eval_server:200.51
+env1:311.95 env2:26.43 env3:253.58 env4:154.74 env5:156.32 mu_round:821/1500 eval_server:180.60
+env1:312.16 env2:-1.23 env3:282.61 env4:196.97 env5:172.62 mu_round:823/1500 eval_server:192.63
+env1:310.18 env2:102.83 env3:234.88 env4:193.09 env5:239.15 mu_round:825/1500 eval_server:216.03
+env1:233.84 env2:13.71 env3:244.92 env4:231.90 env5:99.50 mu_round:827/1500 eval_server:164.77
+env1:312.68 env2:67.51 env3:146.04 env4:288.43 env5:201.03 mu_round:829/1500 eval_server:203.14
+env1:313.28 env2:-7.12 env3:282.14 env4:250.46 env5:248.30 mu_round:831/1500 eval_server:217.41
+env1:310.24 env2:7.73 env3:211.57 env4:309.68 env5:217.74 mu_round:833/1500 eval_server:211.39
+env1:311.42 env2:0.15 env3:311.33 env4:248.72 env5:263.04 mu_round:835/1500 eval_server:226.93
+env1:311.49 env2:46.53 env3:199.18 env4:128.17 env5:256.25 mu_round:837/1500 eval_server:188.32
+env1:310.40 env2:96.14 env3:257.60 env4:308.73 env5:245.32 mu_round:839/1500 eval_server:243.64
+env1:311.74 env2:80.03 env3:312.50 env4:202.77 env5:245.15 mu_round:841/1500 eval_server:230.44
+env1:311.47 env2:38.94 env3:287.27 env4:190.00 env5:153.61 mu_round:843/1500 eval_server:196.26
+env1:312.94 env2:24.28 env3:150.69 env4:194.81 env5:239.70 mu_round:845/1500 eval_server:184.48
+env1:312.19 env2:68.97 env3:244.70 env4:289.77 env5:256.28 mu_round:847/1500 eval_server:234.38
+env1:311.89 env2:34.44 env3:227.32 env4:251.66 env5:236.19 mu_round:849/1500 eval_server:212.30
+env1:310.95 env2:89.85 env3:142.22 env4:188.57 env5:309.18 mu_round:851/1500 eval_server:208.15
+env1:312.97 env2:78.23 env3:311.93 env4:245.30 env5:173.75 mu_round:853/1500 eval_server:224.44
+env1:310.45 env2:7.74 env3:310.44 env4:237.98 env5:211.16 mu_round:855/1500 eval_server:215.56
+env1:311.68 env2:5.38 env3:221.60 env4:253.53 env5:243.36 mu_round:857/1500 eval_server:207.11
+env1:311.88 env2:34.94 env3:207.97 env4:311.27 env5:258.93 mu_round:859/1500 eval_server:225.00
+env1:308.02 env2:66.33 env3:308.01 env4:279.19 env5:213.41 mu_round:861/1500 eval_server:234.99
+env1:309.31 env2:77.90 env3:212.39 env4:309.71 env5:180.83 mu_round:863/1500 eval_server:218.03
+env1:310.59 env2:52.71 env3:258.00 env4:148.65 env5:205.95 mu_round:865/1500 eval_server:195.18
+env1:310.42 env2:89.91 env3:270.70 env4:284.13 env5:268.52 mu_round:867/1500 eval_server:244.74
+env1:310.72 env2:138.88 env3:200.26 env4:283.48 env5:308.37 mu_round:869/1500 eval_server:248.34
+env1:310.21 env2:68.35 env3:79.31 env4:309.66 env5:182.40 mu_round:871/1500 eval_server:189.99
+env1:312.54 env2:52.92 env3:311.40 env4:310.51 env5:170.51 mu_round:873/1500 eval_server:231.57
+env1:310.50 env2:131.65 env3:194.60 env4:277.10 env5:186.90 mu_round:875/1500 eval_server:220.15
+env1:310.38 env2:2.19 env3:309.82 env4:263.04 env5:252.65 mu_round:877/1500 eval_server:227.62
+env1:312.45 env2:118.36 env3:224.06 env4:310.30 env5:311.33 mu_round:879/1500 eval_server:255.30
+env1:310.66 env2:76.79 env3:310.55 env4:278.28 env5:215.01 mu_round:881/1500 eval_server:238.26
+env1:311.35 env2:26.83 env3:269.53 env4:183.44 env5:285.94 mu_round:883/1500 eval_server:215.42
+env1:310.88 env2:-34.41 env3:269.59 env4:188.42 env5:261.21 mu_round:885/1500 eval_server:199.14
+env1:312.13 env2:30.31 env3:287.97 env4:256.08 env5:217.69 mu_round:887/1500 eval_server:220.84
+env1:310.46 env2:36.46 env3:310.58 env4:308.79 env5:309.61 mu_round:889/1500 eval_server:255.18
+env1:310.42 env2:15.48 env3:246.14 env4:185.20 env5:309.32 mu_round:891/1500 eval_server:213.31
+env1:309.76 env2:63.21 env3:240.10 env4:246.98 env5:266.45 mu_round:893/1500 eval_server:225.30
+env1:311.59 env2:67.04 env3:207.18 env4:186.04 env5:139.72 mu_round:895/1500 eval_server:182.31
+env1:311.87 env2:58.22 env3:224.99 env4:229.08 env5:310.86 mu_round:897/1500 eval_server:227.00
+env1:311.16 env2:14.52 env3:242.64 env4:310.94 env5:234.95 mu_round:899/1500 eval_server:222.84
+env1:309.11 env2:1.45 env3:233.45 env4:256.02 env5:184.97 mu_round:901/1500 eval_server:197.00
+env1:309.41 env2:-18.64 env3:279.15 env4:262.85 env5:151.64 mu_round:903/1500 eval_server:196.88
+env1:310.61 env2:-2.51 env3:109.95 env4:255.23 env5:253.93 mu_round:905/1500 eval_server:185.44
+env1:310.93 env2:10.57 env3:229.46 env4:206.44 env5:245.53 mu_round:907/1500 eval_server:200.59
+env1:311.50 env2:-37.11 env3:191.80 env4:214.28 env5:280.86 mu_round:909/1500 eval_server:192.27
+env1:312.25 env2:35.60 env3:262.76 env4:310.12 env5:168.40 mu_round:911/1500 eval_server:217.82
+env1:311.09 env2:53.23 env3:238.23 env4:187.98 env5:281.06 mu_round:913/1500 eval_server:214.32
+env1:311.34 env2:-14.72 env3:289.71 env4:310.84 env5:222.69 mu_round:915/1500 eval_server:223.97
+env1:313.38 env2:30.58 env3:267.53 env4:225.46 env5:311.45 mu_round:917/1500 eval_server:229.68
+env1:312.79 env2:-21.63 env3:184.39 env4:199.29 env5:142.20 mu_round:919/1500 eval_server:163.41
+env1:313.90 env2:25.76 env3:254.32 env4:251.62 env5:313.30 mu_round:921/1500 eval_server:231.78
+env1:311.84 env2:24.45 env3:269.63 env4:188.78 env5:254.22 mu_round:923/1500 eval_server:209.78
+env1:311.71 env2:66.00 env3:311.96 env4:266.98 env5:310.93 mu_round:925/1500 eval_server:253.52
+env1:313.29 env2:1.82 env3:244.88 env4:251.51 env5:311.94 mu_round:927/1500 eval_server:224.69
+env1:311.54 env2:35.26 env3:206.60 env4:276.28 env5:231.30 mu_round:929/1500 eval_server:212.20
+env1:312.13 env2:74.98 env3:242.78 env4:311.69 env5:271.71 mu_round:931/1500 eval_server:242.66
+env1:312.14 env2:10.96 env3:212.96 env4:232.76 env5:277.68 mu_round:933/1500 eval_server:209.30
+env1:312.49 env2:51.03 env3:261.90 env4:117.78 env5:245.83 mu_round:935/1500 eval_server:197.81
+env1:312.33 env2:-3.17 env3:240.23 env4:288.21 env5:312.47 mu_round:937/1500 eval_server:230.01
+env1:311.64 env2:22.64 env3:163.86 env4:289.37 env5:249.68 mu_round:939/1500 eval_server:207.44
+env1:312.15 env2:134.98 env3:271.59 env4:182.31 env5:270.62 mu_round:941/1500 eval_server:234.33
+env1:313.82 env2:32.57 env3:259.95 env4:312.49 env5:190.33 mu_round:943/1500 eval_server:221.83
+env1:312.85 env2:-25.89 env3:313.73 env4:311.61 env5:211.51 mu_round:945/1500 eval_server:224.76
+env1:258.45 env2:-3.90 env3:289.89 env4:311.04 env5:261.54 mu_round:947/1500 eval_server:223.40
+env1:313.10 env2:54.36 env3:249.56 env4:311.70 env5:313.14 mu_round:949/1500 eval_server:248.37
+env1:311.47 env2:60.42 env3:280.99 env4:312.27 env5:223.11 mu_round:951/1500 eval_server:237.65
+env1:312.65 env2:-25.95 env3:246.77 env4:311.07 env5:181.71 mu_round:953/1500 eval_server:205.25
+env1:312.98 env2:0.35 env3:251.98 env4:146.21 env5:310.79 mu_round:955/1500 eval_server:204.46
+env1:312.46 env2:11.71 env3:190.70 env4:288.71 env5:264.95 mu_round:957/1500 eval_server:213.71
+env1:311.29 env2:-4.93 env3:228.52 env4:263.11 env5:259.50 mu_round:959/1500 eval_server:211.50
+env1:313.56 env2:4.47 env3:190.03 env4:260.90 env5:146.62 mu_round:961/1500 eval_server:183.12
+env1:310.58 env2:31.49 env3:290.58 env4:263.54 env5:311.69 mu_round:963/1500 eval_server:241.58
+env1:313.86 env2:60.48 env3:287.72 env4:260.42 env5:221.05 mu_round:965/1500 eval_server:228.71
+env1:312.79 env2:35.88 env3:133.65 env4:311.52 env5:212.04 mu_round:967/1500 eval_server:201.18
+env1:313.49 env2:12.82 env3:312.68 env4:244.80 env5:269.48 mu_round:969/1500 eval_server:230.65
+env1:313.63 env2:18.40 env3:312.54 env4:312.68 env5:190.91 mu_round:971/1500 eval_server:229.63
+env1:311.71 env2:44.07 env3:261.27 env4:277.86 env5:286.34 mu_round:973/1500 eval_server:236.25
+env1:311.19 env2:15.18 env3:260.72 env4:136.85 env5:185.49 mu_round:975/1500 eval_server:181.89
+env1:312.29 env2:49.88 env3:313.10 env4:290.27 env5:312.39 mu_round:977/1500 eval_server:255.58
+env1:311.53 env2:39.33 env3:286.44 env4:286.37 env5:206.52 mu_round:979/1500 eval_server:226.04
+env1:311.47 env2:52.06 env3:272.28 env4:261.64 env5:269.00 mu_round:981/1500 eval_server:233.29
+env1:312.23 env2:-2.67 env3:224.55 env4:230.01 env5:246.92 mu_round:983/1500 eval_server:202.21
+env1:311.99 env2:1.05 env3:201.66 env4:312.40 env5:254.03 mu_round:985/1500 eval_server:216.23
+env1:311.91 env2:85.18 env3:122.04 env4:311.01 env5:280.34 mu_round:987/1500 eval_server:222.10
+env1:311.50 env2:89.61 env3:312.00 env4:224.26 env5:240.04 mu_round:989/1500 eval_server:235.48
+env1:313.42 env2:64.51 env3:129.01 env4:312.46 env5:291.17 mu_round:991/1500 eval_server:222.11
+env1:311.89 env2:-29.04 env3:256.14 env4:252.61 env5:277.39 mu_round:993/1500 eval_server:213.80
+env1:313.16 env2:17.81 env3:268.20 env4:242.81 env5:311.95 mu_round:995/1500 eval_server:230.79
+env1:313.95 env2:51.80 env3:246.87 env4:165.38 env5:178.05 mu_round:997/1500 eval_server:191.21
+env1:313.73 env2:12.58 env3:278.47 env4:235.24 env5:208.91 mu_round:999/1500 eval_server:209.79
+env1:311.37 env2:10.71 env3:278.76 env4:258.67 env5:207.57 mu_round:1001/1500 eval_server:213.42
+env1:312.86 env2:-19.75 env3:313.08 env4:274.32 env5:312.52 mu_round:1003/1500 eval_server:238.61
+env1:313.36 env2:26.10 env3:182.73 env4:312.26 env5:190.85 mu_round:1005/1500 eval_server:205.06
+env1:312.56 env2:7.34 env3:265.24 env4:289.00 env5:310.77 mu_round:1007/1500 eval_server:236.98
+env1:314.16 env2:-0.42 env3:179.37 env4:245.18 env5:193.47 mu_round:1009/1500 eval_server:186.35
+env1:313.93 env2:45.55 env3:281.72 env4:261.87 env5:260.01 mu_round:1011/1500 eval_server:232.62
+env1:313.01 env2:29.66 env3:288.08 env4:210.56 env5:272.13 mu_round:1013/1500 eval_server:222.69
+env1:311.90 env2:13.86 env3:256.85 env4:311.55 env5:158.13 mu_round:1015/1500 eval_server:210.46
+env1:311.80 env2:-0.51 env3:252.19 env4:245.88 env5:250.61 mu_round:1017/1500 eval_server:211.99
+env1:312.53 env2:76.31 env3:200.16 env4:182.76 env5:288.90 mu_round:1019/1500 eval_server:212.13
+env1:312.00 env2:109.81 env3:237.46 env4:310.77 env5:252.31 mu_round:1021/1500 eval_server:244.47
+env1:312.98 env2:41.18 env3:270.34 env4:313.23 env5:284.27 mu_round:1023/1500 eval_server:244.40
+env1:313.79 env2:-21.02 env3:314.15 env4:244.69 env5:210.24 mu_round:1025/1500 eval_server:212.37
+env1:312.93 env2:-10.29 env3:236.60 env4:288.69 env5:226.44 mu_round:1027/1500 eval_server:210.87
+env1:313.79 env2:2.28 env3:272.85 env4:253.27 env5:177.11 mu_round:1029/1500 eval_server:203.86
+env1:312.52 env2:40.22 env3:266.50 env4:245.62 env5:311.14 mu_round:1031/1500 eval_server:235.20
+env1:314.31 env2:44.62 env3:190.78 env4:312.82 env5:249.22 mu_round:1033/1500 eval_server:222.35
+env1:312.35 env2:39.04 env3:223.01 env4:275.09 env5:212.34 mu_round:1035/1500 eval_server:212.36
+env1:312.65 env2:3.70 env3:280.10 env4:311.80 env5:311.32 mu_round:1037/1500 eval_server:243.91
+env1:312.07 env2:-11.10 env3:246.36 env4:234.10 env5:200.96 mu_round:1039/1500 eval_server:196.48
+env1:313.10 env2:-8.09 env3:251.41 env4:215.56 env5:286.45 mu_round:1041/1500 eval_server:211.69
+env1:312.60 env2:22.23 env3:276.18 env4:258.13 env5:265.25 mu_round:1043/1500 eval_server:226.88
+env1:312.64 env2:19.83 env3:236.16 env4:312.86 env5:248.30 mu_round:1045/1500 eval_server:225.96
+env1:313.62 env2:-33.81 env3:255.36 env4:311.63 env5:288.44 mu_round:1047/1500 eval_server:227.05
+env1:311.95 env2:-6.28 env3:276.17 env4:218.71 env5:284.60 mu_round:1049/1500 eval_server:217.03
+env1:312.52 env2:72.32 env3:243.65 env4:311.31 env5:311.68 mu_round:1051/1500 eval_server:250.30
+env1:312.21 env2:-38.62 env3:266.69 env4:310.43 env5:198.07 mu_round:1053/1500 eval_server:209.76
+env1:312.66 env2:6.95 env3:123.42 env4:280.83 env5:283.13 mu_round:1055/1500 eval_server:201.40
+env1:314.55 env2:78.19 env3:272.89 env4:174.50 env5:240.62 mu_round:1057/1500 eval_server:216.15
+env1:313.40 env2:5.28 env3:313.59 env4:198.48 env5:273.59 mu_round:1059/1500 eval_server:220.87
+env1:312.26 env2:45.89 env3:312.95 env4:234.13 env5:251.22 mu_round:1061/1500 eval_server:231.29
+env1:313.60 env2:-44.80 env3:274.91 env4:271.54 env5:225.85 mu_round:1063/1500 eval_server:208.22
+env1:314.22 env2:-28.10 env3:314.62 env4:314.41 env5:277.00 mu_round:1065/1500 eval_server:238.43
+env1:313.86 env2:50.44 env3:271.65 env4:228.28 env5:311.57 mu_round:1067/1500 eval_server:235.16
+env1:314.41 env2:59.68 env3:202.94 env4:292.17 env5:261.27 mu_round:1069/1500 eval_server:226.10
+env1:313.84 env2:19.31 env3:111.51 env4:265.14 env5:312.86 mu_round:1071/1500 eval_server:204.53
+env1:312.48 env2:19.64 env3:312.71 env4:249.64 env5:217.89 mu_round:1073/1500 eval_server:222.47
+env1:314.36 env2:6.27 env3:222.94 env4:271.03 env5:204.21 mu_round:1075/1500 eval_server:203.76
+env1:315.27 env2:-37.94 env3:257.75 env4:313.34 env5:201.35 mu_round:1077/1500 eval_server:209.95
+env1:314.04 env2:40.32 env3:224.42 env4:312.82 env5:312.67 mu_round:1079/1500 eval_server:240.85
+env1:313.67 env2:-9.94 env3:253.47 env4:247.20 env5:312.85 mu_round:1081/1500 eval_server:223.45
+env1:313.53 env2:-9.18 env3:268.83 env4:311.42 env5:264.18 mu_round:1083/1500 eval_server:229.76
+env1:311.89 env2:-2.46 env3:203.88 env4:280.97 env5:248.00 mu_round:1085/1500 eval_server:208.45
+env1:312.95 env2:13.69 env3:241.57 env4:242.01 env5:281.06 mu_round:1087/1500 eval_server:218.26
+env1:313.98 env2:0.46 env3:255.64 env4:234.21 env5:313.72 mu_round:1089/1500 eval_server:223.60
+env1:314.59 env2:33.99 env3:314.16 env4:182.89 env5:261.95 mu_round:1091/1500 eval_server:221.51
+env1:312.54 env2:53.78 env3:207.24 env4:311.50 env5:126.54 mu_round:1093/1500 eval_server:202.32
+env1:312.96 env2:-5.34 env3:274.05 env4:147.62 env5:311.37 mu_round:1095/1500 eval_server:208.13
+env1:313.33 env2:-8.27 env3:312.58 env4:311.71 env5:251.73 mu_round:1097/1500 eval_server:236.22
+env1:313.21 env2:-22.88 env3:312.50 env4:142.42 env5:251.50 mu_round:1099/1500 eval_server:199.35
+env1:313.25 env2:102.89 env3:177.03 env4:158.64 env5:283.55 mu_round:1101/1500 eval_server:207.07
+env1:313.87 env2:19.27 env3:313.32 env4:260.94 env5:311.71 mu_round:1103/1500 eval_server:243.82
+env1:312.95 env2:9.11 env3:207.67 env4:287.79 env5:234.81 mu_round:1105/1500 eval_server:210.47
+env1:314.71 env2:16.83 env3:314.00 env4:282.40 env5:187.73 mu_round:1107/1500 eval_server:223.13
+env1:312.33 env2:6.30 env3:312.93 env4:311.75 env5:311.80 mu_round:1109/1500 eval_server:251.02
+env1:312.58 env2:31.38 env3:162.99 env4:191.40 env5:269.77 mu_round:1111/1500 eval_server:193.63
+env1:266.84 env2:91.19 env3:312.21 env4:237.33 env5:213.72 mu_round:1113/1500 eval_server:224.26
+env1:313.93 env2:23.52 env3:150.60 env4:275.26 env5:272.69 mu_round:1115/1500 eval_server:207.20
+env1:312.47 env2:27.10 env3:201.22 env4:246.34 env5:312.22 mu_round:1117/1500 eval_server:219.87
+env1:312.23 env2:-4.14 env3:312.54 env4:311.15 env5:259.35 mu_round:1119/1500 eval_server:238.23
+env1:313.37 env2:-5.29 env3:196.17 env4:201.65 env5:311.91 mu_round:1121/1500 eval_server:203.56
+env1:313.51 env2:14.82 env3:203.34 env4:215.18 env5:256.27 mu_round:1123/1500 eval_server:200.62
+env1:313.93 env2:81.15 env3:267.38 env4:277.96 env5:283.14 mu_round:1125/1500 eval_server:244.71
+env1:313.99 env2:-20.99 env3:311.94 env4:164.58 env5:272.91 mu_round:1127/1500 eval_server:208.49
+env1:314.59 env2:19.62 env3:311.81 env4:267.66 env5:228.14 mu_round:1129/1500 eval_server:228.37
+env1:313.20 env2:-0.78 env3:245.66 env4:270.95 env5:202.82 mu_round:1131/1500 eval_server:206.37
+env1:314.82 env2:131.38 env3:235.34 env4:224.15 env5:312.46 mu_round:1133/1500 eval_server:243.63
+env1:313.94 env2:38.40 env3:269.07 env4:223.57 env5:312.12 mu_round:1135/1500 eval_server:231.42
+env1:247.69 env2:-17.01 env3:255.02 env4:205.26 env5:204.74 mu_round:1137/1500 eval_server:179.14
+env1:314.14 env2:5.52 env3:215.45 env4:96.70 env5:262.56 mu_round:1139/1500 eval_server:178.87
+env1:315.26 env2:62.95 env3:228.47 env4:266.72 env5:168.38 mu_round:1141/1500 eval_server:208.35
+env1:312.61 env2:-30.59 env3:249.58 env4:311.86 env5:242.71 mu_round:1143/1500 eval_server:217.23
+env1:313.12 env2:-1.71 env3:160.95 env4:256.93 env5:270.88 mu_round:1145/1500 eval_server:200.03
+env1:312.60 env2:31.18 env3:275.07 env4:311.22 env5:200.53 mu_round:1147/1500 eval_server:226.12
+env1:313.53 env2:-18.80 env3:193.14 env4:265.98 env5:236.24 mu_round:1149/1500 eval_server:198.02
+env1:312.00 env2:-37.37 env3:194.41 env4:189.46 env5:165.29 mu_round:1151/1500 eval_server:164.76
+env1:313.92 env2:0.23 env3:243.38 env4:250.76 env5:239.22 mu_round:1153/1500 eval_server:209.50
+env1:313.50 env2:-4.12 env3:280.52 env4:168.22 env5:312.60 mu_round:1155/1500 eval_server:214.14
+env1:255.05 env2:-20.47 env3:212.43 env4:268.91 env5:176.67 mu_round:1157/1500 eval_server:178.52
+env1:312.82 env2:-18.21 env3:218.19 env4:310.86 env5:250.20 mu_round:1159/1500 eval_server:214.77
+env1:314.30 env2:31.35 env3:312.09 env4:174.30 env5:223.42 mu_round:1161/1500 eval_server:211.09
+env1:313.51 env2:45.93 env3:243.71 env4:147.49 env5:278.86 mu_round:1163/1500 eval_server:205.90
+env1:312.70 env2:-1.01 env3:313.37 env4:204.23 env5:206.54 mu_round:1165/1500 eval_server:207.17
+env1:312.48 env2:-51.22 env3:96.65 env4:311.59 env5:149.62 mu_round:1167/1500 eval_server:163.83
+env1:313.64 env2:-10.71 env3:313.08 env4:312.67 env5:266.63 mu_round:1169/1500 eval_server:239.06
+env1:314.04 env2:-38.14 env3:279.62 env4:168.33 env5:258.05 mu_round:1171/1500 eval_server:196.38
+env1:313.60 env2:22.89 env3:253.63 env4:144.42 env5:169.85 mu_round:1173/1500 eval_server:180.88
+env1:313.69 env2:88.24 env3:202.38 env4:283.38 env5:282.78 mu_round:1175/1500 eval_server:234.09
+env1:312.73 env2:70.04 env3:240.90 env4:247.40 env5:220.33 mu_round:1177/1500 eval_server:218.28
+env1:313.26 env2:54.86 env3:248.15 env4:252.05 env5:312.58 mu_round:1179/1500 eval_server:236.18
+env1:313.06 env2:-22.94 env3:283.99 env4:219.66 env5:222.81 mu_round:1181/1500 eval_server:203.31
+env1:278.59 env2:-5.47 env3:277.26 env4:176.47 env5:282.44 mu_round:1183/1500 eval_server:201.86
+env1:312.80 env2:75.43 env3:279.59 env4:311.42 env5:221.42 mu_round:1185/1500 eval_server:240.13
+env1:312.23 env2:1.31 env3:189.57 env4:279.26 env5:254.98 mu_round:1187/1500 eval_server:207.47
+env1:313.90 env2:-28.57 env3:185.80 env4:139.09 env5:283.81 mu_round:1189/1500 eval_server:178.81
+env1:313.31 env2:-6.57 env3:164.61 env4:190.77 env5:252.42 mu_round:1191/1500 eval_server:182.91
+env1:313.74 env2:11.76 env3:277.67 env4:312.57 env5:147.05 mu_round:1193/1500 eval_server:212.56
+env1:314.24 env2:36.43 env3:253.83 env4:159.34 env5:271.94 mu_round:1195/1500 eval_server:207.16
+env1:313.63 env2:-8.52 env3:270.55 env4:260.35 env5:204.43 mu_round:1197/1500 eval_server:208.09
+env1:313.80 env2:25.31 env3:278.57 env4:311.85 env5:204.28 mu_round:1199/1500 eval_server:226.76
+env1:312.71 env2:-5.94 env3:268.53 env4:233.85 env5:131.62 mu_round:1201/1500 eval_server:188.15
+env1:312.48 env2:3.44 env3:259.75 env4:252.47 env5:94.57 mu_round:1203/1500 eval_server:184.54
+env1:311.60 env2:-5.37 env3:313.91 env4:310.82 env5:149.30 mu_round:1205/1500 eval_server:216.05
+env1:313.10 env2:91.99 env3:212.79 env4:60.66 env5:116.20 mu_round:1207/1500 eval_server:158.95
+env1:311.75 env2:13.22 env3:187.53 env4:133.13 env5:226.73 mu_round:1209/1500 eval_server:174.47
+env1:313.67 env2:67.63 env3:243.53 env4:206.44 env5:272.97 mu_round:1211/1500 eval_server:220.85
+env1:312.93 env2:-14.74 env3:248.19 env4:249.35 env5:196.78 mu_round:1213/1500 eval_server:198.50
+env1:313.18 env2:31.30 env3:222.56 env4:281.65 env5:158.63 mu_round:1215/1500 eval_server:201.47
+env1:315.17 env2:25.43 env3:206.53 env4:198.52 env5:212.16 mu_round:1217/1500 eval_server:191.56
+env1:315.41 env2:-20.91 env3:180.78 env4:313.83 env5:312.81 mu_round:1219/1500 eval_server:220.38
+env1:315.82 env2:2.29 env3:289.37 env4:242.63 env5:241.52 mu_round:1221/1500 eval_server:218.33
+env1:315.46 env2:-35.48 env3:280.70 env4:140.81 env5:117.63 mu_round:1223/1500 eval_server:163.83
+env1:315.05 env2:10.75 env3:258.93 env4:175.23 env5:209.97 mu_round:1225/1500 eval_server:193.98
+env1:314.66 env2:30.42 env3:236.75 env4:251.39 env5:248.06 mu_round:1227/1500 eval_server:216.26
+env1:314.44 env2:-9.77 env3:212.53 env4:263.03 env5:156.25 mu_round:1229/1500 eval_server:187.29
+env1:283.56 env2:45.71 env3:89.47 env4:186.17 env5:126.07 mu_round:1231/1500 eval_server:146.20
+env1:313.09 env2:45.45 env3:311.99 env4:171.26 env5:207.77 mu_round:1233/1500 eval_server:209.91
+env1:312.56 env2:-19.68 env3:186.99 env4:201.31 env5:223.65 mu_round:1235/1500 eval_server:180.97
+env1:312.98 env2:34.40 env3:313.54 env4:246.87 env5:156.40 mu_round:1237/1500 eval_server:212.84
+env1:312.86 env2:-18.14 env3:191.71 env4:312.86 env5:216.39 mu_round:1239/1500 eval_server:203.13
+env1:313.46 env2:-8.17 env3:279.07 env4:257.71 env5:280.97 mu_round:1241/1500 eval_server:224.61
+env1:313.92 env2:-19.91 env3:257.17 env4:149.73 env5:251.73 mu_round:1243/1500 eval_server:190.53
+env1:312.74 env2:11.05 env3:313.09 env4:252.73 env5:125.72 mu_round:1245/1500 eval_server:203.07
+env1:314.65 env2:-35.57 env3:140.71 env4:160.30 env5:151.06 mu_round:1247/1500 eval_server:146.23
+env1:316.24 env2:25.60 env3:314.08 env4:271.14 env5:281.35 mu_round:1249/1500 eval_server:241.68
+env1:313.24 env2:-13.13 env3:273.03 env4:208.28 env5:229.72 mu_round:1251/1500 eval_server:202.23
+env1:313.98 env2:-31.94 env3:225.39 env4:290.71 env5:203.25 mu_round:1253/1500 eval_server:200.28
+env1:315.15 env2:11.33 env3:200.78 env4:221.95 env5:129.41 mu_round:1255/1500 eval_server:175.72
+env1:313.38 env2:-28.93 env3:197.46 env4:250.33 env5:189.71 mu_round:1257/1500 eval_server:184.39
+env1:314.51 env2:-2.42 env3:268.83 env4:255.05 env5:226.16 mu_round:1259/1500 eval_server:212.43
+env1:314.40 env2:31.16 env3:312.60 env4:189.67 env5:146.67 mu_round:1261/1500 eval_server:198.90
+env1:314.32 env2:-2.59 env3:261.84 env4:215.97 env5:266.79 mu_round:1263/1500 eval_server:211.27
+env1:312.43 env2:34.24 env3:222.86 env4:310.71 env5:206.51 mu_round:1265/1500 eval_server:217.35
+env1:313.30 env2:-7.90 env3:154.90 env4:243.17 env5:228.78 mu_round:1267/1500 eval_server:186.45
+env1:314.04 env2:16.74 env3:213.45 env4:188.82 env5:169.76 mu_round:1269/1500 eval_server:180.56
+env1:313.89 env2:8.64 env3:313.67 env4:247.46 env5:212.03 mu_round:1271/1500 eval_server:219.14
+env1:314.54 env2:27.54 env3:280.78 env4:255.52 env5:280.13 mu_round:1273/1500 eval_server:231.70
+env1:314.96 env2:8.37 env3:292.81 env4:254.81 env5:270.08 mu_round:1275/1500 eval_server:228.21
+env1:315.42 env2:71.16 env3:233.63 env4:161.62 env5:218.28 mu_round:1277/1500 eval_server:200.02
+env1:313.35 env2:99.12 env3:212.33 env4:186.69 env5:146.81 mu_round:1279/1500 eval_server:191.66
+env1:312.54 env2:-25.76 env3:313.32 env4:238.83 env5:291.41 mu_round:1281/1500 eval_server:226.07
+env1:314.90 env2:-25.29 env3:234.48 env4:248.88 env5:222.92 mu_round:1283/1500 eval_server:199.18
+env1:314.83 env2:-7.65 env3:263.85 env4:263.44 env5:227.04 mu_round:1285/1500 eval_server:212.30
+env1:313.08 env2:-21.50 env3:248.82 env4:207.89 env5:152.02 mu_round:1287/1500 eval_server:180.06
+env1:313.26 env2:-27.86 env3:274.10 env4:312.14 env5:182.06 mu_round:1289/1500 eval_server:210.74
+env1:313.42 env2:44.94 env3:221.34 env4:254.07 env5:258.50 mu_round:1291/1500 eval_server:218.45
+env1:313.33 env2:-50.69 env3:196.32 env4:152.19 env5:212.43 mu_round:1293/1500 eval_server:164.71
+env1:313.52 env2:0.09 env3:179.99 env4:206.82 env5:166.44 mu_round:1295/1500 eval_server:173.37
+env1:314.23 env2:-11.72 env3:291.17 env4:97.26 env5:230.15 mu_round:1297/1500 eval_server:184.22
+env1:314.42 env2:6.94 env3:208.44 env4:244.66 env5:263.27 mu_round:1299/1500 eval_server:207.55
+env1:315.58 env2:15.19 env3:314.11 env4:312.81 env5:313.89 mu_round:1301/1500 eval_server:254.32
+env1:314.94 env2:3.71 env3:315.42 env4:265.03 env5:272.36 mu_round:1303/1500 eval_server:234.29
+env1:315.28 env2:115.24 env3:314.61 env4:197.43 env5:214.02 mu_round:1305/1500 eval_server:231.32
+env1:313.49 env2:20.74 env3:212.81 env4:242.04 env5:264.67 mu_round:1307/1500 eval_server:210.75
+env1:313.57 env2:63.12 env3:212.77 env4:209.45 env5:312.17 mu_round:1309/1500 eval_server:222.22
+env1:314.80 env2:-25.87 env3:267.97 env4:223.77 env5:183.08 mu_round:1311/1500 eval_server:192.75
+env1:312.72 env2:30.29 env3:224.81 env4:310.97 env5:148.63 mu_round:1313/1500 eval_server:205.48
+env1:313.17 env2:15.08 env3:209.10 env4:311.34 env5:230.86 mu_round:1315/1500 eval_server:215.91
+env1:312.82 env2:9.26 env3:245.97 env4:283.17 env5:147.86 mu_round:1317/1500 eval_server:199.82
+env1:313.67 env2:39.89 env3:258.47 env4:116.22 env5:189.67 mu_round:1319/1500 eval_server:183.58
+env1:313.78 env2:11.79 env3:245.11 env4:261.99 env5:122.87 mu_round:1321/1500 eval_server:191.11
+env1:313.27 env2:-14.65 env3:239.26 env4:313.27 env5:312.73 mu_round:1323/1500 eval_server:232.78
+env1:312.04 env2:24.12 env3:311.69 env4:211.52 env5:250.31 mu_round:1325/1500 eval_server:221.94
+env1:312.24 env2:19.22 env3:313.29 env4:263.36 env5:126.02 mu_round:1327/1500 eval_server:206.83
+env1:313.65 env2:33.05 env3:275.35 env4:239.03 env5:259.70 mu_round:1329/1500 eval_server:224.15
+env1:314.57 env2:59.57 env3:183.52 env4:194.02 env5:129.37 mu_round:1331/1500 eval_server:176.21
+env1:313.93 env2:21.27 env3:285.60 env4:312.85 env5:265.67 mu_round:1333/1500 eval_server:239.86
+env1:313.18 env2:-10.65 env3:312.88 env4:312.31 env5:204.22 mu_round:1335/1500 eval_server:226.39
+env1:313.38 env2:-13.42 env3:314.13 env4:231.55 env5:311.92 mu_round:1337/1500 eval_server:231.51
+env1:315.35 env2:41.38 env3:197.89 env4:217.00 env5:248.47 mu_round:1339/1500 eval_server:204.02
+env1:313.26 env2:48.04 env3:254.76 env4:274.06 env5:257.72 mu_round:1341/1500 eval_server:229.57
+env1:315.47 env2:47.77 env3:202.94 env4:197.73 env5:235.19 mu_round:1343/1500 eval_server:199.82
+env1:312.88 env2:-20.19 env3:228.76 env4:216.38 env5:312.36 mu_round:1345/1500 eval_server:210.04
+env1:312.88 env2:-62.92 env3:207.62 env4:241.14 env5:286.70 mu_round:1347/1500 eval_server:197.09
+env1:314.01 env2:-29.49 env3:181.87 env4:277.17 env5:278.14 mu_round:1349/1500 eval_server:204.34
+env1:314.27 env2:-12.65 env3:257.73 env4:312.43 env5:202.71 mu_round:1351/1500 eval_server:214.90
+env1:313.72 env2:-47.43 env3:275.05 env4:262.69 env5:312.35 mu_round:1353/1500 eval_server:223.28
+env1:313.84 env2:71.99 env3:314.20 env4:249.61 env5:260.71 mu_round:1355/1500 eval_server:242.07
+env1:314.13 env2:4.86 env3:228.73 env4:313.22 env5:203.48 mu_round:1357/1500 eval_server:212.89
+env1:314.09 env2:-8.45 env3:277.03 env4:232.78 env5:174.43 mu_round:1359/1500 eval_server:197.98
+env1:313.56 env2:42.00 env3:228.66 env4:36.85 env5:77.98 mu_round:1361/1500 eval_server:139.81
+env1:313.23 env2:99.78 env3:201.90 env4:121.48 env5:93.49 mu_round:1363/1500 eval_server:165.97
+env1:314.48 env2:55.03 env3:284.54 env4:260.85 env5:85.83 mu_round:1365/1500 eval_server:200.15
+env1:313.56 env2:-23.60 env3:267.94 env4:188.74 env5:243.45 mu_round:1367/1500 eval_server:198.02
+env1:313.25 env2:-38.24 env3:155.05 env4:218.71 env5:245.34 mu_round:1369/1500 eval_server:178.82
+env1:314.95 env2:-26.03 env3:232.43 env4:271.82 env5:196.69 mu_round:1371/1500 eval_server:197.97
+env1:314.58 env2:11.29 env3:263.53 env4:215.34 env5:214.81 mu_round:1373/1500 eval_server:203.91
+env1:312.63 env2:26.27 env3:312.97 env4:312.31 env5:233.45 mu_round:1375/1500 eval_server:239.53
+env1:314.79 env2:98.66 env3:246.91 env4:208.74 env5:255.30 mu_round:1377/1500 eval_server:224.88
+env1:313.99 env2:44.71 env3:314.72 env4:198.01 env5:173.49 mu_round:1379/1500 eval_server:208.99
+env1:313.72 env2:7.22 env3:312.61 env4:312.64 env5:292.19 mu_round:1381/1500 eval_server:247.67
+env1:315.06 env2:40.03 env3:272.11 env4:271.15 env5:213.24 mu_round:1383/1500 eval_server:222.32
+env1:313.42 env2:-7.81 env3:313.33 env4:276.92 env5:271.23 mu_round:1385/1500 eval_server:233.42
+env1:314.30 env2:17.54 env3:313.65 env4:312.10 env5:195.56 mu_round:1387/1500 eval_server:230.63
+env1:313.52 env2:-7.55 env3:250.09 env4:313.23 env5:262.61 mu_round:1389/1500 eval_server:226.38
+env1:314.37 env2:86.65 env3:278.99 env4:248.86 env5:95.00 mu_round:1391/1500 eval_server:204.78
+env1:316.80 env2:-5.03 env3:314.80 env4:312.41 env5:313.64 mu_round:1393/1500 eval_server:250.52
+env1:313.61 env2:29.26 env3:313.80 env4:312.76 env5:312.78 mu_round:1395/1500 eval_server:256.44
+env1:313.13 env2:-0.44 env3:200.34 env4:222.78 env5:227.41 mu_round:1397/1500 eval_server:192.64
+env1:312.64 env2:-17.56 env3:197.34 env4:179.01 env5:276.71 mu_round:1399/1500 eval_server:189.63
+env1:312.38 env2:23.75 env3:313.41 env4:239.42 env5:285.45 mu_round:1401/1500 eval_server:234.88
+env1:312.71 env2:-22.11 env3:313.77 env4:276.07 env5:255.44 mu_round:1403/1500 eval_server:227.17
+env1:314.56 env2:60.33 env3:265.27 env4:203.03 env5:134.02 mu_round:1405/1500 eval_server:195.44
+env1:313.27 env2:37.15 env3:264.24 env4:286.36 env5:247.92 mu_round:1407/1500 eval_server:229.79
+env1:313.01 env2:-8.37 env3:214.33 env4:290.30 env5:168.18 mu_round:1409/1500 eval_server:195.49
+env1:313.88 env2:114.80 env3:270.56 env4:262.61 env5:267.27 mu_round:1411/1500 eval_server:245.82
+env1:313.49 env2:44.84 env3:313.11 env4:243.50 env5:281.92 mu_round:1413/1500 eval_server:239.37
+env1:313.90 env2:-8.39 env3:234.91 env4:226.66 env5:109.98 mu_round:1415/1500 eval_server:175.41
+env1:315.23 env2:46.17 env3:240.47 env4:290.39 env5:250.16 mu_round:1417/1500 eval_server:228.48
+env1:315.10 env2:71.88 env3:314.95 env4:312.67 env5:292.72 mu_round:1419/1500 eval_server:261.46
+env1:314.34 env2:86.81 env3:243.93 env4:213.71 env5:266.86 mu_round:1421/1500 eval_server:225.13
+env1:314.17 env2:59.81 env3:253.22 env4:312.61 env5:255.00 mu_round:1423/1500 eval_server:238.96
+env1:313.70 env2:-36.08 env3:313.99 env4:172.65 env5:312.49 mu_round:1425/1500 eval_server:215.35
+env1:315.40 env2:121.91 env3:276.43 env4:196.05 env5:214.63 mu_round:1427/1500 eval_server:224.89
+env1:314.43 env2:43.41 env3:314.28 env4:247.30 env5:313.48 mu_round:1429/1500 eval_server:246.58
+env1:313.52 env2:79.82 env3:314.00 env4:312.94 env5:254.78 mu_round:1431/1500 eval_server:255.01
+env1:314.55 env2:65.83 env3:314.63 env4:195.47 env5:312.76 mu_round:1433/1500 eval_server:240.65
+env1:313.11 env2:51.53 env3:313.58 env4:310.94 env5:313.54 mu_round:1435/1500 eval_server:260.54
+env1:314.75 env2:-10.31 env3:314.50 env4:263.13 env5:249.34 mu_round:1437/1500 eval_server:226.28
+env1:313.59 env2:142.35 env3:291.14 env4:253.98 env5:313.46 mu_round:1439/1500 eval_server:262.90
+env1:314.92 env2:31.81 env3:314.56 env4:269.23 env5:261.40 mu_round:1441/1500 eval_server:238.38
+env1:314.55 env2:-4.57 env3:225.06 env4:275.16 env5:250.37 mu_round:1443/1500 eval_server:212.11
+env1:313.89 env2:-6.90 env3:205.54 env4:229.39 env5:313.17 mu_round:1445/1500 eval_server:211.02
+env1:315.41 env2:18.21 env3:246.75 env4:276.11 env5:189.87 mu_round:1447/1500 eval_server:209.27
+env1:314.47 env2:-14.81 env3:251.38 env4:184.27 env5:189.36 mu_round:1449/1500 eval_server:184.93
+env1:315.11 env2:37.28 env3:224.93 env4:107.86 env5:243.51 mu_round:1451/1500 eval_server:185.74
+env1:316.03 env2:82.09 env3:199.73 env4:246.56 env5:289.13 mu_round:1453/1500 eval_server:226.71
+env1:314.47 env2:-19.88 env3:313.90 env4:225.90 env5:221.47 mu_round:1455/1500 eval_server:211.17
+env1:315.16 env2:-0.61 env3:215.20 env4:219.98 env5:235.17 mu_round:1457/1500 eval_server:196.98
+env1:315.27 env2:139.25 env3:316.38 env4:313.92 env5:253.11 mu_round:1459/1500 eval_server:267.59
+env1:314.60 env2:3.23 env3:315.02 env4:247.05 env5:272.27 mu_round:1461/1500 eval_server:230.43
+env1:316.06 env2:26.64 env3:219.01 env4:313.77 env5:161.89 mu_round:1463/1500 eval_server:207.47
+env1:316.23 env2:16.94 env3:276.27 env4:231.10 env5:260.57 mu_round:1465/1500 eval_server:220.22
+env1:315.25 env2:45.43 env3:271.63 env4:273.58 env5:175.51 mu_round:1467/1500 eval_server:216.28
+env1:315.41 env2:46.44 env3:276.88 env4:314.76 env5:314.90 mu_round:1469/1500 eval_server:253.68
+env1:315.46 env2:46.16 env3:315.55 env4:277.66 env5:217.56 mu_round:1471/1500 eval_server:234.48
+env1:313.60 env2:-18.63 env3:178.99 env4:197.37 env5:311.68 mu_round:1473/1500 eval_server:196.60
+env1:314.33 env2:9.99 env3:313.41 env4:258.78 env5:313.14 mu_round:1475/1500 eval_server:241.93
+env1:313.93 env2:-20.49 env3:311.25 env4:311.76 env5:253.56 mu_round:1477/1500 eval_server:234.00
+env1:315.54 env2:-24.32 env3:293.27 env4:312.55 env5:286.44 mu_round:1479/1500 eval_server:236.70
+env1:316.16 env2:43.81 env3:148.67 env4:251.88 env5:275.39 mu_round:1481/1500 eval_server:207.18
+env1:314.27 env2:-6.73 env3:259.31 env4:142.06 env5:193.57 mu_round:1483/1500 eval_server:180.50
+env1:314.22 env2:-20.81 env3:147.39 env4:198.24 env5:256.09 mu_round:1485/1500 eval_server:179.03
+env1:313.95 env2:0.27 env3:314.33 env4:212.75 env5:228.61 mu_round:1487/1500 eval_server:213.98
+env1:314.28 env2:48.23 env3:221.63 env4:178.43 env5:256.92 mu_round:1489/1500 eval_server:203.90
+env1:316.28 env2:17.96 env3:250.80 env4:260.35 env5:289.24 mu_round:1491/1500 eval_server:226.93
+env1:314.83 env2:8.90 env3:226.10 env4:311.67 env5:290.46 mu_round:1493/1500 eval_server:230.39
+env1:314.07 env2:-30.44 env3:174.16 env4:313.26 env5:221.83 mu_round:1495/1500 eval_server:198.58
+env1:316.11 env2:59.00 env3:268.68 env4:287.11 env5:314.20 mu_round:1497/1500 eval_server:249.02
+env1:314.42 env2:35.78 env3:220.48 env4:313.72 env5:313.56 mu_round:1499/1500 eval_server:239.59
+done!
