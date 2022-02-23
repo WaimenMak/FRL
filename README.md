@@ -17,7 +17,7 @@ Our target is to train the agent locally, with the help of the server, we hope t
 
 Please refer this link for the inference of the objective function:
 
-[Formula]: (https://github.com/WaimenMak/FRL/blob/master/Formula.ipynb)
+[Formula]: (https://github.com/WaimenMak/FRL/blob/master/Formula.ipynb)	"Formula"
 
 ### Pseudo code for FedTD3
 
