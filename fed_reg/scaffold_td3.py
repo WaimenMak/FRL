@@ -4,7 +4,8 @@
 # @FileName: scaffold_td3.py
 # @Software: PyCharm
 
-from models.Network import mlp_policy, mlp_value
+# from models.Network import mlp_policy, mlp_value
+from models.Network import mlp_policy, distill_qnet as mlp_value
 from copy import deepcopy
 from utils.Memory import replay_buffer
 import torch.optim as optim

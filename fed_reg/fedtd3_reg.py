@@ -12,7 +12,8 @@ import numpy as np
 from non_stationary_envs.walker import BipedalWalkerHardcore, walker_config
 from non_stationary_envs.lunar import LunarLanderContinuous
 from non_stationary_envs.ContinuousCart import cart_env_config
-from models.Network import mlp_policy, mlp_value
+# from models.Network import mlp_policy, mlp_value
+from models.Network import mlp_policy, distill_qnet as mlp_value
 from non_stationary_envs.Pendulum import PendulumEnv, pendulum_env_config2
 from fedregtd3 import fedTD3, Actor
 from utils.Tools import try_gpu, set_seed, ExponentialScheduler
@@ -35,8 +36,8 @@ class Arguments():
         self.std = 0
         # self.scheduler = ExponentialScheduler(0.002, 0.0004)
         # self.env_name = "walker"
-        self.env_name = "lunar"
-        # self.env_name = "pendulum"
+        # self.env_name = "lunar"
+        self.env_name = "pendulum"
         # self.env_name = "car"
         # self.env_name = "cart"
         if self.env_name == "pendulum":
@@ -44,13 +45,13 @@ class Arguments():
             self.action_bound = 2
             self.local_bc = 128  # local update memory batch size
             self.episode_length = 200  # env._max_episode_steps
-            self.playing_step = int(3.2e4)
+            self.playing_step = int(3e4)
             self.capacity = 10000
-            self.std = 0.1
-            self.noisy_input = False
-            self.N = int(20)
+            self.std = 0
+            self.noisy_input = True
+            self.N = int(100)
             self.M = 2
-            self.L = int(20)
+            self.L = int(100)
             self.policy_noise = 0.2  # std of the noise, when update critics
             self.std_noise = 0.1  # std of the noise, when explore 0.1
         elif self.env_name == "walker":
@@ -106,16 +107,17 @@ class Arguments():
 
 
         self.device = try_gpu()
-        # self.device = "cpu"
-        self.mu = 0
-        self.beta = 0
+        # self.device = "cuda:0"
+        self.mu = 0.01     #moon
+        self.beta = 0   #fedprox
+        self.dual = False  #dual distillation
         # self.alpha = 0
         self.Round = self.playing_step // self.N + self.playing_step // self.M // self.L
 
-        self.client_num = 1
+        self.client_num = 5
         self.env_seed = self.client_num
         # self.env_seed = None
-        self.filename = f"niidevalfedstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_beta{self.beta}_mu{self.mu}"  #filename:env_seed, model_name:env_name
+        self.filename = f"niidevalfedstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_beta{self.beta}_mu{self.mu}_dual:{self.dual}"  #filename:env_seed, model_name:env_name
 
 args = Arguments()
 if args.env_name == "pendulum":
@@ -149,7 +151,8 @@ def agent_env_config(args, seed=None):
             print(f"mean:{env.mean}", end = " ")
         elif args.env_name == 'walker':
             env = BipedalWalkerHardcore(seed)
-            print(f"r:{env.r}", end = " ")
+            print(f"r:{env.r}", end=" ")
+            print(f"stump:{env.small_type}")
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous(seed, std=args.std)
             # print(f"noise_mean::{env.mean}")
@@ -176,7 +179,7 @@ def GenerateAgent(args):
             agent, local_env = agent_env_config(args)
         else:
             agent, local_env = agent_env_config(args, seed=i+1)
-            # agent, local_env = agent_env_config(args, seed=4)
+            # agent, local_env = agent_env_config(args, seed=5)
         agent.name = 'agent' + str(i)
         agents.append(agent)
         local_envs.append(local_env)
@@ -332,12 +335,10 @@ def ClientUpdate(client_pipe, agent, local_env, args):
             state = n_state
         # eval each agent after local update
         if (i_ep+1) % args.episode_length == 0:       # this evaluation maybe necessary if we use local distillation
-            n += 1
+            # n += 1
             # reward_log = eval(agent, [local_env], args)
             # print(f"train_episode{n}_{agent.name}:{reward_log:.2f}")
-            # eval_reward.append(reward_log)
-            # np.save(f"{model_path}{args.filename}{agent.name}_clientnum{args.client_num}", eval_reward)
-            # pass
+            pass
 
 def Agg(local_models, global_net, weighted, args):
     with torch.no_grad():
@@ -402,12 +403,17 @@ def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): #FedAvg
 if __name__ == '__main__':
     # args = Arguments()
     print(f"niid:{args.niid}")
+    print(f"noise:{args.noisy_input}")
     print(model_path + args.filename + f"clients:{args.client_num}")
-    # env = PendulumEnv()
-    # env = mountaincar_config(None)
-    # env = BipedalWalkerHardcore()
-    env = LunarLanderContinuous()
-    # env = cart_env_config()
+    if args.env_name == "pendulum":
+        env = PendulumEnv()
+    elif args.env_name == "walker":
+        env = BipedalWalkerHardcore()
+        print(f"walker version2:{env.v2}")
+    elif args.env_name == "cart":
+        env = cart_env_config()
+    else:
+        env = LunarLanderContinuous()
     set_seed(1)
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]

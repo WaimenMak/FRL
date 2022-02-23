@@ -14,6 +14,8 @@ from utils.Tools import try_gpu
 from non_stationary_envs.Pendulum import PendulumEnv, pendulum_env_config2
 from non_stationary_envs.walker import BipedalWalkerHardcore, BipedalWalker
 from non_stationary_envs.lunar import LunarLanderContinuous
+from non_stationary_envs.ContinuousCart import cart_env_config
+import pandas as pd
 import numpy as np
 import os
 class Arguments():
@@ -27,8 +29,8 @@ class Arguments():
         self.std_noise = 0.01    #std of the noise, when explore
         self.noise_clip = 0.5
         # self.episode_length = 1600 # env._max_episode_steps
-        # self.env_name = "walker"
-        self.env_name = "lunar"
+        self.env_name = "walker"
+        # self.env_name = "lunar"
         # self.env_name = "pendulum"
         # self.env_name = "cartpole"
         if self.env_name == "pendulum":
@@ -65,12 +67,12 @@ class Arguments():
             self.noisy_input = False
         elif self.env_name == "cartpole":
             self.action_bound = 1
-            self.local_bc = 128  # local update memory batch size
-            self.episode_length = 500  # env._max_episode_steps
+            self.local_bc = 0  # local update memory batch size
+            self.episode_length = 200  # env._max_episode_steps
             self.playing_step = int(2e4)
             self.capacity = 10
             self.std = 0
-            self.noisy_input = False
+            self.noisy_input = True
             self.N = int(0)
             self.M = 2
             self.L = int(0)
@@ -87,33 +89,62 @@ class Arguments():
         # self.capacity = 10000
         # self.episode_length = 200  # env._max_episode_steps
         self.eval_episode = 100
-        # self.playing_step = int(2e4)
-        # self.filename = f"eval_{self.env_seed}_"
-        # self.filename = "niidevalfedreg_pendulum5_N10_M2_L20_beta0.5_clientnum5" #fed
-        # self.filename = "niidevalfed3e4_pendulum5_N20_M2_L20_beta0_mu1_clientnum5" #fed"  # fed
-        # self.filename = "centerniid_pendulum5_M2_clientnum5"   #center niid
-        # self.filename = "normalevalfedreg_pendulum5_M2_clientnum5"  #center iid
-        # self.filename = "niidevalfedstd0_32000_pendulum5_N20_M2_L20_beta0_mu0_clientnum5actor_" #fedavg
-        # self.filename = "niidevalfedmoon_pendulum5_N10_M2_L20_beta0_mu1_clientnum5" #moon
-        # self.filename = "niidevalfedstd0_32000_pendulum5_N20_M2_L20_beta0_mu0.1_clientnum5actor_"  # moon
-        # self.filename = "niidevalfedstd0_32000_pendulum5_N20_M2_L20_beta0.05_mu0_clientnum5actor_"  # fedprox
-        self.filename = "niidevalfed_walker5_N400_M2_L400_beta0_mu0.01_clientnum5actor_" #fedavg
-        # self.filename = "centeriid_walkerNone_M5_clientnum5"
-        # self.filename = "centerniid1.2e_walkerNone_M2_clientnum5actor_"
-        # self.filename = "distilstd0_32000_mse_pendulum5_N20_M2_L20_alpha0.1_clientnum5actor_"  #q_mse
-        # self.filename = "niidevalfeddistil_walker5_N400_M2_L400_alpha0.001_clientnum5actor_"
-        # self.filename = "niidevalfed_walker5_N400_M2_L400_beta0_mu0.001_clientnum5actor_"
-        # self.filename = "niidevalfedscaffold_pendulum5_N20_M2_L20_clientnum5actor_"  # scaffold
-        # self.filename = "centerniidstd1_32000_pendulum5_M2_clientnum5actor_"   #center niid
-        # self.filename = f"eval_hardcore_None_"
-        # self.filename = "centerniidstd_noisyFalse_360000_lunar5_M4_clientnum5actor_"
-        self.filename = "niidevalfedstd0_noicyFalse_360000_lunar1_N400_M4_L200_beta0_mu0_clientnum1actor_"
+        self.filename = []
+
+        #cart
+        if self.env_name == "cartpole" and self.noisy_input == False:
+            self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0_mu0_dual_False_clientnum5actor_") #fedavg
+            self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0_mu0.01_dual_False_clientnum5actor_")  # moon
+            self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0.01_mu0_dual_False_clientnum5actor_")  # fedprox
+            self.filename.append("cartstd1niidevalfedscaffold_cart5_N20_M2_L20_clientnum5actor_")   #scaffold
+            self.filename.append("distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualFalse_reweight0.5_distepoch10_clientnum5actor_") #dist
+            self.filename.append("distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualTrue_reweightTrue_distepoch10_clientnum5actor_") #dist dual
+            self.filename.append(
+                "v2_distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualFalse_reweight0.5_distepoch10_clientnum5actor_")  # dist stat
+            self.filename.append("centerniidstd_noisyFalse_20000_cart5_M2_clientnum5actor_")  #center iid
+
+        #cart noise
+        elif self.env_name == "cartpole" and self.noisy_input == True:
+            self.filename.append("niidevalfedstd0_noicyTrue_20000_cart5_N20_M2_L20_beta0_mu0_dist_False_clientnum5actor_") #fedavg
+            self.filename.append("niidevalfedstd0_noicyTrue_20000_cart5_N20_M2_L20_beta0_mu0.01_dual_False_clientnum5actor_")  # moon
+            self.filename.append("niidevalfedstd0_noicyTrue_20000_cart5_N20_M2_L20_beta0.01_mu0_dual_False_clientnum5actor_")  # fedprox
+            self.filename.append("fedscaffold_std0_noiseTrue_cart5_N20_M2_L20_clientnum5actor_")   #scaffold
+            self.filename.append("v2_distilstd1_noicyFalse_30000_pendulum5_N100_M2_L100_dualFalse_reweight0.3_distepoch20_clientnum5actor_") #dist
+            # self.filename.append("distilstd0_noicyTrue_20000_cart5_N20_M2_L20_dualTrue_reweightTrue_distepoch10_clientnum5actor_") #dist dual
+            self.filename.append(
+                "v2_distilstd1_noicyFalse_30000_pendulum5_N100_M2_L100_dualFalse_reweight0.3_distepoch20_clientnum5actor_")  # dist stat
+            self.filename.append("centerniidstd_noisyTrue_20000_cart5_M2_clientnum5actor_")  #center iid
+
+        #pendulum
+        elif self.env_name == "pendulum" and self.noisy_input == False:
+            self.filename.append("niidevalfedstd1_noicyFalse_30000_pendulum5_N100_M2_L100_beta0_mu0_dual_False_clientnum5actor_") #fedavg
+            self.filename.append("niidevalfedstd1_noicyFalse_30000_pendulum5_N100_M2_L100_beta0_mu0.01_dual_False_clientnum5actor_")  # moon
+            self.filename.append("niidevalfedstd1_noicyFalse_30000_pendulum5_N100_M2_L100_beta0.01_mu0_dual_False_clientnum5actor_")  # fedprox
+            self.filename.append("fedscaffold_std1_noiseFalse_pendulum5_N100_M2_L100_clientnum5actor_")   #scaffold
+            self.filename.append("distilstd1_noicyFalse_30000_pendulum5_N100_M2_L100_dualFalse_reweight0.3_distepoch20_clientnum5actor_") #dist
+
+            self.filename.append(
+                "v2_distilstd1_noicyFalse_30000_pendulum5_N100_M2_L100_dualFalse_reweight0.3_distepoch20_clientnum5actor_")  # dist stat
+            self.filename.append("centerniidstd1_noisyFalse_32000_pendulum5_M2_clientnum5actor_")  #center iid
+        elif self.env_name == "pendulum" and self.noisy_input == True:
+            self.filename.append(
+                "niidevalfedstd0_noicyTrue_30000_pendulum5_N100_M2_L100_beta0_mu0_dual_False_clientnum5actor_")
+            self.filename.append(
+                "v2_distilstd0_noicyTrue_30000_pendulum5_N100_M2_L100_dualFalse_reweight0.3_distepoch20_clientnum5actor_")
 
 
+        elif self.env_name == "walker":
+            self.filename.append("v3niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_")
+
+args = Arguments()
+if args.env_name == "cartpole":
+    model_path = '../outputs/fed_model/cartpole/'
+elif args.env_name == "pendulum":
 # model_path = '../outputs/center_model/pendulum/'
-# model_path = '../outputs/fed_model/pendulum/'
-# model_path = '../outputs/fed_model/walker/'
-model_path = '../outputs/fed_model/lunar/'
+    model_path = '../outputs/fed_model/pendulum/'
+elif args.env_name == "walker":
+    model_path = '../outputs/fed_model/walker/'
+# model_path = '../outputs/fed_model/lunar/'
 # model_path = '../outputs/center_model/walker/'
 # model_path = '../outputs/center_model/lunar/'
 # model_path = '../outputs/model/walker/'
@@ -125,24 +156,28 @@ def agent_env_config(args, seed=None):
     if seed == None:
         if args.env_name == 'walker':
             env = BipedalWalkerHardcore()
-            print(f"r:{env.r}", end=" ")
+            print(f"r:{env.r}")
         elif args.env_name == 'pendulum':
             # env = PendulumEnv()
             env = pendulum_env_config2(seed, std=0)  # seed
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous()
+        elif args.env_name == "cartpole":
+            env = cart_env_config()
     else:
         if args.env_name == 'pendulum':
             env = pendulum_env_config2(seed, std=args.std) # seed
-            print(f"mean:{env.mean}", end = " ")
+            print(f"params:{env.env_param}")
         elif args.env_name == 'walker':
             env = BipedalWalkerHardcore(seed)
-            print(f"r:{env.r}", end = " ")
+            print(f"r:{env.r}")
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous(seed, std=args.std)
             # print(f"noise_mean::{env.mean}")
             print(f"params:{env.env_param}")
-
+        elif args.env_name == "cartpole":
+            env = cart_env_config(env_seed=seed, std=args.std)
+            print(f"params:{env.env_param}")
     env.seed(seed)
     return env
 
@@ -154,9 +189,9 @@ def GenerateAgent(args):
     # agents = []
     local_envs = []
     for i in range(args.client_num):
-        # local_env = agent_env_config(args)
-        local_env = agent_env_config(args, seed=i+1)
-        # agent.name = 'agent' + str(i)
+        local_env = agent_env_config(args)
+        # local_env = agent_env_config(args, seed=i+1)
+        agent.name = 'agent' + str(i)
         # agents.append(agent)
         local_envs.append(local_env)
 
@@ -165,6 +200,8 @@ def GenerateAgent(args):
 def eval(agent, envs, args):
 
     env_num = 0
+    std_list = [] #over all std
+    mean_list = []
     each_env = []
     total = []
     for env in envs:
@@ -190,19 +227,33 @@ def eval(agent, envs, args):
 
             total.append(ep_reward)
         # each_env.append(temp)
-        print(f"env{env_num}:mean {np.mean(each_env):.2f}, std {np.std(each_env):.2f}", end = ' ')
+        mean = np.mean(each_env)
+        std = np.std(each_env)
+
+        std_list.append(mean)
+        mean_list.append(f"{mean:.2f}+-{std:.2f}")
+        print(f"env{env_num}:mean {mean:.2f}, std {std:.2f}", end=" ")
         each_env.clear()
 
     # print(f"eval:{r/args.eval_episode:.2f}")
-    return total
+
+    mean_list.append(f"{np.mean(total):.2f}+-{np.std(std_list):.2f}")
+    print(f"overall mean:{np.mean(total):.2f}, std {np.std(std_list):.2f}")
+    return mean_list
 
 if __name__ == '__main__':
-    args = Arguments()
+
     np.random.seed(1)
     # env = BipedalWalkerHardcore()
-    env = LunarLanderContinuous()
-    # env = PendulumEnv()
-    # env = pendulum_env_config2(3)
+    if args.env_name == "pendulum":
+        env = PendulumEnv()
+    elif args.env_name == "walker":
+        env = BipedalWalkerHardcore()
+        print(f"walker version2:{env.v2}")
+    elif args.env_name == "cartpole":
+        env = cart_env_config()
+    else:
+        env = LunarLanderContinuous()
     env.reset()
     done = False
     state_dim = env.observation_space.shape[0]
@@ -210,7 +261,20 @@ if __name__ == '__main__':
     agent = Actor(state_dim, action_dim, args.action_bound, args)
     # agent = Actor(state_dim, action_dim, args)
     # agent.load(f"{model_path}{args.filename}")
-    agent.load(model_path+args.filename)
+    result = []
+    n = 0
+    local_envs = GenerateAgent(args)
+    for file in args.filename:
+        n += 1
+        # if n == len(args.filename):
+        #     if args.env_name == "cartpole":
+        #         model_path = '../outputs/center_model/cartpole/'
+        #     elif args.env_name == "pendulum":
+        #         model_path = '../outputs/center_model/pendulum/'
+        #     elif args.env_name == "walker":
+        #         model_path = '../outputs/center_model/walker/'
+
+        agent.load(model_path+file)
     # state = env.reset()
     # ep_reward = 0
     # for iter in range(args.episode_length):
@@ -226,6 +290,18 @@ if __name__ == '__main__':
     # print(ep_reward)
     # env.close()
 
-    local_envs = GenerateAgent(args)
-    ex = eval(agent, local_envs, args)
-    print(f"overall mean:{np.mean(ex):.2f}, std {np.std(ex):.2f}")
+
+        mean_list = eval(agent, local_envs, args)
+        result.append(mean_list)
+
+
+
+
+    # rd = pd.DataFrame(result, columns=["env1", "env2", "env3", "env4", "env5", "overall"], index = ["fedavg","moon",
+    #                                                                                                 "fedprox","scaffold","dist","dist dual", "dist stat", "central"])
+    rd = pd.DataFrame(result, columns=["env1", "env2", "env3", "env4", "env5", "overall"], index=["fedavg", "moon",
+                                                                                                  "fedprox", "scaffold",
+                                                                                                  "dist",
+                                                                                                  "dist stat",
+                                                                                                  "central"])
+    rd.to_excel("result.xlsx", index=True)

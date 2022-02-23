@@ -93,27 +93,26 @@ class mlp_value(nn.Module):
 class distill_qnet(nn.Module):
     def __init__(self, state_dim, action_dim):
         super(distill_qnet, self).__init__()
+        print('debug')
         self.feature_q1 = nn.Sequential(
             OrderedDict([('q1_l1', nn.Linear(state_dim + action_dim, 256)), ('relu1', nn.ReLU()), ('q1_l2', nn.Linear(256, 256)), ('relu2', nn.ReLU())])
         )
+        # self.feature_q1 = nn.Sequential(
+        #     OrderedDict([('q1_l1', nn.Linear(state_dim + action_dim, 256)), ('relu1', nn.ReLU())])
+        # )
         self.oupt_layer_q1 = nn.Sequential(
             OrderedDict([('q1_l3',nn.Linear(256, 256)), ('relu3', nn.ReLU()), ('q1_l4', nn.Linear(256, 1))])
         )
-        # self.q1_fc1 = nn.Linear(state_dim+action_dim, 256)
-        # self.q1_fc2 = nn.Linear(256, 256)
-        # self.q1_fc3 = nn.Linear(256, 256)
-        # self.q1_fc4 = nn.Linear(256, 1)
 
         self.feature_q2 = nn.Sequential(
             OrderedDict([('q2_l1', nn.Linear(state_dim + action_dim, 256)), ('relu1', nn.ReLU()), ('q2_l2', nn.Linear(256, 256)), ('relu2', nn.ReLU())])
         )
+        # self.feature_q2 = nn.Sequential(
+        #     OrderedDict([('q2_l1', nn.Linear(state_dim + action_dim, 256)), ('relu1', nn.ReLU())])
+        # )
         self.oupt_layer_q2 = nn.Sequential(
             OrderedDict([('q2_l3',nn.Linear(256, 256)), ('relu3', nn.ReLU()), ('q2_l4', nn.Linear(256, 1))])
         )
-        # self.q2_fc1 = nn.Linear(state_dim+action_dim, 256)
-        # self.q2_fc2 = nn.Linear(256, 256)
-        # self.q2_fc3 = nn.Linear(256, 256)
-        # self.q2_fc4 = nn.Linear(256, 1) #Q(s,a)
 
     def forward(self, s, a):
 
@@ -150,7 +149,7 @@ class distill_qnet(nn.Module):
 
     def R_t2(self, s, a):
         x = torch.cat([s, a], dim=1)
-        rep = self.feature_q1(x)
+        rep = self.feature_q2(x)
         l = len(self.oupt_layer_q2)
         for i in range(l):
             rep = self.oupt_layer_q2[i](rep)

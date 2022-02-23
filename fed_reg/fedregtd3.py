@@ -4,7 +4,8 @@
 # @FileName: fedregtd3.py
 # @Software: PyCharm
 
-from models.Network import mlp_policy, mlp_value
+# from models.Network import mlp_policy, mlp_value
+from models.Network import mlp_policy, distill_qnet as mlp_value
 from copy import deepcopy
 from utils.Memory import replay_buffer
 from utils.Tools import try_gpu
@@ -165,6 +166,7 @@ class fedTD3():
 
         self.beta = args.beta
         self.mu = args.mu
+        self.dual = args.dual
         # self.alpha = args.alpha
         self.l_mse = nn.MSELoss()
         self.critics_loss = nn.MSELoss()
@@ -221,6 +223,14 @@ class fedTD3():
     #     self.actor.update_policy(state, Q_net)
     #     self.actor.update_target(tau)
     #     self.critic.update_target(tau)
+    def dual_distill(self, state):
+        alpha = 0.5
+        with torch.no_grad():
+            V1 = self.glob_q.Q1_val(state, self.actor.glob_mu(state))  #action batch
+            V2 = self.critic.Q_net.Q1_val(state, self.actor.policy_net(state))
+        loss = torch.sum((self.actor.glob_mu(state) - self.actor.policy_net(state))**2 * alpha * torch.exp(V1 - V2).view(-1,1)).mean()
+
+        return loss
 
     def localDelayUpdate(self, state, Q_net, tau, client_pipe):
         """
@@ -229,7 +239,20 @@ class fedTD3():
         :return: 
         """
         self.count += 1
-        self.actor.update_policy(state, Q_net)
+        if self.dual:
+            partial = 0.9
+            loss2 = 0.
+            loss1 = -Q_net.Q1_val(state, self.actor.policy_net(state)).mean()
+            if self.count > self.L:
+                loss2 = self.dual_distill(state)
+
+            distil_loss = partial * loss1 + (1 - partial) * loss2
+            self.actor.actor_optimizer.zero_grad()
+            distil_loss.backward()
+            self.actor.actor_optimizer.step()
+        else:
+            self.actor.update_policy(state, Q_net)
+
         self.actor.prev_mu.load_state_dict(self.actor.temp_mu.state_dict())
 
         if self.count % self.L == 0:

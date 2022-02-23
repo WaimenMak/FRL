@@ -33,13 +33,13 @@ class Arguments():
         # self.local_bc = 256  # local update memory batch size
         self.gamma = 0.98
         self.lr = 0.002
-        self.env_name = "cart"
-        # self.env_name = "pendulum"
+        # self.env_name = "cart"
+        self.env_name = "pendulum"
         if self.env_name == "pendulum":
             self.action_bound = 2
             # self.local_bc = 128  # local update memory batch size
             self.episode_length = 200  # env._max_episode_steps
-            self.playing_step = int(3.2e4)
+            self.playing_step = int(3e4)
             # self.capacity = 10000
             self.std = 0
             self.noisy_input = True
@@ -53,8 +53,8 @@ class Arguments():
             self.lr = 0.00009
             self.episode_length = 200  # env._max_episode_steps
             self.playing_step = int(2e4)
-            self.std = 0
-            self.noisy_input = True
+            self.std = 1
+            self.noisy_input = False
             self.M = 2
             self.capacity = 10000
             self.policy_noise = 0.2  # std of the noise, when update critics
@@ -73,7 +73,7 @@ class Arguments():
         self.client_num = 5
         self.env_seed = self.client_num
         # self.env_seed = None
-        self.filename = f"centerniidstd_noisy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_M{self.M}"  #filename:env_seed, model_name:env_name
+        self.filename = f"centerniidstd{self.std}_noisy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_M{self.M}"  #filename:env_seed, model_name:env_name
 
 
 args = Arguments()
@@ -99,7 +99,7 @@ def agent_env_config(args, seed=None):
     else:
         if args.env_name == 'pendulum':
             env = pendulum_env_config2(seed, std=args.std) # seed
-            print(f"mean:{env.mean},length:{env.length},gravity:{env.gravity}")
+            print(f"mean:{env.mean},length:{env.l},gravity:{env.g}")
         elif args.env_name == 'cart':
             env = cart_env_config(env_seed=seed, std=args.std)
             print(f"mean:{env.mean},length:{env.length},gravity:{env.gravity}")
@@ -186,6 +186,7 @@ def ClientUpdate(client_pipe, local_env, args):
     :return: 
     """
     agent = TD3(local_env.observation_space.shape[0], local_env.action_space.shape[0], args)
+    print(f"agent in {local_env.env_param}")
     mu_params = client_pipe.recv()
     # agent.sync(q_params, mu_params)
     agent.actor.policy_net.cpu()
@@ -312,8 +313,11 @@ if __name__ == '__main__':
     print(f"niid:{args.niid}")
     print(f"args lr:{args.lr},bc:{args.local_bc}, capacitu:{args.capacity}")
     print(model_path + args.filename + f"clients:{args.client_num}")
-    # env = PendulumEnv()
-    env = cart_env_config()
+    if args.env_name == "pendulum":
+        env = PendulumEnv()
+    elif args.env_name == "cart":
+        env = cart_env_config()
+
     set_seed(1)
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]

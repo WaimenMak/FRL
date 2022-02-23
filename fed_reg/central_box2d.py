@@ -33,8 +33,8 @@ class Arguments():
         self.local_bc = 256  # local update memory batch size
         self.gamma = 0.98
         self.lr = 0.002
-        self.env_name = "walker"
-        # self.env_name = "lunar"
+        # self.env_name = "walker"
+        self.env_name = "lunar"
         if self.env_name == "walker":
             self.niid = True
             self.action_bound = 1
@@ -314,8 +314,8 @@ if __name__ == '__main__':
     print(f"niid:{args.niid}")
     print(f"args lr:{args.lr},bc:{args.local_bc}, capacitu:{args.capacity}")
     print(model_path + args.filename + f"clients:{args.client_num}")
-    # env = LunarLanderContinuous()
-    env = BipedalWalkerHardcore()
+    env = LunarLanderContinuous()
+    # env = BipedalWalkerHardcore()
     set_seed(1)
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]

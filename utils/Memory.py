@@ -39,7 +39,7 @@ class replay_buffer():
 
 class DistilDataset(Dataset):
     def __init__(self):
-        self.tensors = [torch.tensor([]) for _ in range(4)]
+        self.tensors = [torch.tensor([1]) for _ in range(4)]   #initialize as 1
 
     def __getitem__(self, item):
         rep1 = self.tensors[0][item]

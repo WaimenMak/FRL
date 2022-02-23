@@ -142,3 +142,10 @@ $$
 
 
 
+### Dual Policy Distillation
+
+$$
+\max_w Q(s, \pi_w(s))
+$$
+
+naively aggregate $\pi$ , and local distill global modal and local model.

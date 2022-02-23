@@ -1,0 +1,157 @@
+niid:True
+args lr:9e-05,bc:256, capacitu:10000
+../outputs/center_model/cartpole/centerniidstd_noisyFalse_20000_cart5_M2clients:5
+net3
+net3
+mean:-0.20646505153866013,length:2.1243453636632417,gravity:8.72703137784383
+net3
+net3
+mean:-0.15926439582502194,length:0.08324215259452938,gravity:11.440270808404989
+net3
+net3
+mean:0.7858939086953094,length:2.2886284734303186,gravity:7.93650729663551
+net3
+net3
+mean:0.9525489095524835,length:0.5505617071429395,gravity:10.493598508291312
+net3
+net3
+mean:0.5318157129606311,length:0.9412274868850414,gravity:9.547907870396923
+net3
+net3
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+net3
+net3
+agent in [2.2886284734303186, 0.5365098505119894, 1.0964974680720085, 7.93650729663551, 0.7858939086953094]
+net3
+net3
+agent in [2.1243453636632417, -0.5117564136500754, 0.4718282477365443, 8.72703137784383, -0.20646505153866013]
+net3
+net3
+agent in [0.5505617071429395, 0.599951333237829, 0.00409106889313493, 10.493598508291312, 0.9525489095524835]
+net3
+net3
+agent in [0.08324215259452938, 0.04373317277367053, -1.136196095668454, 11.440270808404989, -0.15926439582502194]
+net3
+net3
+agent in [0.9412274868850414, -0.23087015189408763, 3.43077118700778, 9.547907870396923, 0.5318157129606311]
+env1:7.40 env2:3.00 env3:13.40 env4:3.00 env5:14.20 eval_episode1_server:8.20
+env1:7.00 env2:3.00 env3:11.40 env4:3.00 env5:12.20 eval_episode2_server:7.32
+env1:6.20 env2:3.00 env3:12.80 env4:3.00 env5:12.00 eval_episode3_server:7.40
+env1:7.00 env2:3.00 env3:12.60 env4:3.00 env5:13.40 eval_episode4_server:7.80
+env1:8.60 env2:42.60 env3:16.20 env4:4.00 env5:18.20 eval_episode5_server:17.92
+env1:8.60 env2:5.80 env3:16.20 env4:4.00 env5:19.00 eval_episode6_server:10.72
+env1:9.20 env2:20.80 env3:19.80 env4:4.80 env5:28.40 eval_episode7_server:16.60
+env1:9.60 env2:26.20 env3:18.20 env4:5.00 env5:28.20 eval_episode8_server:17.44
+env1:10.60 env2:28.40 env3:21.80 env4:5.00 env5:28.20 eval_episode9_server:18.80
+env1:14.60 env2:50.80 env3:38.60 env4:6.00 env5:51.60 eval_episode10_server:32.32
+env1:57.00 env2:89.80 env3:77.60 env4:15.40 env5:55.00 eval_episode11_server:58.96
+env1:58.00 env2:113.60 env3:79.80 env4:11.00 env5:49.00 eval_episode12_server:62.28
+env1:60.40 env2:66.00 env3:70.60 env4:15.60 env5:54.60 eval_episode13_server:53.44
+env1:72.00 env2:71.80 env3:76.40 env4:21.00 env5:50.60 eval_episode14_server:58.36
+env1:68.00 env2:64.20 env3:84.80 env4:22.60 env5:65.60 eval_episode15_server:61.04
+env1:76.60 env2:40.60 env3:105.40 env4:28.00 env5:54.20 eval_episode16_server:60.96
+env1:50.20 env2:37.20 env3:66.20 env4:28.00 env5:50.80 eval_episode17_server:46.48
+env1:39.00 env2:41.80 env3:57.00 env4:31.80 env5:46.60 eval_episode18_server:43.24
+env1:50.40 env2:38.00 env3:65.20 env4:34.80 env5:63.00 eval_episode19_server:50.28
+env1:47.40 env2:45.80 env3:72.40 env4:45.00 env5:46.80 eval_episode20_server:51.48
+env1:49.80 env2:35.60 env3:65.00 env4:42.60 env5:40.60 eval_episode21_server:46.72
+env1:52.40 env2:40.80 env3:64.60 env4:42.60 env5:44.20 eval_episode22_server:48.92
+env1:57.60 env2:37.80 env3:63.20 env4:173.40 env5:47.40 eval_episode23_server:75.88
+env1:45.80 env2:38.40 env3:100.80 env4:65.00 env5:53.00 eval_episode24_server:60.60
+env1:61.00 env2:37.40 env3:63.20 env4:25.80 env5:55.20 eval_episode25_server:48.52
+env1:58.60 env2:38.20 env3:58.40 env4:65.20 env5:58.20 eval_episode26_server:55.72
+env1:75.80 env2:45.80 env3:63.40 env4:48.40 env5:84.20 eval_episode27_server:63.52
+env1:65.20 env2:25.60 env3:76.60 env4:33.00 env5:63.40 eval_episode28_server:52.76
+env1:56.80 env2:29.60 env3:51.60 env4:59.80 env5:55.20 eval_episode29_server:50.60
+env1:59.80 env2:44.60 env3:60.00 env4:90.00 env5:54.60 eval_episode30_server:61.80
+env1:56.60 env2:56.40 env3:57.00 env4:69.80 env5:62.60 eval_episode31_server:60.48
+env1:67.60 env2:42.40 env3:65.00 env4:80.40 env5:60.20 eval_episode32_server:63.12
+env1:73.00 env2:93.00 env3:80.40 env4:74.00 env5:54.40 eval_episode33_server:74.96
+env1:116.20 env2:112.80 env3:83.80 env4:81.40 env5:70.60 eval_episode34_server:92.96
+env1:120.00 env2:149.80 env3:99.60 env4:89.40 env5:61.60 eval_episode35_server:104.08
+env1:104.20 env2:135.00 env3:83.00 env4:108.40 env5:53.60 eval_episode36_server:96.84
+env1:94.00 env2:135.40 env3:98.60 env4:94.40 env5:64.00 eval_episode37_server:97.28
+env1:110.20 env2:154.40 env3:120.60 env4:164.00 env5:73.40 eval_episode38_server:124.52
+env1:134.40 env2:133.60 env3:106.20 env4:179.60 env5:73.80 eval_episode39_server:125.52
+env1:111.60 env2:100.80 env3:113.20 env4:195.20 env5:86.40 eval_episode40_server:121.44
+env1:117.60 env2:120.20 env3:121.60 env4:200.00 env5:82.20 eval_episode41_server:128.32
+env1:122.40 env2:120.40 env3:83.60 env4:200.00 env5:83.00 eval_episode42_server:121.88
+env1:118.00 env2:118.80 env3:136.00 env4:200.00 env5:79.00 eval_episode43_server:130.36
+env1:120.80 env2:97.80 env3:137.60 env4:200.00 env5:90.80 eval_episode44_server:129.40
+env1:115.80 env2:80.80 env3:156.00 env4:200.00 env5:126.00 eval_episode45_server:135.72
+env1:105.40 env2:90.40 env3:118.80 env4:200.00 env5:130.40 eval_episode46_server:129.00
+env1:109.20 env2:79.60 env3:121.60 env4:200.00 env5:120.40 eval_episode47_server:126.16
+env1:139.80 env2:79.00 env3:127.20 env4:200.00 env5:137.80 eval_episode48_server:136.76
+env1:146.80 env2:89.40 env3:178.80 env4:200.00 env5:131.20 eval_episode49_server:149.24
+env1:120.60 env2:82.20 env3:144.60 env4:200.00 env5:139.00 eval_episode50_server:137.28
+env1:126.00 env2:86.00 env3:166.20 env4:200.00 env5:127.20 eval_episode51_server:141.08
+env1:112.00 env2:129.60 env3:163.40 env4:200.00 env5:121.80 eval_episode52_server:145.36
+env1:116.40 env2:148.20 env3:123.80 env4:190.60 env5:152.20 eval_episode53_server:146.24
+env1:119.20 env2:163.20 env3:152.60 env4:131.80 env5:112.80 eval_episode54_server:135.92
+env1:114.40 env2:170.40 env3:125.80 env4:200.00 env5:120.60 eval_episode55_server:146.24
+env1:142.40 env2:190.00 env3:134.00 env4:200.00 env5:119.40 eval_episode56_server:157.16
+env1:144.40 env2:200.00 env3:162.80 env4:200.00 env5:143.60 eval_episode57_server:170.16
+env1:177.20 env2:199.20 env3:169.40 env4:200.00 env5:170.00 eval_episode58_server:183.16
+env1:195.00 env2:195.80 env3:183.00 env4:184.00 env5:179.20 eval_episode59_server:187.40
+env1:199.40 env2:200.00 env3:180.80 env4:196.00 env5:179.00 eval_episode60_server:191.04
+env1:176.00 env2:200.00 env3:171.20 env4:200.00 env5:151.60 eval_episode61_server:179.76
+env1:196.60 env2:200.00 env3:147.40 env4:200.00 env5:173.40 eval_episode62_server:183.48
+env1:187.20 env2:198.20 env3:158.60 env4:198.80 env5:190.40 eval_episode63_server:186.64
+env1:180.20 env2:200.00 env3:162.20 env4:199.60 env5:177.20 eval_episode64_server:183.84
+env1:156.00 env2:167.80 env3:170.00 env4:200.00 env5:154.80 eval_episode65_server:169.72
+env1:174.20 env2:180.60 env3:165.40 env4:200.00 env5:144.60 eval_episode66_server:172.96
+env1:179.00 env2:168.20 env3:188.00 env4:200.00 env5:176.00 eval_episode67_server:182.24
+env1:158.00 env2:170.80 env3:170.80 env4:198.60 env5:157.80 eval_episode68_server:171.20
+env1:192.60 env2:108.80 env3:160.20 env4:200.00 env5:147.00 eval_episode69_server:161.72
+env1:179.80 env2:84.20 env3:173.00 env4:199.80 env5:165.80 eval_episode70_server:160.52
+env1:174.40 env2:165.00 env3:172.60 env4:192.60 env5:169.40 eval_episode71_server:174.80
+env1:180.20 env2:175.40 env3:172.20 env4:195.20 env5:177.00 eval_episode72_server:180.00
+env1:193.20 env2:156.60 env3:179.60 env4:200.00 env5:158.00 eval_episode73_server:177.48
+env1:190.40 env2:170.40 env3:188.80 env4:200.00 env5:151.40 eval_episode74_server:180.20
+env1:184.40 env2:194.40 env3:177.60 env4:175.40 env5:170.80 eval_episode75_server:180.52
+env1:193.00 env2:170.80 env3:192.40 env4:66.80 env5:139.60 eval_episode76_server:152.52
+env1:190.00 env2:167.80 env3:193.00 env4:62.60 env5:165.60 eval_episode77_server:155.80
+env1:181.20 env2:174.00 env3:195.60 env4:124.40 env5:163.80 eval_episode78_server:167.80
+env1:191.40 env2:177.00 env3:182.60 env4:87.20 env5:144.20 eval_episode79_server:156.48
+env1:185.00 env2:158.40 env3:184.60 env4:73.60 env5:178.00 eval_episode80_server:155.92
+env1:197.40 env2:188.40 env3:186.80 env4:164.40 env5:169.60 eval_episode81_server:181.32
+env1:199.20 env2:184.80 env3:186.20 env4:117.20 env5:182.00 eval_episode82_server:173.88
+env1:196.80 env2:195.80 env3:172.40 env4:175.40 env5:180.00 eval_episode83_server:184.08
+env1:200.00 env2:186.60 env3:197.20 env4:170.40 env5:190.00 eval_episode84_server:188.84
+env1:200.00 env2:200.00 env3:200.00 env4:196.60 env5:183.00 eval_episode85_server:195.92
+env1:200.00 env2:200.00 env3:190.80 env4:163.00 env5:186.00 eval_episode86_server:187.96
+env1:194.40 env2:200.00 env3:191.00 env4:174.00 env5:176.00 eval_episode87_server:187.08
+env1:200.00 env2:200.00 env3:197.60 env4:194.60 env5:173.80 eval_episode88_server:193.20
+env1:192.80 env2:200.00 env3:196.60 env4:77.00 env5:189.80 eval_episode89_server:171.24
+env1:194.20 env2:200.00 env3:196.80 env4:137.40 env5:182.20 eval_episode90_server:182.12
+env1:200.00 env2:200.00 env3:189.40 env4:188.80 env5:180.60 eval_episode91_server:191.76
+env1:188.00 env2:200.00 env3:194.40 env4:190.40 env5:190.20 eval_episode92_server:192.60
+env1:192.80 env2:200.00 env3:182.20 env4:129.60 env5:156.00 eval_episode93_server:172.12
+env1:194.20 env2:200.00 env3:188.40 env4:137.40 env5:181.00 eval_episode94_server:180.20
+env1:190.80 env2:200.00 env3:197.20 env4:126.40 env5:181.60 eval_episode95_server:179.20
+env1:180.40 env2:200.00 env3:199.40 env4:194.40 env5:175.00 eval_episode96_server:189.84
+env1:164.20 env2:200.00 env3:178.20 env4:198.40 env5:127.40 eval_episode97_server:173.64
+env1:172.80 env2:200.00 env3:186.00 env4:199.40 env5:156.80 eval_episode98_server:183.00
+env1:178.20 env2:200.00 env3:177.80 env4:190.40 env5:163.20 eval_episode99_server:181.92
+env1:191.40 env2:200.00 env3:180.20 env4:194.80 env5:154.20 eval_episode100_server:184.12
+done!
+gpu:2
+cuda:1
+../outputs/fed_model/walker/distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_dualFalse_distepoch15clients:5
+niid:True
+noise:False
+dist lr:0.001
+net3
+r:[0.6745365534609943, 0.3097152655805989, 0.015748180958406712] net3
+net3
+r:[0.03506069529884873, 0.45935833071102117, 0.50558097399013] net3
+net3
+r:[0.036045189642076654, 0.9003936556466159, 0.06356115471130762] net3
+net3
+r:[0.5207414864240862, 0.042759237775289345, 0.4364992758006243] net3
+net3
+r:[0.42747308425698943, 0.04838692241593291, 0.5241399933270776] net3
+net3
+/home/wmai/anaconda3/lib/python3.8/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))

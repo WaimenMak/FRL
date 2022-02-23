@@ -24,6 +24,7 @@ from torch.multiprocessing import Pipe, Process, set_start_method
 from torch.utils.data import TensorDataset, DataLoader
 from torch import nn
 from utils.Memory import DistilDataset
+from copy import deepcopy
 
 
 try:
@@ -37,31 +38,36 @@ class Arguments():
         self.gamma = 0.98
         self.lr = 0.002
         self.distil_lr = 0.001
-        self.epochs = 5
+        self.epochs = 10
         self.niid = False
         self.scheduler = False
         self.std = 0  # not noise, the env params
+        self.reweight_tau = 1
         # self.scheduler = ExponentialScheduler(0.002, 0.0004)
         # self.env_name = "walker"
         # self.env_name = "lunar"
-        # self.env_name = "pendulum"
+        self.env_name = "pendulum"
         # self.env_name = "car"
-        self.env_name = "cart"
+        # self.env_name = "cart"
         if self.env_name == "pendulum":
+            self.reweight_tau = 0.3
+            self.epochs = 20
             self.niid = True
             self.action_bound = 2
             self.local_bc = 128  # local update memory batch size
             self.episode_length = 200  # env._max_episode_steps
-            self.playing_step = int(3.2e4)
+            self.playing_step = int(3e4)
             self.capacity = 10000
-            self.std = 0.1
-            self.noisy_input = False
-            self.N = int(20)
+            self.std = 0
+            self.noisy_input = True
+            self.N = int(100)
             self.M = 2
-            self.L = int(20)
+            self.L = int(100)
             self.policy_noise = 0.2  # std of the noise, when update critics
             self.std_noise = 0.1  # std of the noise, when explore 0.1
         elif self.env_name == "walker":
+            self.reweight_tau = 0.5
+            self.epochs = 20
             self.niid = True
             self.action_bound = 1
             self.local_bc = 256  # local update memory batch size
@@ -90,6 +96,7 @@ class Arguments():
             self.policy_noise = 0.2  # std of the noise, when update critics
             self.std_noise = 0.1  # std of the noise, when explore 0.1
         elif self.env_name == "cart":
+            self.reweight_tau = 0.5
             self.niid = True
             self.lr = 0.00009
             self.action_bound = 1
@@ -97,8 +104,8 @@ class Arguments():
             self.episode_length = 200  # env._max_episode_steps
             self.playing_step = int(2e4)
             self.capacity = 10000
-            self.std = 0
-            self.noisy_input = True
+            self.std = 1
+            self.noisy_input = False
             self.N = int(20)
             self.M = 2
             self.L = int(20)
@@ -116,12 +123,15 @@ class Arguments():
         self.mu = 0
         self.beta = 0
         self.alpha = 0
+        self.dist = True
+        self.dual = False
+        self.reweight = True
         self.Round = self.playing_step // self.N + self.playing_step // self.M // self.L
 
-        self.client_num = 2
+        self.client_num = 5
         self.env_seed = self.client_num
         # self.env_seed = None
-        self.filename = f"t22distilstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_alpha{self.alpha}"  #filename:env_seed, model_name:env_name
+        self.filename = f"distilstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_dual{self.dual}_reweight{self.reweight_tau}_distepoch{self.epochs}"  #filename:env_seed, model_name:env_name
 
 args = Arguments()
 if args.env_name == "pendulum":
@@ -155,7 +165,8 @@ def agent_env_config(args, seed=None):
             print(f"mean:{env.mean}", end = " ")
         elif args.env_name == 'walker':
             env = BipedalWalkerHardcore(seed)
-            print(f"r:{env.r}", end = " ")
+            print(f"r:{env.r}", end=" ")
+            print(f"stump:{env.small_type}")
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous(seed, std=args.std)
             # print(f"noise_mean::{env.mean}")
@@ -191,7 +202,9 @@ def GenerateAgent(args):
 
 def eval(agent, envs, args):
     r = 0
+    tau = args.reweight_tau # for softmax weight
     env_num = 0
+    weighted = []
     for env in envs:
         env_num += 1
         temp = 0
@@ -212,9 +225,14 @@ def eval(agent, envs, args):
 
             temp += ep_reward/args.eval_episode
             r += ep_reward/args.eval_episode
+
+        weighted.append(temp)
         print(f"env{env_num}:{temp:.2f}", end = ' ')
     # print(f"eval:{r/args.eval_episode:.2f}")
-    return r/len(envs)
+    weighted = [weight + np.abs(np.min(weighted)) for weight in weighted]
+    weighted = [np.exp(((1 - weight)/sum(weighted))/tau) for weight in weighted]
+    weighted = [weight/sum(weighted) for weight in weighted]
+    return r/len(envs), weighted
 
 
 def Explore(agent, env, args):
@@ -261,11 +279,12 @@ def ClientUpdate(client_pipe, agent, local_env, args):
 
     print(f"{agent.name} in {local_env.env_param}")
     round_q = 0
-    q_params, mu_params = client_pipe.recv()
+    q_params, mu_params, frac = client_pipe.recv()
     agent.sync(q_params, mu_params)
 
     # ep_reward = 0
     # n = 0
+    # N = args.local_bc * args.client_num
     time_step = 0
     eval_reward = []
     state = local_env.reset()
@@ -290,6 +309,13 @@ def ClientUpdate(client_pipe, agent, local_env, args):
         state_batch, action_batch = agent.UpdateQ()
         # agent.UpdateQ(client_pipe)
         if (i_ep+1) % args.N == 0:  #update Q
+            # if args.reweight and len(agent.memory) >= N:
+            #     state_batch, action_batch, _, _, _ = agent.memory.sample(
+            #         int(N * frac))
+            #     state_batch = torch.tensor(
+            #         state_batch, device=agent.device, dtype=torch.float)
+            #     action_batch = torch.tensor(
+            #         action_batch, device=agent.device, dtype=torch.float)
             with torch.no_grad():
                 dist_rep1, dist_rep2 = agent.critic.Q_net.client_rep(state_batch, action_batch)
                 q_label1, q_label2 = agent.critic.Q_net(state_batch, action_batch)
@@ -303,13 +329,8 @@ def ClientUpdate(client_pipe, agent, local_env, args):
 
             q_params = agent.critic.Q_net.shared_params()         #q_params state dict of the output layer of Q
             client_pipe.send(((dist_rep1, dist_rep2, q_label1, q_label2), q_params, False))
-            global_q = client_pipe.recv()  # recv agg Q
+            global_q, frac = client_pipe.recv()  # recv agg Q
             agent.critic.Q_net.client_update(global_q)
-
-            ##update local global q
-            # agent.glob_q.client_update(global_q)
-            # agent.glob_q.load_state_dict(agent.critic.Q_net.state_dict())
-
             # for param in agent.critic.Q_net.state_dict().keys():
             #     agent.critic.Q_net.state_dict()[param].copy_(global_q[param])
             agent.to_gpu([agent.critic.Q_net])
@@ -334,10 +355,10 @@ def ClientUpdate(client_pipe, agent, local_env, args):
         if (i_ep+1) % args.episode_length == 0:
             # n += 1
             # reward_log = eval(agent, [local_env], args)
-            # print(f"eval_episode{n}_{agent.name}:{reward_log:.2f}")
-            # eval_reward.append(reward_log)
-            # np.save(f"{model_path}{args.filename}{agent.name}_clientnum{args.client_num}", eval_reward)
+            # print(f"train_episode{n}_{agent.name}:{reward_log:.2f}")
             pass
+        # if (i_ep+1) == args.playing_step:
+        #     torch.save(dist_rep1, f"{model_path}iidclient{args.client_num}{agent.name}.pt")
 
 def Agg_q(local_models, global_net, weighted, args):
     """
@@ -365,6 +386,18 @@ def Agg_pi(local_models, global_net, weighted, args):
             for k in range(1, K):
                 global_net[params] += weighted[k] * local_models[k][params]
 
+def Agg_pi2(local_models, global_net, weighted, args):
+    alpha = 0.5
+    temp_net = deepcopy(global_net)
+    with torch.no_grad():
+        K = args.client_num
+        for params in global_net.keys():
+            temp_net[params].copy_(weighted[0] * local_models[0][params])
+        for params in global_net.keys():
+            for k in range(1, K):
+                temp_net[params] += weighted[k] * local_models[k][params]
+            global_net[params].copy_(alpha * global_net[params] + (1 - alpha) * temp_net[params])
+
 
 class Server():
     def __init__(self,state_dim, action_dim, args):
@@ -379,9 +412,10 @@ class Server():
             p2.requires_grad = True
 
         self.loss_fn = nn.MSELoss()
-        self.optimizer = optim.SGD(filter(lambda p: p.requires_grad, self.q.parameters()), lr=args.distil_lr)
+        self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.q.parameters()), lr=args.distil_lr, weight_decay=1e-2)
+        # self.optimizer = optim.Adam(filter(lambda p: p.requires_grad, self.q.parameters()), lr=args.distil_lr)
         self.train_dataset = DistilDataset()
-        self.train_loader = DataLoader(dataset=self.train_dataset, batch_size=args.local_bc, shuffle=False)
+        self.train_loader = DataLoader(dataset=self.train_dataset, batch_size=args.local_bc, shuffle=True)
 
     def distill(self, args):
 
@@ -390,7 +424,7 @@ class Server():
         for epoch in range(args.epochs):
             for data in self.train_loader:
                 rep1, rep2, label1, label2 = data
-                # rep1, rep2, label1, label2 = rep1.to(args.device), rep2.to(args.device), label.to(args.device)
+                rep1, rep2, label1, label2 = rep1.to(args.device), rep2.to(args.device), label1.to(args.device), label2.to(args.device)
 
                 oupt1, oupt2 = self.q.server_oupt(rep1, rep2)
                 # oupt = torch.cat(oupt)
@@ -399,6 +433,7 @@ class Server():
                 loss = self.loss_fn(oupt1, label1) + self.loss_fn(oupt2, label2)
                 loss.backward()
                 self.optimizer.step()
+        # print(f"dist loss:{loss}")
 
 
 def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): #FedAvg
@@ -415,42 +450,33 @@ def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): #FedAvg
     eval_freq = args.episode_length // (args.M * args.L)   # transfer round to episode
     eval_reward = []
     local_models = []
+    re_weight = weighted
     count = 0
     target = None
-    distill_data = None
-    # train_loader = None
-    # train1 = list()
-    # train2 = list()
-    # label1 = list()
-    # label2 = list()
+
     for i in range(args.client_num):
-        pipe_dict[i][1].send((server.q.state_dict(), server.mu.state_dict()))   #init model
+        pipe_dict[i][1].send((server.q.state_dict(), server.mu.state_dict(), re_weight[i]))   #init model
 
     for round_ in range(args.Round):
         server.train_dataset.clear()
         for i in range(args.client_num):
             distill_data, model, target = pipe_dict[i][1].recv()
-            # if distill_data:
-
-                # train1.append(distill_data[0])
-                # train2.append(distill_data[1])
-                # label1.append(distill_data[2])
-                # label2.append(distill_data[3])
+            if not target and args.dist:
+                server.train_dataset.add(distill_data)
             local_models.append(model)
-
-        # if distill_data:
-        #     traindata1 = torch.cat(traindata1)
-        #     traindata2 = torch.cat(traindata2)
-        #     q_label1 = torch.cat(q_label1)
-        #     q_label2 = torch.cat(q_label2)
 
 
         if not target:
-            Agg_q(local_models, (server.q.oupt_layer_q1.state_dict(), server.q.oupt_layer_q2.state_dict()), weighted, args)
-            server.train_dataset.add(distill_data)
-            server.distill(args)
+            Agg_q(local_models, (server.q.oupt_layer_q1.state_dict(), server.q.oupt_layer_q2.state_dict()), re_weight, args)
+
+            if args.dist:
+                server.q.to(args.device)
+                # server.train_dataset.add(distill_data)
+                server.distill(args)
+                server.q.to("cpu")
             for i in range(args.client_num):
-                pipe_dict[i][1].send((server.q.oupt_layer_q1.state_dict(), server.q.oupt_layer_q2.state_dict()))  # send q
+                pipe_dict[i][1].send(
+                    ((server.q.oupt_layer_q1.state_dict(), server.q.oupt_layer_q2.state_dict()), re_weight[i]))  # send q
         else:
             count += 1
             Agg_pi(local_models, server.mu.state_dict(), weighted, args)
@@ -460,7 +486,11 @@ def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): #FedAvg
             actor.policy_net.load_state_dict(server.mu.state_dict())
             # reward_log = eval(actor, envs, args)
             if (count+1) % eval_freq == 0:
-                reward_log = eval(actor, envs, args)
+                if args.reweight:
+                    reward_log, re_weight = eval(actor, envs, args)
+                    print(f"{re_weight[1]:.2f}", end=" ")
+                else:
+                    reward_log, _ = eval(actor, envs, args)
                 print(f"mu_round:{count}/{args.playing_step//args.M//args.L} eval_server:{reward_log:.2f}")
                 eval_reward.append(reward_log)
                 np.save(f"{model_path}{args.filename}server_clientnum{args.client_num}", eval_reward)
@@ -470,13 +500,23 @@ def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): #FedAvg
 
 
 if __name__ == '__main__':
+    # print('adam')
+    print(f"gpu:{torch.cuda.device_count()}")
+    print(f"reweight:{args.reweight_tau}")
+    print(args.device)
     print(model_path + args.filename + f"clients:{args.client_num}")
     print(f"niid:{args.niid}")
+    print(f"noise:{args.noisy_input}")
     print(f"dist lr:{args.distil_lr}")
-    # env = PendulumEnv()
-    # env = BipedalWalkerHardcore()
-    env = cart_env_config()
-    # env = LunarLanderContinuous()
+    if args.env_name == "pendulum":
+        env = PendulumEnv()
+    elif args.env_name == "walker":
+        env = BipedalWalkerHardcore()
+        print(f"walker version2:{env.v2}")
+    elif args.env_name == "cart":
+        env = cart_env_config()
+    else:
+        env = LunarLanderContinuous()
     set_seed(1)
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]

@@ -100,9 +100,9 @@ class LunarLander(gym.Env, EzPickle):
         self.chunks = 11
         self.p = 0.
         if seed:
-            self.p = 0.1
+            self.p = 0
             np.random.seed(seed)
-            self.chunks = np.random.randint(11 - 6, 11 + 6)
+            self.chunks = np.random.randint(11 - 7, 11 + 8)
             # self.mean = np.random.uniform(-1, 1)
 
         self.env_param = [self.chunks, self.p]
@@ -124,9 +124,9 @@ class LunarLander(gym.Env, EzPickle):
 
     def modify(self, seed):
         if seed:
-            self.p = 0.1
+            self.p = 0.
             np.random.seed(seed)
-            self.chunks = np.random.randint(11 - 6, 11 + 6)
+            self.chunks = np.random.randint(11 - 7, 11 + 8)
             # self.mean = np.random.uniform(-1, 1)
 
         self.env_param = [self.chunks, self.p]
@@ -160,8 +160,8 @@ class LunarLander(gym.Env, EzPickle):
         # CHUNKS = 11
         CHUNKS = self.chunks
         if np.random.rand() < self.p:  #randomly switch to other environment
-            CHUNKS = np.random.randint(11 - 6, 11 + 6)
-            print(f"{self.chunks} switch to {CHUNKS}")
+            CHUNKS = np.random.randint(11 - 7, 11 + 8)
+            # print(f"{self.chunks} switch to {CHUNKS}")
         height = self.np_random.uniform(0, H/2, size=(CHUNKS+1,))
         chunk_x = [W/(CHUNKS-1)*i for i in range(CHUNKS)]
         # print(f"CHUNKS:{CHUNKS}")

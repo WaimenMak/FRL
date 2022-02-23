@@ -144,39 +144,84 @@ def pendulum_env_config2(env_seed=None, std=0):
         env = PendulumEnv()
     return env
 
+from agents.TD3 import Actor
+import os
+class Arguments():
+    def __init__(self):
+        # self.local_bc = 256  # local update memory batch size
+        # self.gamma = 0.98
+        self.lr = 0.002
+        # self.action_bound = 2
+        self.tau = 0.01
+        self.policy_noise = 0 #std of the noise, when update critics
+        self.std_noise = 0    #std of the noise, when explore
+        self.noise_clip = 0
+
+        self.env_name = "pendulum"
+
+        if self.env_name == "pendulum":
+            self.action_bound = 2
+            self.local_bc = 0  # local update memory batch size
+            self.episode_length = 200  # env._max_episode_steps
+            self.playing_step = int(2e4)
+            self.capacity = 10
+            self.std = 0
+            self.noisy_input = False
+            self.N = int(0)
+            self.M = 2
+            self.L = int(0)
+
+        self.device = try_gpu()
+        self.beta = 0
+        self.C_iter = self.M
+        self.env_seed = None
+        self.beta = 0
+        self.mu = 0
+        self.alpha = 0
+        # self.capacity = 10000
+        # self.episode_length = 200  # env._max_episode_steps
+        self.eval_episode = 100
+        self.filename = "niidevalfedstd1_noicyFalse_32000_pendulum5_N100_M2_L100_beta0_mu0.01_dual_False_clientnum5actor_"  #moon
+        # self.filename = "distilstd1_noicyFalse_32000_pendulum5_N100_M2_L100_dualFalse_distepoch20_clientnum5actor_"  # dist
+
+
+# model_path = '../outputs/center_model/pendulum/'
+model_path = '../outputs/fed_model/pendulum/'
+
+
+if not os.path.exists(model_path):
+    os.makedirs(model_path)
+
+
 if __name__ == '__main__':
-    device = try_gpu()
-    # model_path = '../outputs/model/pendulum/'
-    model_path = '../outputs/fed_model/'
-    # env = CartPoleEnv()
-    env = pendulum_env_config2(7)
-    print(f"l:{env.l:.2f},g: {env.g:.2f},m:{env.m:.2f}")
-    upperbound = env.action_space.low[0]
-    lowerbound = env.action_space.high[0]
-    # env.seed = 1
-    # agent = fed_DQN(env.observation_space.shape[0], env.action_space.n, 1, 1,
-    #                       1, 1, 1, device)
-    action_dim = 11
-    agent = DQN(env.observation_space.shape[0], action_dim, 1, 1,
-                    1, 1, 1, device)
-    # agent.name = 'agent_server'
-    agent.load(model_path + 'clients_5_Pendulum_fedavgdqn.pth')
-    # agent.load(model_path + 'seed_0_pend_feddqn.pth')
-    # agent.load(model_path + 'seed_0_dqn_pendulum.pth')
-    state = env.reset()  # 初始化环境，observation为环境状态
-    count = 0
-    ep_reward = 0
-    for _ in range(200):
-        env.render()
-        # action = env.action_space.sample()  # 随机采样动作
-        # print(action)
-        action = action_trans(agent.predict(state), action_dim, upperbound, lowerbound)
-        n_state, reward, done, _ = env.step([action])
-        ep_reward += reward
-        state = n_state
-        if done:
-            break
-        # count += 1
-        time.sleep(0.1)
-    env.close()
-    print(ep_reward)
+    args = Arguments()
+    env = pendulum_env_config2(env_seed=3, std=1)
+
+    env.seed(1)
+    # env.reset()
+    done = False
+    state_dim = env.observation_space.shape[0]
+    action_dim = env.action_space.shape[0]
+    agent = Actor(state_dim, action_dim, args.action_bound, args)
+    agent.load(model_path+args.filename)
+    for i in range(2):
+        state = env.reset()
+        ep_reward = 0
+
+        for i_ep in range(args.eval_episode):
+            env.render()
+            state = env.reset()
+            if args.noisy_input:
+                state = state + np.random.normal(env.mean, 0.01, state.shape[0])
+            ep_reward = 0
+            for iter in range(args.episode_length):
+                action = agent.predict(state)  # action is array
+                n_state, reward, done, _ = env.step(action)  # env.step accept array or list
+                if args.noisy_input:
+                    n_state = n_state + np.random.normal(env.mean, 0.01, state.shape[0])
+                ep_reward += reward
+                if done == True:
+                    break
+                state = n_state
+        print(ep_reward)
+        env.close()

@@ -1,0 +1,23 @@
+#!/bin/bash
+###Use queue (partition) q1
+#SBATCH -p q1
+### Use 1 nodes and 8 cores
+#SBATCH -N 1 -n 10
+#SBATCH --mail-user=21422885@life.hkbu.edu.hk
+#SBATCH --mail-type=end
+#SBATCH --time=40:00:00
+# std oupt
+#SBATCH -o job1.o
+
+cd ${HOME}/FRL/FRL/fed_reg/
+export conda_env=${HOME}/anaconda3/envs/frl
+export PATH=${conda_env}/bin:${HOME}/anaconda3/condabin:${PATH}
+export LD_LIBRARY_PATH=${conda_env}/lib:${LD_LIBRARY_PATH}
+
+# python dist_reg.py
+# echo "fedavg walker v3"
+# python fedtd3_reg.py
+# echo "dist stat walker v3"
+# python dist_reg_v2.py
+python central_classic.py
+python dist_reg_v2.py

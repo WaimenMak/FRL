@@ -23,6 +23,7 @@ class ContinuousCartPoleEnv(gym.Env):
         self.masscart = 1.0
         self.masspole = 0.1
         self.length = 0.5  # actually half the pole's length
+        self.env_param = [self.length, self.masspole, self.masscart, self.gravity]
         if env_params:
             self.length, self.masspole, self.masscart, self.gravity, self.mean = env_params
             self.env_param = env_params
@@ -193,17 +194,17 @@ class Arguments():
         self.device = try_gpu()
         self.capacity = 0
         self.env_seed = None
-        self.noisy_input = True
+        self.noisy_input = False
         # self.capacity = 10000
         self.C_iter = 0
 
         # self.filename = "niidevalfedstd0_noicyTrue_20000_cart1_N20_M2_L20_beta0_mu0_clientnum1actor_"
-        self.filename = "centerniidstd_noisyTrue_20000_cart5_M2_clientnum5actor_"
-
+        # self.filename = "centerniidstd_noisyTrue_20000_cart5_M2_clientnum5actor_"
+        self.filename = "distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualTrue_reweightTrue_distepoch10_clientnum5actor_"
 
 # model_path = '../outputs/model/lunar/'
-model_path = '../outputs/center_model/cartpole/'
-# model_path = '../outputs/fed_model/cartpole/'
+# model_path = '../outputs/center_model/cartpole/'
+model_path = '../outputs/fed_model/cartpole/'
 if not os.path.exists(model_path):
     os.makedirs(model_path)
 
@@ -213,8 +214,11 @@ def cart_env_config(env_seed=None, std=0):
     if env_seed != None:
         np.random.seed(env_seed) #0.5, 0.1, 1, 9.8
         length = 0.5 + np.random.normal(0, std)  # length
+        length = np.clip(length, 0.1, 5)
         masspole = 0.1 + np.random.normal(0, std)  # masspole
+        masspole = np.clip(masspole, 0.01, 5)
         masscart = 1. + np.random.normal(0, std)  # masscart
+        masscart = np.clip(masscart, 0.2, 5)
         gravity = 9.8 + np.random.normal(0, std)  # gravity
         mean = np.random.uniform(-1, 1)
         env_params = [length, masspole, masscart, gravity, mean]
@@ -226,10 +230,11 @@ def cart_env_config(env_seed=None, std=0):
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = cart_env_config(5)
+    env = cart_env_config(4, std=0)
     print(f"mean{env.mean}")
     # print(f"r:{env.r},top:{env.stairfreqtop}")
     env.seed(5)
+    print(env.env_param)
     # env.reset()
     done = False
     state_dim = env.observation_space.shape[0]

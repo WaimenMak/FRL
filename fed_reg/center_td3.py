@@ -108,9 +108,6 @@ class TD3():
         # self.actor_loss = Critic.Q1_net.forward()
         self.critics_loss = nn.MSELoss()
 
-        # self.actor_finetune = optim.Adam([self.actor.policy_net.fc3.weight, self.actor.policy_net.fc3.bias], lr=args.lr)
-        # self.critic_finetune = optim.Adam([self.critic.Q_net.q1_fc3.weight, self.critic.Q_net.q1_fc3.bias], lr=args.lr)
-
     def UpdateQ(self):
         if len(self.memory) < self.batch_size:
             return

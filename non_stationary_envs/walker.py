@@ -147,6 +147,7 @@ def select(r):
             break
     return state
 
+
 class BipedalWalker(gym.Env, EzPickle):
     metadata = {
         'render.modes': ['human', 'rgb_array'],
@@ -154,7 +155,7 @@ class BipedalWalker(gym.Env, EzPickle):
     }
 
     hardcore = False
-
+    v2 = True
     def __init__(self, seed=None):
         EzPickle.__init__(self)
         self.seed()
@@ -170,14 +171,34 @@ class BipedalWalker(gym.Env, EzPickle):
         self.stairfreqtop = 5  # 5
         self.stairfreqlow = 3
         self.r = [1/3, 1/3, 1/3]
+        self.stump_type = None
         self.env_param = self.r
-        if seed:
-            np.random.seed(seed)
-            top = [2, 5, 10]
-            # self.stairfreqtop = np.random.randint(1, 10)
-            self.stairfreqtop = np.random.choice(top)
-            self.stairfreqlow = 1
-            self.r = np.random.dirichlet(np.ones(3)).tolist()  #freq
+        if not self.v2:
+            if seed:
+                np.random.seed(seed)
+                top = [2, 5, 10]
+                # self.stairfreqtop = np.random.randint(1, 10)
+                self.stairfreqtop = np.random.choice(top)
+                self.stairfreqlow = 1
+                self.r = np.random.dirichlet(np.ones(3)).tolist()  #freq
+                self.env_param = self.r
+        elif self.v2:
+            if seed:
+                print("version2")
+                np.random.seed(seed)
+                # self.stairfreqtop = np.random.randint(1, 10)
+                if seed == 1:
+                    self.r = [0.7, 0.3, 0]
+                    self.stump_type = 1
+                elif seed == 2:
+                    self.r = [1, 0, 0]
+                elif seed == 3:
+                    self.r = [0, 1, 0]
+                elif seed == 4:
+                    self.r = [0, 0, 1]
+                elif seed == 5:
+                    self.r = [0.4, 0, 0.6]
+                    self.stump_type = 2
             self.env_param = self.r
 
         self.fd_polygon = fixtureDef(
@@ -203,14 +224,34 @@ class BipedalWalker(gym.Env, EzPickle):
         self.observation_space = spaces.Box(-high, high, dtype=np.float32)
 
     def modify(self, seed):
-        if seed:
-            np.random.seed(seed)
-            top = [2, 5, 10]
-            # self.stairfreqtop = np.random.randint(1, 10)
-            self.stairfreqtop = np.random.choice(top)
-            self.stairfreqlow = 1
-            self.r = np.random.dirichlet(np.ones(3)).tolist()  # freq
+        if not self.v2:
+            if seed:
+                np.random.seed(seed)
+                top = [2, 5, 10]
+                # self.stairfreqtop = np.random.randint(1, 10)
+                self.stairfreqtop = np.random.choice(top)
+                self.stairfreqlow = 1
+                self.r = np.random.dirichlet(np.ones(3)).tolist()  # freq
+                self.env_param = self.r
+        elif self.v2:
+            if seed:
+                print("version2")
+                np.random.seed(seed)
+                # self.stairfreqtop = np.random.randint(1, 10)
+                if seed == 1:
+                    self.r = [0.7, 0.3, 0]
+                    self.stump_type = 1
+                elif seed == 2:
+                    self.r = [1, 0, 0]
+                elif seed == 3:
+                    self.r = [0, 1, 0]
+                elif seed == 4:
+                    self.r = [0, 0, 1]
+                elif seed == 5:
+                    self.r = [0.4, 0, 0.6]
+                    self.stump_type = 2
             self.env_param = self.r
+
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -277,6 +318,8 @@ class BipedalWalker(gym.Env, EzPickle):
 
             elif state==STUMP and oneshot:
                 counter = self.np_random.randint(1, 3)
+                if self.stump_type:
+                    counter = self.stump_type
                 poly = [
                     (x,                      y),
                     (x+counter*TERRAIN_STEP, y),
@@ -693,19 +736,19 @@ class Arguments():
         # self.filename = "centerniid__1200000_walkerNone_M2_clientnum5actor_"
         # self.filename = "niidevalfed_walker5_N400_M2_L400_beta0.005_mu0_clientnum5actor_"
         # self.filename = "niidevalfed_walker5_N400_M2_L400_beta0_mu0.01_clientnum5actor_"
-        self.filename = "centerniidstd_noisyFalse_1200000_walker5_M2_clientnum5actor_"
-        # self.filename = "niidevalfeddistil_walker5_N400_M2_L400_alpha0.001_clientnum5actor_"
+        # self.filename = "niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_" #fedavg
+        self.filename = "v2_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_dualFalse_reweightTrue_distepoch20_clientnum5actor_"  # dist_stat
 
 # model_path = '../outputs/model/walker/'
-model_path = '../outputs/center_model/walker/'
-# model_path = '../outputs/fed_model/walker/'
+# model_path = '../outputs/center_model/walker/'
+model_path = '../outputs/fed_model/walker/'
 if not os.path.exists(model_path):
     os.makedirs(model_path)
 
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = BipedalWalkerHardcore(seed=1)
+    env = BipedalWalkerHardcore(seed=5)
     print(f"r:{env.r},top:{env.stairfreqtop}")
     env.seed(1)
     # env.reset()

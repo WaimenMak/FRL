@@ -101,11 +101,9 @@ class Actor():
 
         actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean()
         # print(f'actor loss{actor_loss:.2f}')
-        # self.actor_optimizer.zero_grad()
-        # actor_loss.backward()
-        # self.actor_optimizer.step()
-
-        return actor_loss
+        self.actor_optimizer.zero_grad()
+        actor_loss.backward()
+        self.actor_optimizer.step()
 
 
     def update_target(self, tau, mu_params):
@@ -168,6 +166,7 @@ class fedTD3():
         self.beta = args.beta
         self.mu = args.mu
         self.alpha = args.alpha
+        self.dual = args.dual
         # self.choice = args.choice
         self.noise_clip = args.noise_clip
         self.action_bound = args.action_bound
@@ -232,12 +231,20 @@ class fedTD3():
         return state_batch, action_batch
 
     def dual_distill(self, state):
-        alpha = 0.5
+        alpha = 0.5   #default 0.5
         with torch.no_grad():
-            V1 = torch.cat(self.glob_q(state, self.actor.glob_mu(state)), dim=1).min(1)[0]  #action batch
-            V2 = torch.cat(self.critic.Q_net(state, self.actor.policy_net(state)),dim=1).min(1)[0]
-        loss = torch.sum((self.actor.glob_mu(state) - self.actor.policy_net(state))**2 * alpha * torch.exp(V1 - V2).view(-1,1)).mean()
+            V1 = self.glob_q.Q1_val(state, self.actor.glob_mu(state))  #action batch
+            V2 = self.critic.Q_net.Q1_val(state, self.actor.policy_net(state))
 
+        val = torch.exp(V1 - V2)
+        val[val > 30] = 30
+        loss = torch.sum(
+            (self.actor.glob_mu(state) - self.actor.policy_net(state)) ** 2 * alpha * val).mean()
+
+        # loss = torch.sum((self.actor.glob_mu(state) - self.actor.policy_net(state))**2 * alpha * torch.exp(V1 - V2).view(-1,1)).mean()
+
+        # loss = torch.sum(
+        #     (self.actor.glob_mu(state) - self.actor.policy_net(state)) ** 2 * alpha * torch.where((V1 - V2)>0, 1, 0)).mean()
         return loss
 
     def localDelayUpdate(self, state, Q_net, tau, client_pipe):
@@ -247,19 +254,35 @@ class fedTD3():
         :return: 
         """
         self.count += 1
-        loss2 = 0.
-        loss1 = self.actor.update_policy(state, Q_net)
-        if self.count > self.L:
-            loss2 = self.dual_distill(state)
+        if self.dual:
 
-        distil_loss = 0.9 * loss1 + 0.1 * loss2
-        self.actor.actor_optimizer.zero_grad()
-        distil_loss.backward()
-        self.actor.actor_optimizer.step()
+            partial = 0.9   #default 0.9
+            loss2 = 0.
+            loss1 = -Q_net.Q1_val(state, self.actor.policy_net(state)).mean()
+            if self.count > self.L:
+                loss2 = self.dual_distill(state)
 
-        # self.actor.prev_mu.load_state_dict(self.actor.temp_mu.state_dict())
+            distil_loss = partial * loss1 + (1 - partial) * loss2
+            self.actor.actor_optimizer.zero_grad()
+            distil_loss.backward()
+            self.actor.actor_optimizer.step()
+
+            # loss1 = -Q_net.Q1_val(state, self.actor.policy_net(state)).mean()
+            # self.actor.actor_optimizer.zero_grad()
+            # if self.count > self.L:
+            #     loss2 = self.dual_distill(state)
+            #     loss2.backward()
+            #
+            # loss1.backward()
+            # self.actor.actor_optimizer.step()
+        else:
+            self.actor.update_policy(state, Q_net)
 
         if self.count % self.L == 0:
+            #
+            # if self.count > self.L:
+            #     print(temp.item())
+
             models = [self.actor.policy_net, self.actor.target_net, self.critic.Q_target, self.critic.Q_net]
             self.to_cpu(models)
             client_pipe.send((None, self.actor.policy_net.state_dict(), True))
