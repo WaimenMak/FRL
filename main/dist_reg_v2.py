@@ -279,7 +279,7 @@ def ClientUpdate(client_pipe, agent, local_env, args):
     print(f"{agent.name} in {local_env.env_param}")
     round_q = 0
     q_params, mu_params, frac = client_pipe.recv()
-    agent.sync(q_params, mu_params)
+    agent.sync(q_params, mu_params)         # initially synchronize from server
 
     # ep_reward = 0
     # n = 0

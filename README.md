@@ -124,7 +124,7 @@ for t in T:
 │  └─Tools.py
 ```
 
-The key programs are contained in the `main` folder. The file start with `dist*` are our method and the others are baseline methods. The file start with `central*` are the methods that collect all the local data and do the training in the server side. Basically it violate the federated setting but it provides information that how far the federated algorithm can achieve.
+The above structure is the main structure of this project. The key programs are contained in the `main` folder. The file start with `dist*` are our method and the others are baseline methods. The file start with `central*` are the methods that collect all the local data and do the training in the server side. Basically it violate the federated setting but it provides information that how far the federated algorithm can achieve.
 
 The network structure used in this project can be seen in `Network.py` in models. The codes in folder `non_stationary_envs` are for generating the local environments. The folder `utils` stores some toolkit for the programs.
 
@@ -191,5 +191,4 @@ Another method to simulate heterogeneous environments is to add noise to the inp
 $$
 <s,a> + N(\mu_i, \sigma)
 $$
-
 
