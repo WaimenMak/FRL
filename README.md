@@ -127,7 +127,26 @@ def distill(self, args):
 
 The core code of the implementation of Twin Delayed DDPG is in the file `dist_td3.py` and `fedregtd3.py`. These file contain the `actor class` and the `critic class` which are the key component of the TD3 framework.
 
-For different baseline methods, it can be directly change the objective function in `update_policy()` and `localDelayUpdate()` to add different kinds of regular term.
+For different baseline methods, it can be directly change the objective function in `update_policy()` and `localDelayUpdate()` to add different kinds of regular term. The function in `fedregtd3.py` is as follow:
+
+```python
+ def update_policy(self, state, Q_net):
+        self.temp_mu.load_state_dict(self.policy_net.state_dict())
+        # if self.alpha != 0:
+        #     actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean() + self.alpha * self.l_mse(self.policy_net(state), self.glob_mu(state))
+        if self.beta !=0:
+            actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean() + self.beta * l2_norm(self.policy_net, self.glob_mu)
+        elif self.mu !=0:
+            actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean() + self.mu * l_con_mu(state, self.policy_net, self.glob_mu, self.prev_mu)
+        else:
+            actor_loss = -Q_net.Q1_val(state, self.policy_net(state)).mean()
+        # print(f'actor loss{actor_loss:.2f}')
+        self.actor_optimizer.zero_grad()
+        actor_loss.backward()
+        self.actor_optimizer.step()
+```
+
+`mu` and `beta` are the hyper parameters of the baseline method  `Moon` and `FedProx`, and `l2_norm` and `l_con_mu` are the regular term.
 
 ### Dataset
 
