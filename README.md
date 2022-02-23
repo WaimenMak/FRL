@@ -13,69 +13,11 @@ Although FL has been widely studied in supervised learning tasks, there are stil
 
 Our target is to train the agent locally, with the help of the server, we hope the agent could perform well in similar environments but with different dynamics. The straightforward way to achieve this goal is to collect all the data to train the agent centrally, but to protect the privacy of the agents, we intuitively combine the FL methods with the off-policy RL algorithm TD3. And to better address the aforementioned objective heterogeneity problem, lots of work proposed different kind of local regularizer to constraint the training of the local model. However, these kinds of methods may not be works well in the reinforcement learning setting. As long as the value network trained on the local data, its estimation of different environments would be unreliable and such that leading to a bad performance of the actor network. Besides, naively aggregating the models would be very hard for the RL based algorithm to converge in the early stage of training, resulting in a high communication cost issue. Inspired by the work in \cite{luo2021no} and \cite{lin2020ensemble}, we introduce partial network distillation techniques to aggregate the local models while protecting the data collected by the local agents. And we compare our method with the baseline methods in FL.
 
-
 ### Objective Function
 
-The global objective function is as follow:
+Please refer this link for the inference of the objective function:
 
-
-$$
-\min {F(w)} = \sum_{k=1}^Np_kF_k(w)
-$$
-In the Q learning setting, our goal is to find the optimal estimation function `Q_*(s,a)` ,   where
-$$
-Q_*(s,a) = \mathbb{E}_{S_{t+1}\sim p(.|S_t,a_t)}[R_t + \gamma max_a Q_*(S_{t+1},a)|S_t=s_t,A_t=a_t]
-$$
-we use TD to estimate the expectation,  we hope that we could find $w_*$   such that
-$$
-\mathbb{E}_{(s_t,s_{t+1})\sim D}[(Q_*(s_t,a_t) - (R_t + \gamma max_a Q_*(s_{t+1},a)))^2] = 0
-$$
-so the objective function can be:
-$$
-F(w) = \mathbb{E}_{S\sim D}[(Q_w(s_t,a_t) - (R_t + \gamma max_a Q_w(s_{t+1},a)))^2]
-$$
-rewrite it:
-$$
-F(w) = 1/N\sum_j^Nl(w;x_j) \\
-l(\omega, x_j) = [Q_\omega(s_t^j,a_t^j) - (r_t^j + \gamma max_a Q_\omega(s_{t+1}^j,a))]^2 \\
-x_j : (s_t^j,a_t^j,r_t^j,s_{t+1}^j) \sim D
-$$
-above is the centralize objective function, i.e. we only have the global agent, and the data $x_j$ is collected from the joint distribution `D`:
-$$
-P(x) = P(s_t,a_t,r_t,s_{t+1}) = P(s_t)P_w(a_t|s_t)P(s_{t+1}|s_t,a_t)
-$$
-therefore the data collected from exploration is affected by two distrbution $P(s)$ and $P_w(a|s)$, specifically it is affected by the environment and the current policy of the agent.
-
-with above,  we denote the local objective function of the device `k`as:
-$$
-F_k(w_k) = 1/n_k\sum_j^{n_k}l(w_k;x_j^k) \\
-x_j^k : (s_t^j,a_t^j,r_t^j,s_{t+1}^j) \sim D_k
-$$
-In this case, if  the environment of device k is different or the policy of the agent k isdifferent, the distribution $D_k$ would be different, and the collected data would be non iid.
-
-The update of the parameters $w_k$:
-$$
-w_{t+i+1}^k = w_{t+i}^k - \eta\nabla F_k(w_{t+i}^k;x_{t+i}^k), i = 0,1,..,E \\
-\nabla F_k(w_{t+i}^k;x_{t+i}^k) = 1/n_k\sum_j^{n_k}\nabla l(w_t^k;x_j^k)
-$$
-$w_t$ is the parameters loaded from server at time step $t$ .  $E$ is the update frequency.  The update of `FedAvg` in global:
-$$
-w_{t+E} = \sum_{k =1}^N p_kw_{t+E}^k
-$$
-$p_k=n_k/n$ , We  assume $n_0 = n_1... = n_k$  and the environment is stationary i.e. $P(s)$  of different device is identity, to prove that when E=1, above update is equivalent to centralized mode update:
-$$
-w_{t+1} = \sum_{k =1}^N p_kw_{t+1}^k\\
-= \sum_{k =1}^N p_k[w_t^k - \eta\nabla F_k(w_t^k;x_t^k)]\\
-=\sum_{k=1}^N \frac{n_k}{n}w_t^k - \eta\sum_{k=1}^N \frac{n_k}{n}\frac{1}{n_k}\sum_{j=1}^{n_k}\nabla l(w_t^k;x_{tj}^k) \\
-$$
-when $n_0 = n_1... = n_k$ and $w_t^k = w_t$:
-$$
-\sum_{k=1}^N \frac{n_k}{n}w_t^k - \eta\sum_{k=1}^N \frac{n_k}{n}\frac{1}{n_k}\sum_{j=1}^{n_k}\nabla l(w_t^k;x_{tj}^k) \\
-=w_t - \eta F(w_t; x_t)
-$$
-where $x_t=\left\{x_t^k\right\}k\in N$ .
-
-consider that in distributed dqn, there are two ways to collect the data, one is Gorila dqn, randomly choose data from local replay buffer which contains the data collected based on old policy, so the data is from vary distribution. The other is asynchrounous one step dqn, compute the gradient based on current policy. In fedavg, when E = 1, and if the environment is identity, the collected data would be from the identity distribution, but however when E > 1, each local data collected from the device are based on different local policy, so the local data within the device would be very relavant, but data between the device would be very different, this could be affect the averaging. So I think we sill need the replay buffer to randomly collect data.
+[Formula]: Formula.ipynb
 
 ### Pseudo code for FedTD3
 
@@ -126,15 +68,17 @@ for t in T:
 
 The above structure is the main structure of this project. The key programs are contained in the `main` folder. The file start with `dist*` are our method and the others are baseline methods. The file start with `central*` are the methods that collect all the local data and do the training in the server side. Basically it violate the federated setting but it provides information that how far the federated algorithm can achieve.
 
-The network structure used in this project can be seen in `Network.py` in models. The codes in folder `non_stationary_envs` are for generating the local environments. The folder `utils` stores some toolkit for the programs.
+The network structure used in this project can be seen in `Network.py` in models. The codes in folder `non_stationary_envs` are for generating the local environments. The folder `utils` stores some toolkit for the programs, e.g. the file `Memory.py` implement the replay buffer by utilizing the python data structure `deque` .
 
-The codes have the following basic components: 
+#### main
+
+The codes in `main`contain the following basic components: 
 
 ```python
 def ClientUpdate(client_pipe, agent, local_env, args):
 ```
 
-This function implement the training of the local agents. It would be run in a multiprocess way. Every round of communication it would send the parameters of the critic or actor to the main process.
+This function implement the training of the local agents. It would be run in a multiprocess way, each agent has its own process. Every round of communication it would send the parameters of the critic or actor to the main process.
 
 ```python
 def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): 
@@ -161,7 +105,7 @@ def Agg_q(local_models, global_net, weighted, args):
                     global_net[i][params] += weighted[k] * local_models[k][i][params]
 ```
 
-In the baseline method, the local models are naively weighted aggregated. In our method, we would do the model distillation after aggregating the  models. The following function is the `distillation` part.
+In the baseline method, the local models are naively weighted aggregated. In our method, we would do the model distillation after aggregating the  models. The following function is the `distillation` part (refer to `dist_reg_v2.py`).
 
 ```python
 def distill(self, args):
@@ -179,7 +123,11 @@ def distill(self, args):
                 self.optimizer.step()
 ```
 
+#### TD3 implementation:
 
+The core code of the implementation of Twin Delayed DDPG is in the file `dist_td3.py` and `fedregtd3.py`. These file contain the `actor class` and the `critic class` which are the key component of the TD3 framework.
+
+For different baseline methods, it can be directly change the objective function in `update_policy()` and `localDelayUpdate()` to add different kinds of regular term.
 
 ### Dataset
 
