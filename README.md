@@ -105,7 +105,7 @@ def Agg_q(local_models, global_net, weighted, args):
                     global_net[i][params] += weighted[k] * local_models[k][i][params]
 ```
 
-In the baseline method, the local models are naively weighted aggregated. In our method, we would do the model distillation after aggregating the  models. The following function is the `distillation` part (refer to `dist_reg_v2.py`).
+In the baseline method, the local models are naively weighted aggregated. In our method, we would do the model distillation based on the pseudo data after aggregating the  models. The following function is the `distillation` part (refer to `dist_reg_v2.py`).
 
 ```python
 def distill(self, args):
@@ -122,6 +122,28 @@ def distill(self, args):
                 loss.backward()
                 self.optimizer.step()
 ```
+
+The above `train_loader` is the dataset for the distillation on the representation of the data, each round the server collect the statistic of the representation of the local data, and generate the pseudo data according to the Gaussian distribution which can protect the privacy as much as possible. The following code in `dist_reg_v2.py` are for generating the pseudo data.
+
+```python
+dist_rep1, dist_rep2 = agent.critic.Q_net.client_rep(state_batch, action_batch)
+agent.to_cpu([agent.critic.Q_net])
+# dist_rep1 = torch.tensor(dist_rep1.cpu())
+dist_rep1 = dist_rep1.cpu().numpy()
+dist_rep2 = dist_rep2.cpu().numpy()
+
+mean1 = np.mean(dist_rep1, axis=0)
+mean2 = np.mean(dist_rep2, axis=0)
+
+cov1 = np.cov(dist_rep1.T)
+cov2 = np.cov(dist_rep2.T)
+dist_rep1 = torch.from_numpy(
+    multivariate_normal(mean1, cov1, args.local_bc)).to(torch.float32)
+dist_rep2 = torch.from_numpy(
+    multivariate_normal(mean2, cov2, args.local_bc)).to(torch.float32)
+```
+
+
 
 #### TD3 implementation:
 
