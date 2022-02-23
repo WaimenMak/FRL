@@ -443,7 +443,7 @@ def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): #FedAvg
     :param server:  server class
     :param weighted: 
     :param actor:  actor class
-    :param env: 
+    :param env:   local envs
     :param args: 
     :return: 
     """

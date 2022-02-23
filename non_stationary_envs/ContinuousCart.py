@@ -230,7 +230,7 @@ def cart_env_config(env_seed=None, std=0):
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = cart_env_config(4, std=0)
+    env = cart_env_config(2, std=1)
     print(f"mean{env.mean}")
     # print(f"r:{env.r},top:{env.stairfreqtop}")
     env.seed(5)

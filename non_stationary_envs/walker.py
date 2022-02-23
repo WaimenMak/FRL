@@ -748,7 +748,7 @@ if not os.path.exists(model_path):
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = BipedalWalkerHardcore(seed=5)
+    env = BipedalWalkerHardcore(seed=4)
     print(f"r:{env.r},top:{env.stairfreqtop}")
     env.seed(1)
     # env.reset()
