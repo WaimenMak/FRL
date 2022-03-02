@@ -42,6 +42,14 @@ for t in T:
         agent update Q target based on current Q net
 ```
 
+The following graphs illustrate the framework of `FedTd3` and our proposed methods.
+
+<img src="README.assets/sc1.png" alt="sc" style="zoom: 33%;" />
+
+<img src="README.assets/sc2.png" alt="image-20220302143020116" style="zoom: 50%;" />
+
+
+
 ### Project Structure
 
 ```shell
