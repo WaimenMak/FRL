@@ -40,13 +40,13 @@ class Arguments():
         self.distil_lr = 0.001
         self.epochs = 10
         self.niid = False
-        self.scheduler = False
+        self.schedul = False
         self.std = 0  # not noise, the env params
         self.reweight_tau = 1
         # self.scheduler = ExponentialScheduler(0.002, 0.0004)
-        # self.env_name = "walker"
+        self.env_name = "walker"
         # self.env_name = "lunar"
-        self.env_name = "pendulum"
+        # self.env_name = "pendulum"
         # self.env_name = "car"
         # self.env_name = "cart"
         if self.env_name == "pendulum":
@@ -111,8 +111,11 @@ class Arguments():
             self.L = int(20)
             self.policy_noise = 0.2  # std of the noise, when update critics
             self.std_noise = 0.1  # std of the noise, when explore 0.1
-            # self.scheduler = False
-            # self.scheduler = ExponentialScheduler(self.lr, 0.0001)
+
+        if self.schedul:
+            self.scheduler = ExponentialScheduler(self.lr, 0.0001)
+        else:
+            self.scheduler = None
 
         self.tau = 0.01
         self.noise_clip = 0.5
@@ -131,7 +134,7 @@ class Arguments():
         self.client_num = 5
         self.env_seed = self.client_num
         # self.env_seed = None
-        self.filename = f"distilstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_dual{self.dual}_reweight{self.reweight_tau}_distepoch{self.epochs}"  #filename:env_seed, model_name:env_name
+        self.filename = f"v2_distilstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_dual{self.dual}_reweight{self.reweight}{self.reweight_tau}_distepoch{self.epochs}_lrdecay{self.schedul}"   #filename:env_seed, model_name:env_name
 
 args = Arguments()
 if args.env_name == "pendulum":
@@ -166,7 +169,7 @@ def agent_env_config(args, seed=None):
         elif args.env_name == 'walker':
             env = BipedalWalkerHardcore(seed)
             print(f"r:{env.r}", end=" ")
-            print(f"stump:{env.small_type}")
+            print(f"stump:{env.stump_type}")
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous(seed, std=args.std)
             # print(f"noise_mean::{env.mean}")

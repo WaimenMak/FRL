@@ -130,13 +130,13 @@ def angle_normalize(x):
 def pendulum_env_config2(env_seed=None, std=0):
     # env = gym.make('Pendulum-v1')
     if env_seed != None:
-        np.random.seed(env_seed) #0.5, 0.1, 1, 9.8
+        np.random.seed(env_seed) #1, 1, 10
         length = 1. + np.random.normal(0, std)  # length
         length = np.clip(length, 0.5, 1.5)
         masspole = 1. + np.random.normal(0, std)  # masspole
-        masspole = np.clip(masspole, 0.5, 1.5)
+        masspole = np.clip(masspole, 0.2, 5)
         gravity = 10. + np.random.normal(0, std)  # gravity
-        gravity = np.clip(gravity, 8, 12)
+        # gravity = np.clip(gravity, 8, 12)
         mean = np.random.uniform(-1, 1)
         env_params = [length, masspole, gravity, mean]
         env = PendulumEnv(env_params)

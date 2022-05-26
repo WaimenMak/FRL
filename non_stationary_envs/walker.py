@@ -155,7 +155,7 @@ class BipedalWalker(gym.Env, EzPickle):
     }
 
     hardcore = False
-    v2 = True
+    v2 = False
     def __init__(self, seed=None):
         EzPickle.__init__(self)
         self.seed()
@@ -402,6 +402,88 @@ class BipedalWalker(gym.Env, EzPickle):
             x2 = max( [p[0] for p in poly] )
             self.cloud_poly.append( (poly,x1,x2) )
 
+    def reset_notchange(self):
+        if not self.terrain: return
+        self.world.contactListener_bug_workaround = ContactDetector(self)
+        self.world.contactListener = self.world.contactListener_bug_workaround
+        self.legs = []
+        self.joints = []
+        self.game_over = False
+        self.prev_shaping = None
+        self.scroll = 0.0
+        self.lidar_render = 0
+
+        init_x = TERRAIN_STEP * TERRAIN_STARTPAD / 2
+        init_y = TERRAIN_HEIGHT + 2 * LEG_H
+        self.hull = self.world.CreateDynamicBody(
+            position=(init_x, init_y),
+            fixtures=HULL_FD
+        )
+        self.hull.color1 = (0.5, 0.4, 0.9)
+        self.hull.color2 = (0.3, 0.3, 0.5)
+        self.hull.ApplyForceToCenter(self.hull_random, True)
+        # self.hull.ApplyForceToCenter((self.np_random.uniform(-INITIAL_RANDOM, INITIAL_RANDOM), 0), True)
+
+        self.legs = []
+        self.joints = []
+        for i in [-1, +1]:
+            leg = self.world.CreateDynamicBody(
+                position=(init_x, init_y - LEG_H / 2 - LEG_DOWN),
+                angle=(i * 0.05),
+                fixtures=LEG_FD
+            )
+            leg.color1 = (0.6 - i / 10., 0.3 - i / 10., 0.5 - i / 10.)
+            leg.color2 = (0.4 - i / 10., 0.2 - i / 10., 0.3 - i / 10.)
+            rjd = revoluteJointDef(
+                bodyA=self.hull,
+                bodyB=leg,
+                localAnchorA=(0, LEG_DOWN),
+                localAnchorB=(0, LEG_H / 2),
+                enableMotor=True,
+                enableLimit=True,
+                maxMotorTorque=MOTORS_TORQUE,
+                motorSpeed=i,
+                lowerAngle=-0.8,
+                upperAngle=1.1,
+            )
+            self.legs.append(leg)
+            self.joints.append(self.world.CreateJoint(rjd))
+
+            lower = self.world.CreateDynamicBody(
+                position=(init_x, init_y - LEG_H * 3 / 2 - LEG_DOWN),
+                angle=(i * 0.05),
+                fixtures=LOWER_FD
+            )
+            lower.color1 = (0.6 - i / 10., 0.3 - i / 10., 0.5 - i / 10.)
+            lower.color2 = (0.4 - i / 10., 0.2 - i / 10., 0.3 - i / 10.)
+            rjd = revoluteJointDef(
+                bodyA=leg,
+                bodyB=lower,
+                localAnchorA=(0, -LEG_H / 2),
+                localAnchorB=(0, LEG_H / 2),
+                enableMotor=True,
+                enableLimit=True,
+                maxMotorTorque=MOTORS_TORQUE,
+                motorSpeed=1,
+                lowerAngle=-1.6,
+                upperAngle=-0.1,
+            )
+            lower.ground_contact = False
+            self.legs.append(lower)
+            self.joints.append(self.world.CreateJoint(rjd))
+
+        self.drawlist = self.terrain + self.legs + [self.hull]
+        class LidarCallback(Box2D.b2.rayCastCallback):
+            def ReportFixture(self, fixture, point, normal, fraction):
+                if (fixture.filterData.categoryBits & 1) == 0:
+                    return -1
+                self.p2 = point
+                self.fraction = fraction
+                return fraction
+        self.lidar = [LidarCallback() for _ in range(10)]
+
+        return self.step(np.array([0,0,0,0]))[0]
+
     def reset(self):
         self._destroy()
         self.world.contactListener_bug_workaround = ContactDetector(self)
@@ -425,7 +507,9 @@ class BipedalWalker(gym.Env, EzPickle):
                 )
         self.hull.color1 = (0.5,0.4,0.9)
         self.hull.color2 = (0.3,0.3,0.5)
-        self.hull.ApplyForceToCenter((self.np_random.uniform(-INITIAL_RANDOM, INITIAL_RANDOM), 0), True)
+        self.hull_random = (self.np_random.uniform(-INITIAL_RANDOM, INITIAL_RANDOM), 0)  #some little change here for ablation study
+        # self.hull.ApplyForceToCenter((self.np_random.uniform(-INITIAL_RANDOM, INITIAL_RANDOM), 0), True)
+        self.hull.ApplyForceToCenter(self.hull_random, True)
 
         self.legs = []
         self.joints = []
@@ -710,6 +794,7 @@ def walker_config(env_seed=None):
 from agents.TD3 import Actor
 # from agents.fedTD3 import Actor
 from utils.Tools import try_gpu
+from utils.Memory import replay_buffer
 from non_stationary_envs.Pendulum import PendulumEnv
 import os
 class Arguments():
@@ -737,8 +822,13 @@ class Arguments():
         # self.filename = "niidevalfed_walker5_N400_M2_L400_beta0.005_mu0_clientnum5actor_"
         # self.filename = "niidevalfed_walker5_N400_M2_L400_beta0_mu0.01_clientnum5actor_"
         # self.filename = "niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_" #fedavg
-        self.filename = "v2_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_dualFalse_reweightTrue_distepoch20_clientnum5actor_"  # dist_stat
-
+        # self.filename = "v2_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_dualFalse_reweightTrue_distepoch20_clientnum5actor_"  # dist_stat walker v2
+        # self.filename = "v2_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_dualFalse_reweight0.5_distepoch20_clientnum5actor_"  # walker v3
+        # self.filename = "v3_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_criticdualTrue0.1_actordualFalse0.9_reweightFalse1_distepoch20_lrdecayFalse_actor_1actor_"  #best walker dist
+        #best walker in walker v1
+        self.filename = "v3_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_criticdualTrue0.1_epc40_lr0.002_actordualFalse0.9_reweightFalse1_distepoch20_lrdecayFalse_actor_4actor_"
+        # dist_stat
+        # self.filename = "v3niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_" #fedavg v3 walker
 # model_path = '../outputs/model/walker/'
 # model_path = '../outputs/center_model/walker/'
 model_path = '../outputs/fed_model/walker/'
@@ -748,7 +838,8 @@ if not os.path.exists(model_path):
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = BipedalWalkerHardcore(seed=4)
+    # env = BipedalWalkerHardcore(seed=3)
+    env = BipedalWalkerHardcore()
     print(f"r:{env.r},top:{env.stairfreqtop}")
     env.seed(1)
     # env.reset()
@@ -756,8 +847,9 @@ if __name__ == '__main__':
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
     agent = Actor(state_dim, action_dim, 1, args)
+    rollout = replay_buffer(args.capacity)
     # agent = Actor(state_dim, action_dim, args)
-    # agent.load(f"{model_path}{args.filename}")
+
     agent.load(model_path+args.filename)
     for i in range(2):
         state = env.reset()
@@ -767,6 +859,7 @@ if __name__ == '__main__':
             env.render()
             action = agent.predict(state)  # action is array
             n_state, reward, done, _ = env.step(action)  # env.step accept array or list
+            rollout.add(state, action, reward, n_state, done)
             # print(reward)
             ep_reward += reward
             if done == True:
@@ -774,3 +867,34 @@ if __name__ == '__main__':
             state = n_state
         print(ep_reward)
         env.close()
+    #
+    # rollout.save("trajectory")
+    #
+
+
+
+    ##### load trajectory
+    # rollout = replay_buffer(args.capacity)
+    # rollout.load("trajectory")
+    # for i in range(1):
+    #     state = env.reset()
+    #     ep_reward = 0
+    #     for iter in range(args.episode_length):
+    #
+    #         env.render()
+    #         # action = agent.predict(state)  # action is array
+    #         action = rollout.buffer[iter][1]
+    #         env.step(action)
+    #         # n_state, reward, done, _ = env.step(action)  # env.step accept array or list
+    #         n_state, reward, done = rollout.buffer[iter][3], rollout.buffer[iter][2], rollout.buffer[iter][4]
+    #         # rollout.add(state, action, reward, n_state, done)
+    #
+    #         # print(reward)
+    #         ep_reward += reward
+    #         if done == True:
+    #             break
+    #         state = n_state
+    #     print(ep_reward)
+    #     env.close()
+    #
+    # rollout.save("trajectory")

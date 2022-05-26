@@ -19,13 +19,19 @@ from non_stationary_envs.ContinuousCart import cart_env_config
 from models.Network import mlp_policy, distill_qnet as mlp_value
 from non_stationary_envs.Pendulum import PendulumEnv, pendulum_env_config2
 from dist_td3 import fedTD3, Actor
-from utils.Tools import try_gpu, set_seed, ExponentialScheduler
+from utils.Tools import try_gpu, set_seed, ExponentialScheduler, _test
 from threading import Thread
 from torch.multiprocessing import Pipe, Process, set_start_method
 from torch.utils.data import TensorDataset, DataLoader
 from torch import nn
 from utils.Memory import DistilDataset
+import argparse
 
+parser = argparse.ArgumentParser(description='PND')
+# parser.add_argument('--beta', type=float, default=0, help='parameter of fedprox')
+parser.add_argument('--trial', type=int, default=1, help='test times')
+# parser.add_argument('--mu', type=float, default=0, help='parameter of moon')
+parser_args = parser.parse_args()
 
 try:
     set_start_method('spawn')
@@ -35,19 +41,20 @@ except RuntimeError:
 
 class Arguments():
     def __init__(self):
+        self.eval_ver = True
         self.gamma = 0.98
         self.lr = 0.002
         self.distil_lr = 0.001
         self.epochs = 10
         self.niid = False
-        self.scheduler = False
+        self.schedul = False
         self.std = 0  # not noise, the env params
         # self.scheduler = ExponentialScheduler(0.002, 0.0004)
-        self.env_name = "walker"
+        # self.env_name = "walker"
         # self.env_name = "lunar"
         # self.env_name = "pendulum"
         # self.env_name = "car"
-        # self.env_name = "cart"
+        self.env_name = "cart"
         if self.env_name == "pendulum":
             self.reweight_tau = 0.3
             self.epochs = 20
@@ -55,17 +62,17 @@ class Arguments():
             self.action_bound = 2
             self.local_bc = 128  # local update memory batch size
             self.episode_length = 200  # env._max_episode_steps
-            self.playing_step = int(3e4)
-            self.capacity = 10000
-            self.std = 0
-            self.noisy_input = True
+            self.playing_step = int(2e4)
+            self.capacity = 10000   #10000
+            self.std = 2
+            self.noisy_input = False
             self.N = int(100)
             self.M = 2
             self.L = int(100)
             self.policy_noise = 0.2  # std of the noise, when update critics
             self.std_noise = 0.1  # std of the noise, when explore 0.1
         elif self.env_name == "walker":
-            self.reweight_tau = 0.5
+            self.reweight_tau = 1
             self.epochs = 20
             self.niid = True
             self.action_bound = 1
@@ -80,14 +87,16 @@ class Arguments():
             self.policy_noise = 0.2  # std of the noise, when update critics
             self.std_noise = 0.1  # std of the noise, when explore 0.1
         elif self.env_name == "lunar":
-            self.niid = False
+            self.epochs = 20
+            self.reweight_tau = 1
+            self.niid = True
             self.gamma = 0.99
             self.action_bound = 1
             self.local_bc = 256  # local update memory batch size
             self.episode_length = 1200  # env._max_episode_steps
-            self.playing_step = int(3.6e5)
+            self.playing_step = int(132000)
             self.capacity = 3.2e4
-            self.std = 0
+            self.std = 1
             self.N = int(300)
             self.M = 4
             self.L = int(150)
@@ -97,25 +106,31 @@ class Arguments():
         elif self.env_name == "cart":
             self.reweight_tau = 0.5
             self.niid = True
-            self.lr = 0.00009
+            # self.lr = 0.00009
+            self.lr = 0.0005
             self.action_bound = 1
             self.local_bc = 256  # local update memory batch size
-            self.episode_length = 200  # env._max_episode_steps
-            self.playing_step = int(2e4)
-            self.capacity = 10000
-            self.std = 1
+            self.episode_length = 300  # env._max_episode_steps
+            self.playing_step = int(3e4)
+            self.capacity = 5000  #10000
+            self.std = 0.05
             self.noisy_input = False
-            self.N = int(20)
+            self.N = int(100)
             self.M = 2
-            self.L = int(20)
+            self.L = int(100)
             self.policy_noise = 0.2  # std of the noise, when update critics
             self.std_noise = 0.1  # std of the noise, when explore 0.1
             # self.scheduler = False
             # self.scheduler = ExponentialScheduler(self.lr, 0.0001)
+        if self.schedul:
+            self.scheduler = ExponentialScheduler(self.lr, self.lr/10)
+        else:
+            self.scheduler = None
 
         self.tau = 0.01
         self.noise_clip = 0.5
         self.eval_episode = 5
+        self.test_episode = 100
 
         self.device = try_gpu()
         # self.device = "cuda:0"
@@ -124,13 +139,13 @@ class Arguments():
         self.alpha = 0
         self.dist = True
         self.dual = False
-        self.reweight = True
+        self.reweight = False
         self.Round = self.playing_step // self.N + self.playing_step // self.M // self.L
 
         self.client_num = 5
         self.env_seed = self.client_num
         # self.env_seed = None
-        self.filename = f"v2_distilstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_dual{self.dual}_reweight{self.reweight_tau}_distepoch{self.epochs}"  #filename:env_seed, model_name:env_name
+        self.filename = f"Ablat_disttrue_v2_distilstd{self.std}_noicy{self.noisy_input}_{self.playing_step}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_dual{self.dual}_reweight{self.reweight}{self.reweight_tau}_distepoch{self.epochs}_lrdecay{self.schedul}"  #filename:env_seed, model_name:env_name
 
 args = Arguments()
 if args.env_name == "pendulum":
@@ -165,7 +180,7 @@ def agent_env_config(args, seed=None):
         elif args.env_name == 'walker':
             env = BipedalWalkerHardcore(seed)
             print(f"r:{env.r}", end = " ")
-            print(f"stump:{env.small_type}")
+            print(f"stump:{env.stump_type}")
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous(seed, std=args.std)
             # print(f"noise_mean::{env.mean}")
@@ -191,7 +206,7 @@ def GenerateAgent(args):
         if not args.niid:
             agent, local_env = agent_env_config(args)
         else:
-            agent, local_env = agent_env_config(args, seed=i+1)
+            agent, local_env = agent_env_config(args, seed=(i + 1) * parser_args.trial)
             # agent, local_env = agent_env_config(args, seed=4)
         agent.name = 'agent' + str(i)
         agents.append(agent)
@@ -271,10 +286,14 @@ def ClientUpdate(client_pipe, agent, local_env, args):
     :param local_env: 
     :return: 
     """
-    if args.env_name == "walker" or args.env_name == "lunar":
+    if args.env_name == "walker":
         seed = client_pipe.recv()
         local_env.seed(seed)
         local_env.modify(seed)
+    elif args.env_name == "lunar":
+        seed = client_pipe.recv()
+        local_env.seed(seed)
+        local_env.modify(seed, args.std)
 
     print(f"{agent.name} in {local_env.env_param}")
     round_q = 0
@@ -488,15 +507,15 @@ def ServerUpdate(pipe_dict, server, weighted, actor, envs, args): #FedAvg
             if (count+1) % eval_freq == 0:
                 if args.reweight:
                     reward_log, re_weight = eval(actor, envs, args)
-                    print(f"{re_weight[1]:.2f}", end=" ")
+                    print(f"{re_weight[3]:.2f}", end=" ")
                 else:
                     reward_log, _ = eval(actor, envs, args)
                 print(f"mu_round:{count}/{args.playing_step//args.M//args.L} eval_server:{reward_log:.2f}")
                 eval_reward.append(reward_log)
-                np.save(f"{model_path}{args.filename}server_clientnum{args.client_num}", eval_reward)
-                actor.save(f"{model_path}{args.filename}_clientnum{args.client_num}")
+                np.save(f"{model_path}{args.filename}_line_{parser_args.trial}", eval_reward)
+                # actor.save(f"{model_path}{args.filename}_clientnum{args.client_num}")
         local_models.clear()
-        actor.save(f"{model_path}{args.filename}_clientnum{args.client_num}")
+        actor.save(f"{model_path}{args.filename}_actor_{parser_args.trial}")
 
 
 
@@ -543,7 +562,7 @@ if __name__ == '__main__':
             if not args.niid:
                 pipe_dict[i][1].send(None)  # seed for box2d class
             else:
-                pipe_dict[i][1].send(i + 1)  # seed for box2d class
+                pipe_dict[i][1].send((i + 1) * parser_args.trial)  # seed for box2d class
                 # pipe_dict[i][1].send(4)
 
     glob_thr.start()
@@ -551,3 +570,7 @@ if __name__ == '__main__':
     [p.join() for p in client_process_list]
     print("done!")
 
+    if args.eval_ver:
+        # agent = Actor(state_dim, action_dim, args.action_bound, args)
+        # agent.load(model_path + f"{model_path}{args.filename}_actor_{parser_args.trial}")
+        _test(actor, local_envs, args)

@@ -48,10 +48,10 @@ LANDER_POLY =[
     (-14, +17), (-17, 0), (-17 ,-10),
     (+17, -10), (+17, 0), (+14, +17)
     ]
-LEG_AWAY = 20
-LEG_DOWN = 18
+LEG_AWAY = 20        #20
+LEG_DOWN = 18        #18
 LEG_W, LEG_H = 2, 8    #2, 8
-LEG_SPRING_TORQUE = 40
+LEG_SPRING_TORQUE = 40 #20-60
 
 SIDE_ENGINE_HEIGHT = 14.0
 SIDE_ENGINE_AWAY = 12.0
@@ -91,21 +91,38 @@ class LunarLander(gym.Env, EzPickle):
         self.seed()
         self.viewer = None
 
+        self.MAIN_ENGINE_POWER = MAIN_ENGINE_POWER
+        self.SIDE_ENGINE_POWER = SIDE_ENGINE_POWER
+        self.SIDE_ENGINE_HEIGHT = SIDE_ENGINE_HEIGHT
+        self.SIDE_ENGINE_AWAY = SIDE_ENGINE_AWAY
         self.world = Box2D.b2World()
         self.moon = None
         self.lander = None
         self.particles = []
+        self.std = std
         self.mean = 0
         self.std = std
         self.chunks = 11
         self.p = 0.
+        # if seed:
+        #     self.p = 0
+        #     np.random.seed(seed)
+        #     self.chunks = np.random.randint(11 - 7, 11 + 8)
+        #     # self.mean = np.random.uniform(-1, 1)
+        #
+        # self.env_param = [self.chunks, self.p]
         if seed:
-            self.p = 0
             np.random.seed(seed)
-            self.chunks = np.random.randint(11 - 7, 11 + 8)
-            # self.mean = np.random.uniform(-1, 1)
+            self.MAIN_ENGINE_POWER = self.MAIN_ENGINE_POWER + np.random.normal(0, std)
+            self.MAIN_ENGINE_POWER = np.clip(self.MAIN_ENGINE_POWER, 8, 20)
+            self.SIDE_ENGINE_POWER = self.SIDE_ENGINE_POWER + np.random.normal(0, std)
+            self.SIDE_ENGINE_POWER = np.clip(self.SIDE_ENGINE_POWER, 0.3, 2)
+            self.SIDE_ENGINE_HEIGHT = self.SIDE_ENGINE_HEIGHT + np.random.normal(0, std)
+            self.SIDE_ENGINE_AWAY = self.SIDE_ENGINE_AWAY + np.random.normal(0, std)
+            # self.chunks = np.random.randint(11 - 7, 11 + 8)
+            self.env_param = [self.chunks, self.MAIN_ENGINE_POWER, self.SIDE_ENGINE_POWER, self.SIDE_ENGINE_HEIGHT,
+                              self.SIDE_ENGINE_AWAY, std]
 
-        self.env_param = [self.chunks, self.p]
         self.prev_reward = None
 
         # useful range is -1 .. +1, but spikes can be higher
@@ -122,14 +139,26 @@ class LunarLander(gym.Env, EzPickle):
 
         # self.reset()
 
-    def modify(self, seed):
-        if seed:
-            self.p = 0.
-            np.random.seed(seed)
-            self.chunks = np.random.randint(11 - 7, 11 + 8)
-            # self.mean = np.random.uniform(-1, 1)
+    def modify(self, seed, std):
+        # if seed:
+        #     self.p = 0.
+        #     np.random.seed(seed)
+        #     self.chunks = np.random.randint(11 - 7, 11 + 8)
+        #     # self.mean = np.random.uniform(-1, 1)
+        #
+        # self.env_param = [self.chunks, self.p]
 
-        self.env_param = [self.chunks, self.p]
+        if seed:
+            np.random.seed(seed)
+            self.MAIN_ENGINE_POWER = self.MAIN_ENGINE_POWER + np.random.normal(0, std)
+            self.MAIN_ENGINE_POWER = np.clip(self.MAIN_ENGINE_POWER, 8, 20)
+            self.SIDE_ENGINE_POWER = self.SIDE_ENGINE_POWER + np.random.normal(0, std)
+            self.SIDE_ENGINE_POWER = np.clip(self.SIDE_ENGINE_POWER, 0.3, 2)
+            self.SIDE_ENGINE_HEIGHT = self.SIDE_ENGINE_HEIGHT + np.random.normal(0, std)
+            self.SIDE_ENGINE_AWAY = self.SIDE_ENGINE_AWAY + np.random.normal(0, std)
+            # self.chunks = np.random.randint(11 - 7, 11 + 8)
+        self.env_param = [self.chunks, self.MAIN_ENGINE_POWER, self.SIDE_ENGINE_POWER, self.SIDE_ENGINE_HEIGHT, self.SIDE_ENGINE_AWAY, std]
+
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -296,10 +325,10 @@ class LunarLander(gym.Env, EzPickle):
                                       impulse_pos[0],
                                       impulse_pos[1],
                                       m_power)  # particles are just a decoration
-            p.ApplyLinearImpulse((ox * MAIN_ENGINE_POWER * m_power, oy * MAIN_ENGINE_POWER * m_power),
+            p.ApplyLinearImpulse((ox * self.MAIN_ENGINE_POWER * m_power, oy * self.MAIN_ENGINE_POWER * m_power),
                                  impulse_pos,
                                  True)
-            self.lander.ApplyLinearImpulse((-ox * MAIN_ENGINE_POWER * m_power, -oy * MAIN_ENGINE_POWER * m_power),
+            self.lander.ApplyLinearImpulse((-ox * self.MAIN_ENGINE_POWER * m_power, -oy * self.MAIN_ENGINE_POWER * m_power),
                                            impulse_pos,
                                            True)
 
@@ -318,10 +347,10 @@ class LunarLander(gym.Env, EzPickle):
             impulse_pos = (self.lander.position[0] + ox - tip[0] * 17/SCALE,
                            self.lander.position[1] + oy + tip[1] * SIDE_ENGINE_HEIGHT/SCALE)
             p = self._create_particle(0.7, impulse_pos[0], impulse_pos[1], s_power)
-            p.ApplyLinearImpulse((ox * SIDE_ENGINE_POWER * s_power, oy * SIDE_ENGINE_POWER * s_power),
+            p.ApplyLinearImpulse((ox * self.SIDE_ENGINE_POWER * s_power, oy * self.SIDE_ENGINE_POWER * s_power),
                                  impulse_pos
                                  , True)
-            self.lander.ApplyLinearImpulse((-ox * SIDE_ENGINE_POWER * s_power, -oy * SIDE_ENGINE_POWER * s_power),
+            self.lander.ApplyLinearImpulse((-ox * self.SIDE_ENGINE_POWER * s_power, -oy * self.SIDE_ENGINE_POWER * s_power),
                                            impulse_pos,
                                            True)
 
@@ -514,7 +543,7 @@ if not os.path.exists(model_path):
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = LunarLanderContinuous(seed=4, std=0)
+    env = LunarLanderContinuous(seed=5, std=0)
     print(env.chunks)
     print(env.p)
     # print(f"r:{env.r},top:{env.stairfreqtop}")

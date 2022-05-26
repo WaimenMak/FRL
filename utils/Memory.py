@@ -6,6 +6,7 @@
 import random
 from collections import deque
 from torch.utils.data import Dataset
+import pickle
 import torch
 
 class replay_buffer():
@@ -28,6 +29,20 @@ class replay_buffer():
         return zip(*batch)
 
     #         return batch
+
+    def distil_sample(self, batch_size, epc):  # return a tuple
+        if self.count - epc * batch_size > 0:
+            batch = random.sample(list(self.buffer)[(self.count - epc * batch_size):], batch_size)  # a list [(s,a,r,s), ...]
+        else:
+            batch = random.sample(self.buffer, batch_size)
+        return zip(*batch)
+
+    def save(self, PATH):
+        pickle.dump(self.buffer, open(PATH, "wb"))
+
+    def load(self, PATH):
+        with open(PATH, "rb") as f:
+            self.buffer = pickle.loads(f.read())
 
     def clear(self):
         self.buffer.clear()

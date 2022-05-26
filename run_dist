@@ -19,5 +19,55 @@ export LD_LIBRARY_PATH=${conda_env}/lib:${LD_LIBRARY_PATH}
 # python fedtd3_reg.py
 # echo "dist stat walker v3"
 # python dist_reg_v2.py
-python central_classic.py
-python dist_reg_v2.py
+# python fedtd3_reg.py --mu=0.01
+# python fedtd3_reg.py --mu=0.01 --trial=4
+# python fedtd3_reg.py --beta=0.01 --trial=4
+python dist_reg_v3.py --trial=1
+# python dist_reg.py
+# python reweight_fedavg.py
+
+
+# mean=0
+# sigma=0
+# time=4
+# value1=0
+# value2=0
+# value3=0
+# value4=0
+# for i in `seq $time`  #from 1
+# do
+# 	python dist_reg_v3.py --trial=$i
+# 	# python fedtd3_reg.py --trial=$i
+# 	# python test.py
+# 	value=$(tail -n 1 job1.o)
+# 	if [ $i -eq 1 ]
+# 	then
+# 		# value1=$i
+# 		echo "help"
+# 		value1=$value
+# 	elif [ $i -eq 2 ]
+# 	then
+# 		# value2=$i
+# 		value2=$value
+# 	elif [ $i -eq 3 ]
+# 	then
+# 		# value3=$i
+# 		value3=$value
+# 	elif [ $i -eq 4 ]
+# 	then
+# 		# value3=$i
+# 		value4=$value
+# 	fi	
+# 	# value=$i
+# 	# mean=`expr $mean + $value`
+
+# done
+# mean=`expr $value1 + $value2`
+# mean=`expr $mean + $value3`
+# mean=`expr $mean + $value4`
+# mean=`expr $mean / $time`
+
+# echo "1:$value1, 2:$value2, 3:$value3, 4:$value4"
+# echo "mean:$mean"
+# xvfb-run -s "-screen 0 1400x900x24" python fed_reg_carrace.py
+# python fed_reg_carrace.py

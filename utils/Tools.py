@@ -54,3 +54,54 @@ def print_memory():
     handle = pynvml.nvmlDeviceGetHandleByIndex(0)  #GPU 0
     info = pynvml.nvmlDeviceGetMemoryInfo(handle)
     return info
+
+
+def _eval(agent, envs, args):
+
+    env_num = 0
+    std_list = [] #over all std
+    mean_list = []
+    each_env = []
+    total = []
+    for env in envs:
+        env_num += 1
+        r = 0
+        for i_ep in range(args.test_episode):
+            state = env.reset()
+            if args.noisy_input:
+                state = state + np.random.normal(env.mean, 0.01, state.shape[0])
+            ep_reward = 0
+            for iter in range(args.episode_length):
+                action = agent.predict(state)  # action is array
+                n_state, reward, done, _ = env.step(action)  # env.step accept array or list
+                if args.noisy_input:
+                    n_state = n_state + np.random.normal(env.mean, 0.01, state.shape[0])
+                ep_reward += reward
+                if done == True:
+                    break
+                state = n_state
+            r += ep_reward / args.test_episode
+            # temp += ep_reward/args.eval_episode
+            each_env.append(ep_reward)
+
+            total.append(ep_reward)
+        # each_env.append(temp)
+        mean = np.mean(each_env)
+        std = np.std(each_env)
+
+        std_list.append(mean)
+        mean_list.append(f"{mean:.2f}+-{std:.2f}")
+        print(f"env{env_num}:mean {mean:.2f}, std {std:.2f}", end=" ")
+        each_env.clear()
+
+    # mean_list.append(f"{np.mean(total):.2f}+-{np.std(std_list):.2f}")
+    print(f"overall mean:{np.mean(total):.2f}, std {np.std(std_list):.2f}")
+    return np.mean(total)
+
+def _test(agent, local_envs, args):
+    overall = _eval(agent, local_envs, args)
+    # overall = np.mean(res)
+    print(f"{overall:.2f}")
+
+
+

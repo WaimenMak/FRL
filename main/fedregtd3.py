@@ -178,13 +178,13 @@ class fedTD3():
         state_batch, action_batch, reward_batch, n_state_batch, done_batch = self.memory.sample(
             self.batch_size)
         state_batch = torch.tensor(
-            state_batch, device=self.device, dtype=torch.float) #bc * state_dim
+            np.array(state_batch), device=self.device, dtype=torch.float) #bc * state_dim
         action_batch = torch.tensor(
-            action_batch, device=self.device, dtype=torch.float)  # bc * action_dim
+            np.array(action_batch), device=self.device, dtype=torch.float)  # bc * action_dim
         reward_batch = torch.tensor(
-            reward_batch, device=self.device, dtype=torch.float).view(-1, 1)
+            np.array(reward_batch), device=self.device, dtype=torch.float).view(-1, 1)
         n_state_batch = torch.tensor(
-            n_state_batch, device=self.device, dtype=torch.float)
+            np.array(n_state_batch), device=self.device, dtype=torch.float)
         done_batch = torch.tensor(np.float32(done_batch), device=self.device, dtype=torch.float).view(-1, 1)
 
         self.temp_q.load_state_dict(self.critic.Q_net.state_dict())

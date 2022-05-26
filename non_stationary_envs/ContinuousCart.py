@@ -214,11 +214,12 @@ def cart_env_config(env_seed=None, std=0):
     if env_seed != None:
         np.random.seed(env_seed) #0.5, 0.1, 1, 9.8
         length = 0.5 + np.random.normal(0, std)  # length
-        length = np.clip(length, 0.1, 5)
+        # length = 0.2
+        length = np.clip(length, 0.3, 2)
         masspole = 0.1 + np.random.normal(0, std)  # masspole
-        masspole = np.clip(masspole, 0.01, 5)
+        masspole = np.clip(masspole, 0.01, 1)
         masscart = 1. + np.random.normal(0, std)  # masscart
-        masscart = np.clip(masscart, 0.2, 5)
+        masscart = np.clip(masscart, 0.2, 2)
         gravity = 9.8 + np.random.normal(0, std)  # gravity
         mean = np.random.uniform(-1, 1)
         env_params = [length, masspole, masscart, gravity, mean]
@@ -230,7 +231,7 @@ def cart_env_config(env_seed=None, std=0):
 if __name__ == '__main__':
     args = Arguments()
     # env = BipedalWalker()
-    env = cart_env_config(2, std=1)
+    env = cart_env_config(1, std=1)
     print(f"mean{env.mean}")
     # print(f"r:{env.r},top:{env.stairfreqtop}")
     env.seed(5)

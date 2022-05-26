@@ -108,6 +108,7 @@ def agent_env_config(args, seed=None):
         if args.env_name == 'walker':
             env = BipedalWalkerHardcore(seed)
             print(f"r:{env.r},top:{env.stairfreqtop}")
+            print(f"stump:{env.stump_type}")
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous(seed, std = args.std)
             print(f"env params:{env.env_param}")

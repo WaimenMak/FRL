@@ -34,7 +34,7 @@ class Arguments():
         self.gamma = 0.98
         self.lr = 0.002
         self.niid = False
-        self.scheduler = False
+        self.schedul = False
         self.std = 0
         # self.scheduler = ExponentialScheduler(0.002, 0.0004)
         # self.env_name = "walker"
@@ -104,7 +104,10 @@ class Arguments():
             self.std_noise = 0.1  # std of the noise, when explore 0.1
             # self.scheduler = False
             # self.scheduler = ExponentialScheduler(self.lr, 0.0001)
-
+        if self.schedul:
+            self.scheduler = ExponentialScheduler(self.lr, 0.0001)
+        else:
+            self.scheduler = None
 
         self.tau = 0.01
         self.noise_clip = 0.5
@@ -120,7 +123,7 @@ class Arguments():
         self.client_num = 5
         self.env_seed = self.client_num
         # self.env_seed = None
-        self.filename = f"fedscaffold_std{self.std}_noise{self.noisy_input}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}"  #filename:env_seed, model_name:env_name
+        self.filename = f"fedscaffold_std{self.std}_noise{self.noisy_input}_{self.env_name}{self.env_seed}_N{self.N}_M{self.M}_L{self.L}_lrdecay{self.schedul}"  #filename:env_seed, model_name:env_name
 
 args = Arguments()
 if args.env_name == "pendulum":
@@ -142,7 +145,8 @@ def agent_env_config(args, seed=None):
             env = BipedalWalkerHardcore()
             print(f"r:{env.r}", end=" ")
         elif args.env_name == 'pendulum':
-            env = PendulumEnv()
+            # env = PendulumEnv()
+            env = pendulum_env_config2(seed, std=0)  # seed
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous()
         elif args.env_name == 'cart':
@@ -150,16 +154,20 @@ def agent_env_config(args, seed=None):
     else:
         if args.env_name == 'pendulum':
             env = pendulum_env_config2(seed, std=args.std) # seed
-            print(f"mean:{env.mean}", end = " ")
+            # print(f"mean:{env.mean}", end = " ")
+            print(f"params:{env.env_param}")
         elif args.env_name == 'walker':
             env = BipedalWalkerHardcore(seed)
-            print(f"r:{env.r}", end = " ")
+            print(f"r:{env.r}", end=" ")
+            print(f"stump:{env.stump_type}")
         elif args.env_name == 'lunar':
             env = LunarLanderContinuous(seed, std=args.std)
-            print(f"noise_mean::{env.mean}")
+            # print(f"noise_mean::{env.mean}")
+            print(f"params:{env.env_param}")
         elif args.env_name == 'cart':
             env = cart_env_config(env_seed=seed, std=args.std)
-            print(f"mean:{env.mean}", end=" ")
+            # print(f"mean:{env.mean}", end = " ")
+            print(f"params:{env.env_param}")
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.shape[0]
     # action_dim = env.action_space.n  # 15

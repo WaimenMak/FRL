@@ -71,8 +71,8 @@ class Arguments():
             self.episode_length = 200  # env._max_episode_steps
             self.playing_step = int(2e4)
             self.capacity = 10
-            self.std = 0
-            self.noisy_input = True
+            self.std = 1
+            self.noisy_input = False
             self.N = int(0)
             self.M = 2
             self.L = int(0)
@@ -93,15 +93,18 @@ class Arguments():
 
         #cart
         if self.env_name == "cartpole" and self.noisy_input == False:
-            self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0_mu0_dual_False_clientnum5actor_") #fedavg
-            self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0_mu0.01_dual_False_clientnum5actor_")  # moon
-            self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0.01_mu0_dual_False_clientnum5actor_")  # fedprox
-            self.filename.append("cartstd1niidevalfedscaffold_cart5_N20_M2_L20_clientnum5actor_")   #scaffold
-            self.filename.append("distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualFalse_reweight0.5_distepoch10_clientnum5actor_") #dist
-            self.filename.append("distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualTrue_reweightTrue_distepoch10_clientnum5actor_") #dist dual
-            self.filename.append(
-                "v2_distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualFalse_reweight0.5_distepoch10_clientnum5actor_")  # dist stat
-            self.filename.append("centerniidstd_noisyFalse_20000_cart5_M2_clientnum5actor_")  #center iid
+            # self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0_mu0_dual_False_clientnum5actor_") #fedavg
+            # self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0_mu0.01_dual_False_clientnum5actor_")  # moon
+            # self.filename.append("niidevalfedstd1_noicyFalse_20000_cart5_N20_M2_L20_beta0.01_mu0_dual_False_clientnum5actor_")  # fedprox
+            # self.filename.append("cartstd1niidevalfedscaffold_cart5_N20_M2_L20_clientnum5actor_")   #scaffold
+            # self.filename.append("distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualFalse_reweight0.5_distepoch10_clientnum5actor_") #dist
+            # self.filename.append("distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualTrue_reweightTrue_distepoch10_clientnum5actor_") #dist dual
+            # self.filename.append(
+            #     "v2_distilstd1_noicyFalse_20000_cart5_N20_M2_L20_dualFalse_reweight0.5_distepoch10_clientnum5actor_")  # dist stat
+            # self.filename.append("centerniidstd_noisyFalse_20000_cart5_M2_clientnum5actor_")  #center iid
+
+            self.filename.append("reweight0.5niidfedstd1_noicyFalse_20000_cart3_N20_M2_L20_beta0_mu0_dual_False_lrdecayFalse_clientnum3actor_")
+            # self.filename.append("reweight0.5niidfedstd1_noicyFalse_20000_cart3_N20_M2_L20_beta0_mu0_dual_False_clientnum3actor_")
 
         #cart noise
         elif self.env_name == "cartpole" and self.noisy_input == True:
@@ -134,7 +137,17 @@ class Arguments():
 
 
         elif self.env_name == "walker":
-            self.filename.append("v3niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_")
+            # self.filename.append("v3niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_") #fedavg v3
+            # self.filename.append("v3_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_criticdualTrue0.1_actordualFalse0.9_reweightFalse1_distepoch20_lrdecayFalse_actor_1actor_")
+            # self.filename.append("v2_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_dualFalse_reweight0.5_distepoch20_clientnum5actor_")
+            # self.filename.append(
+                # "niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0.01_dual_False_clientnum5actor_") #moon
+            # self.filename.append(
+            #     "v3niidevalfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_") #fedavg
+            self.filename.append(
+                "v3_distilstd0_noicyFalse_1200000_walker5_N400_M2_L400_criticdualTrue0.1_actordualFalse0.9_reweightFalse1_distepoch20_lrdecayFalse_actor_1actor_") #best walker dist
+            # self.filename.append(
+            #     "reweight0.5niidfedstd0_noicyFalse_1200000_walker5_N400_M2_L400_beta0_mu0_dual_False_clientnum5actor_") #
 
 args = Arguments()
 if args.env_name == "cartpole":
@@ -189,8 +202,8 @@ def GenerateAgent(args):
     # agents = []
     local_envs = []
     for i in range(args.client_num):
-        local_env = agent_env_config(args)
-        # local_env = agent_env_config(args, seed=i+1)
+        # local_env = agent_env_config(args)
+        local_env = agent_env_config(args, seed=i+1)
         agent.name = 'agent' + str(i)
         # agents.append(agent)
         local_envs.append(local_env)
@@ -299,9 +312,10 @@ if __name__ == '__main__':
 
     # rd = pd.DataFrame(result, columns=["env1", "env2", "env3", "env4", "env5", "overall"], index = ["fedavg","moon",
     #                                                                                                 "fedprox","scaffold","dist","dist dual", "dist stat", "central"])
-    rd = pd.DataFrame(result, columns=["env1", "env2", "env3", "env4", "env5", "overall"], index=["fedavg", "moon",
-                                                                                                  "fedprox", "scaffold",
-                                                                                                  "dist",
-                                                                                                  "dist stat",
-                                                                                                  "central"])
-    rd.to_excel("result.xlsx", index=True)
+
+    # rd = pd.DataFrame(result, columns=["env1", "env2", "env3", "env4", "env5", "overall"], index=["fedavg", "moon",
+    #                                                                                               "fedprox", "scaffold",
+    #                                                                                               "dist",
+    #                                                                                               "dist stat",
+    #                                                                                               "central"])
+    # rd.to_excel("result.xlsx", index=True)
